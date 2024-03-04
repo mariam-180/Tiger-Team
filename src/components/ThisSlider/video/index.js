@@ -101,6 +101,7 @@ const VideoSlider = () => {
         <RotatingRing
           images={videos.map((video, index) => ({
             id: `${video.title}-${index}`,
+            title: video.title,
             url: video.thumbnail,
           }))}
           onSelect={handleRingSelect}

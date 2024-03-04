@@ -183,7 +183,7 @@ const RotatingRing = ({images, onSelect}) => {
               onClick={() => onSelect(index)}
               style={{backgroundImage: `url(${image.url})`}}
             >
-              <span>{image.id}</span>
+              <span>{image.title}</span>
             </div>
           ))}
         </div>
