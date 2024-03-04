@@ -3,7 +3,6 @@ import {styled} from '@mui/material/styles';
 import StyledTypography from 'components/ThisTypography';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 
-import tigersTeamImage from 'assets/images/backGround/tigersTeam.png';
 import TigersTeam from 'assets/videos/TigersTeam.mp4';
 
 import BackgroundContainer from 'components/ThisBackgroundContainer';
@@ -38,7 +37,7 @@ const Header = () => {
   return (
     <VideoBackgroundContainer videoURL={TigersTeam}>
       <BackgroundContainer
-        backgroundimage={tigersTeamImage}
+        backgroundimage=""
         secondbackground=""
         sx={{
           justifyContent: 'end',
