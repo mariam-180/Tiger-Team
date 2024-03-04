@@ -2,11 +2,7 @@ import React from 'react';
 import {Grid} from '@mui/material';
 
 import highWay from 'assets/images/backGround/HighWayRoad.webp';
-
-import TigersTeam from 'assets/videos/TigersTeam.mp4';
-
 import StyledContainer from 'components/ThisContainer';
-import ResponsiveVideo from 'components/ThisVideo';
 import VideoSlider from 'components/ThisSlider/video';
 import ChampionshipPreview from 'examples/championshipPreview';
 
@@ -24,7 +20,7 @@ function Home() {
       minHeight="100vh"
       sx={{
         backgroundColor: '#060708',
-        backgroundImage: ({
+        backgroundimage: ({
           functions: {linearGradient, rgba},
           palette: {gradients},
         }) =>
@@ -38,7 +34,6 @@ function Home() {
       <DefaultNavbar />
       <Header/>
       <ChampionshipPreview />
-      <ResponsiveVideo videoSrc={TigersTeam} ismuted={true} />
       <StyledContainer
         background={highWay}
         sx={{

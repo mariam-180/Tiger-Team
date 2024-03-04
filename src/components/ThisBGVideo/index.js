@@ -26,7 +26,7 @@ const StyledContainer = styled(Box)({
     width: 'auto',
     height: '100%',
     transform: 'translate(-50%, -50%)',
-    filter: 'brightness(70%)',
+    filter: 'brightness(100%)',
   },
   '& video:after': {
     content: '""',
