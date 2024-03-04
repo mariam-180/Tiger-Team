@@ -8,7 +8,7 @@ import TigersTeam from 'assets/videos/TigersTeam.mp4';
 import StyledContainer from 'components/ThisContainer';
 import ResponsiveVideo from 'components/ThisVideo';
 import VideoSlider from 'components/ThisSlider/video';
-import EventSection from 'examples/eventContant';
+import ChampionshipPreview from 'examples/championshipPreview';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import TextScrolling from 'examples/scrolling';
@@ -37,7 +37,7 @@ function Home() {
     >
       <DefaultNavbar />
       <Header/>
-      <EventSection />
+      <ChampionshipPreview />
       <ResponsiveVideo videoSrc={TigersTeam} ismuted={true} />
       <StyledContainer
         background={highWay}

@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid} from '@mui/material';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
-import Banner from 'examples/BannerContainer';
+import Banner from 'examples/bannerContainer';
 import Contant from 'examples/eventContant';
 import Footer from 'examples/footer';
 

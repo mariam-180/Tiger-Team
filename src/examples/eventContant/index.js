@@ -1,30 +1,27 @@
 import * as React from 'react';
-import {Box, Button, Typography} from '@mui/material';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
 import {styled} from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom';
 
-// eslint-disable-next-line max-len
-import championshipPreviewImage from 'assets/images/backGround/championship.webp';
-import logoIMG from 'assets/images/logos/logo.png';
+import backgroundImage from 'assets/images/backGround/championshipPrivew.jpeg';
 
-import AnimatedTypingText from 'utils/Typing';
+const StyledBox = styled(Box)(({theme}) => ({
+  boxSizing: 'border-box',
+  [theme.breakpoints.up('md')]: {
+    fontSize: '1.325rem',
+  },
+}));
 
-const PreviewContainer = styled(Box)(({theme}) => ({
+const ParentContainer = styled(Box)(({theme}) => ({
   'position': 'relative',
-  'background': `url(${championshipPreviewImage}) no-repeat center center`,
+  'background': `url(${backgroundImage}) no-repeat center center fixed`,
   'backgroundSize': 'cover',
   'backgroundPosition': 'center',
   'backgroundAttachment': 'fixed',
   'minHeight': '100vh',
-  'display': 'flex',
-  'justifyContent': 'center',
-  'alignItems': 'center',
-  'flexDirection': 'column',
-  'color': '#FFFFFF',
-  'padding': theme.spacing(4),
-  [theme.breakpoints.down('sm')]: {
-    backgroundAttachment: 'scroll',
-  },
+  'overflow': 'hidden',
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -32,106 +29,194 @@ const PreviewContainer = styled(Box)(({theme}) => ({
     right: 0,
     bottom: 0,
     left: 0,
-    background: 'rgba(0, 0, 0, 0.5)',
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: theme.spacing(2),
-    right: theme.spacing(2),
-    width: theme.spacing(20),
-    height: theme.spacing(20),
-    backgroundImage: `url(${logoIMG})`,
-    backgroundSize: 'contain',
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'center',
-    zIndex: 1,
-  },
-  '& .items-container': {
-    position: 'relative',
-    zIndex: 2,
-    width: '100%',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-  },
-  [theme.breakpoints.up('md')]: {
-    '&::after': {
-      width: theme.spacing(25),
-      height: theme.spacing(25),
-    },
-  },
-  [theme.breakpoints.up('lg')]: {
-    '&::after': {
-      width: theme.spacing(30),
-      height: theme.spacing(30),
-    },
-  },
-  [theme.breakpoints.up('xl')]: {
-    '&::after': {
-      width: theme.spacing(40),
-      height: theme.spacing(40),
-    },
+    background: 'rgba(0, 0, 0, 0.3)',
   },
   [theme.breakpoints.down('sm')]: {
     backgroundAttachment: 'scroll',
   },
 }));
 
-const StyledButton = styled(Button)(({theme}) => ({
-  'background': 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
-  'color': '#ffffff',
-  'padding': theme.spacing(1.5, 4),
-  'margin': theme.spacing(3),
-  'fontSize': '1rem',
-  'fontWeight': 600,
-  'textTransform': 'none',
-  'boxShadow': '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  'borderRadius': '25px',
-  'transition': 'background 0.5s ease, box-shadow 0.5s ease',
-  '&:hover': {
-    background: 'linear-gradient(45deg, #333333 30%, #666666 90%)',
-    boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
+const StyledContainer = styled(Box)(({theme}) => ({
+  'position': 'relative',
+  'background': `url(${backgroundImage}) no-repeat center center fixed`,
+  'backgroundSize': 'cover',
+  'backgroundPosition': 'center',
+  'backgroundAttachment': 'fixed',
+  'minHeight': '100vh',
+  'overflow': 'hidden',
+  '&:before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    background: 'rgba(0, 0, 0, 0.3)',
+  },
+  [theme.breakpoints.down('lg')]: {
+    minHeight: '250vh',
+  },
+  [theme.breakpoints.up('md')]: {
+    minHeight: '230vh',
+  },
+  [theme.breakpoints.down('md')]: {
+    minHeight: '300vh',
+  },
+  [theme.breakpoints.down('sm')]: {
+    minHeight: '260vh',
   },
 }));
 
-const ChampionshipPreview = () => {
-  const navigate = useNavigate();
-
-  const handleNavigate = () => {
-    navigate('/championship');
-  };
-
+const EventSection = () => {
   return (
-    <PreviewContainer>
-      <AnimatedTypingText
+    <ParentContainer>
+      <StyledContainer
         sx={{
-          color: 'gold',
-          variant: 'h2',
-          component: 'h2',
-          fontSize: '2rem',
-          fontWeight: 'bold',
-          zIndex: 2,
+          background: 'transparent',
+          backdropFilter: 'blur(1px) brightness(40%)',
         }}
-        strings={['Get Ready for the Big Race!']}
-        backSpeed={25}
-        smartBackspace={true}
-      ></AnimatedTypingText>
-      <Typography
-        color="#ffffff"
-        variant="h4"
-        sx={{mt: 2, mb: 2, maxWidth: '600px', textAlign: 'center', zIndex: 1}}
       >
-        Get set for an amazing car race event on March 1st, 2024! It&apos;s a
-        fun day where drivers show off their amazing driving skills in exciting
-        races. It&apos;s perfect for anyone who loves cars and racing.
-        Don&apos;t miss it!
-      </Typography>
-      <StyledButton variant="contained" size="large" onClick={handleNavigate}>
-        Discover More
-      </StyledButton>
-    </PreviewContainer>
+        <StyledBox
+          sx={{
+            'color': '#FFFFFF',
+            'fontSize': '1.125rem',
+            'background': 'transparent',
+            'filter': 'brightness(120%)',
+            'fontFamily': 'Nunito, Roboto, Helvetica, Arial, sans-serif',
+            'padding': {
+              xs: '32px 20px',
+              sm: '48px 40px',
+              md: '64px 80px',
+              lg: '64px 120px',
+              xl: '64px 203px',
+            },
+            'margin': 'auto',
+            'maxWidth': '1200px',
+            'mt': {sm: 0, md: 4, lg: 8},
+            'mb': {sm: 0, md: 4, lg: 8},
+            '& .MuiTypography-h5': {
+              color: '#D7F301',
+            },
+            '& .MuiListItem-root': {
+              'display': 'block',
+              'color': '#FFFFFF',
+              'margin': '8px 0px',
+              'padding': '0px 8px',
+              '&::before': {
+                content: '"•"',
+                color: '#FFFFFF',
+                paddingRight: '8px',
+                fontSize: 'inherit',
+              },
+            },
+            '& p': {
+              color: '#FFFFFF',
+              margin: '0px 0px 16px',
+            },
+          }}
+        >
+          <Typography variant="h5" component="h1">
+            ABOUT
+          </Typography>
+          <Typography paragraph>
+            The inaugural Tigers Team Champion League, a first-of-its-kind
+            annual championship in the region, is organized by the Tigers Team
+            Center in collaboration with Jordan Speed Center. Scheduled to take
+            place on March 1st, 2024, this event is a celebration of drifting
+            simulation, designed to challenge and entertain participants and
+            spectators alike. With a commitment to inclusivity and excellence,
+            the championship will feature a meticulously organized race format,
+            including a Tandem Drift event with qualification rounds leading to
+            a top 32 competition. It promises to be a landmark event, fostering
+            a competitive yet welcoming environment for enthusiasts of all ages.
+          </Typography>
+
+          <Typography variant="h5" component="h2">
+            REGISTRATION
+          </Typography>
+          <List sx={{width: '100%'}}>
+            <ListItem>
+              Registration is exclusively online through the official website
+              and opens one month before the championship.
+            </ListItem>
+            <ListItem>
+              The championship is open to individuals of all ages, with no age
+              restrictions.
+            </ListItem>
+            <ListItem>
+              Participation fee: 18 Jordanian Dinars, covering 3 hours of
+              training to familiarize participants with the cars.
+            </ListItem>
+            <ListItem>
+              Participants are urged to seek approval swiftly after submitting
+              their payment.
+            </ListItem>
+            <ListItem>
+              A briefing meeting for participants will discuss championship
+              details and Terms and Conditions after registration closes.
+            </ListItem>
+          </List>
+
+          <Typography variant="h5" component="h2">
+            RACE FORMAT
+          </Typography>
+          <List sx={{width: '100%'}}>
+            <ListItem>
+              First Round: Begins with a Qualifying step, where each participant
+              gets two runs to select their best for evaluation. The top 32
+              participants advance to the Tandem Drift competition.
+            </ListItem>
+            <ListItem>
+              Subsequent Rounds: Follow the same format as the first, with the
+              event culminating in the selection of Jordan&apos;s champion in
+              drifting simulation.
+            </ListItem>
+            <ListItem>
+              Vehicles: A limited selection of private drift vehicles will be
+              available to participants 15 days before the championship starts.
+            </ListItem>
+            <ListItem>
+              Tracks: Details of the championship track will be unveiled one
+              week prior to the event.
+            </ListItem>
+          </List>
+
+          <Typography variant="h5" component="h2">
+            PRIZES
+          </Typography>
+          <List sx={{width: '100%'}}>
+            <ListItem>1st Place: 400 JD</ListItem>
+            <ListItem>2nd Place: 200 JD</ListItem>
+            <ListItem>3rd Place: 100 JD</ListItem>
+            <ListItem>
+              Sponsors may offer additional non-cash prizes for participants and
+              spectators.
+            </ListItem>
+            <ListItem>
+              Prizes are awarded on the coronation day, concluding the third
+              round.
+            </ListItem>
+          </List>
+
+          <Typography variant="h5" component="h2">
+            GOOD TO KNOW
+          </Typography>
+          <Typography paragraph>
+            The championship will take place at a Tigers Team branch in Amman,
+            with the potential for location changes based on the event&apos;s
+            scale and participant numbers. Offering opportunities for
+            partnerships and sponsorships, this event extends a warm welcome to
+            companies interested in supporting a burgeoning sports community.
+            Judging will be conducted by a seasoned committee, ensuring the
+            championship adheres to international standards. This initiative is
+            not just about crowning a champion but nurturing a passionate
+            community, offering a platform for skill enhancement and
+            sportsmanship in an inclusive setting.
+          </Typography>
+        </StyledBox>
+      </StyledContainer>
+    </ParentContainer>
   );
 };
 
-export default ChampionshipPreview;
+export default EventSection;

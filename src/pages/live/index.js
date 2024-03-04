@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {Grid, Box} from '@mui/material';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 
-import ParallaxBackground from 'components/ParallaxComponent';
+import ParallaxBackground from 'examples/parallax';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
@@ -70,11 +70,7 @@ function Live() {
         }}
       >
         <div data-vjs-player>
-          <video
-            ref={playerRef}
-            className="video-js vjs-big-play-centered"
-            playsInline
-          />
+          <video ref={playerRef} className="video-js vjs-big-play-centered" />
         </div>
       </Box>
     </Grid>

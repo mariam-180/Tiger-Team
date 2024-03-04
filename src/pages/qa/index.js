@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Grid, Box} from '@mui/material';
-import ParallaxBackground from 'components/ParallaxComponent';
+import ParallaxBackground from 'examples/parallax';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
