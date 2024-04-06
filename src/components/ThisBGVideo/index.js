@@ -38,7 +38,11 @@ const StyledContainer = styled(Box)({
   },
 });
 
-const VideoBackgroundContainer = ({children, videoURL}) => {
+const VideoBackgroundContainer = ({
+  children,
+  videoURL,
+  registration = false,
+}) => {
   return (
     <StyledContainer>
       <video
@@ -46,7 +50,11 @@ const VideoBackgroundContainer = ({children, videoURL}) => {
         playsInline
         muted
         loop
-        style={{objectFit: 'cover', width: '100%', height: '140%'}}
+        style={
+          registration ?
+            {objectFit: 'cover', width: '100%'} :
+            {objectFit: 'cover', width: '100%', height: '140%'}
+        }
         controls={false}
       >
         <source src={videoURL} type="video/mp4" />
@@ -62,6 +70,7 @@ const VideoBackgroundContainer = ({children, videoURL}) => {
 VideoBackgroundContainer.propTypes = {
   children: PropTypes.node.isRequired,
   videoURL: PropTypes.string.isRequired,
+  registration: PropTypes.bool,
 };
 
 export default VideoBackgroundContainer;

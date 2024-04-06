@@ -122,7 +122,7 @@ const VideoSlider = () => {
       >
         <ResponsiveVideo
           iscontrolled={true}
-          ismuted={false}
+          ismuted={true}
           isslider={true}
           videoSrc={videos[currentVideo].url}
         />

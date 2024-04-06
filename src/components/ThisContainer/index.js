@@ -117,6 +117,7 @@ export default function StyledContainer({
   layouttype,
   sx,
   titleText,
+  noLogo=false,
 }) {
   const backgroundtype = background ?
     background.endsWith('.mp4') ?
@@ -128,7 +129,9 @@ export default function StyledContainer({
     <ContainerBase
       layouttype={layouttype}
       backgroundtype={backgroundtype}
-      secondbackground={secondbackground ? secondbackground : logoIMG}
+      secondbackground={
+        noLogo ? '' : secondbackground ? secondbackground : logoIMG
+      }
       sx={sx}
       style={
         backgroundtype === 'image' ?
@@ -177,4 +180,5 @@ StyledContainer.propTypes = {
   layouttype: PropTypes.oneOf(['row', 'column']),
   sx: PropTypes.object,
   titleText: PropTypes.string,
+  noLogo: PropTypes.bool,
 };
