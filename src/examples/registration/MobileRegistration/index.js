@@ -1,4 +1,6 @@
 import React, {useState} from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import {Grid, Container} from '@mui/material';
 import {styled} from '@mui/material/styles';
 
@@ -44,10 +46,57 @@ const OverlayContainerToggle = styled(Container)({
   zIndex: 2,
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function AuthPage() {
   const [signIn, setSignIn] = useState(true);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
   const toggleAuthMode = () => setSignIn(!signIn);
+
+  const handleSignInSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new URLSearchParams();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    try {
+      const response = await fetch(process.env.REACT_APP_LOGIN_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
+      });
+
+      if (response.ok) {
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Login successful');
+      } else {
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Incorrect username or password');
+      }
+    } catch (error) {
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
 
   return (
     <Grid
@@ -85,16 +134,39 @@ function AuthPage() {
               </Form>
             </SignUpContainer>
             <SignInContainer signingin={signIn}>
-              <Form>
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
+              <Form onSubmit={handleSignInSubmit}>
+                <Input
+                  type="text"
+                  placeholder="Username or email"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
                 <Anchor href="#">Forgot your password?</Anchor>
-                <Button>Sign In</Button>
+                <Button type="submit">Sign In</Button>
               </Form>
             </SignInContainer>
           </OverlayContainerContent>
         </OverlayContainer>
       </ThisContainer>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          sx={{width: '100%'}}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 }

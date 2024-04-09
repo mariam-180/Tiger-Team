@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 import {StyledButton} from 'components/ThisStyledButton';
 import {
@@ -19,9 +21,56 @@ import {
 
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function Registration() {
   const [signIn, setSignIn] = React.useState(true);
 
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+
+  const handleSignInSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new URLSearchParams();
+    formData.append('username', username);
+    formData.append('password', password);
+
+    try {
+      const response = await fetch(process.env.REACT_APP_LOGIN_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData.toString(),
+      });
+
+      if (response.ok) {
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Login successful');
+      } else {
+        setSnackbarSeverity('error');
+        setSnackbarMessage('Incorrect username or password');
+      }
+    } catch (error) {
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setSnackbarOpen(false);
+  };
   return (
     <ContainerWrapper>
       <VideoBackgroundContainer videoURL={backGroundVideo} registration={true}>
@@ -36,12 +85,22 @@ function Registration() {
             </Form>
           </SignUpContainer>
           <SignInContainer signingIn={signIn}>
-            <Form>
+            <Form onSubmit={handleSignInSubmit}>
               <Title>Sign in</Title>
-              <Input type="email" placeholder="Email" />
-              <Input type="password" placeholder="Password" />
+              <Input
+                type="text"
+                placeholder="Username or email"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
               <Anchor href="#">Forgot your password?</Anchor>
-              <StyledButton>Sign In</StyledButton>
+              <StyledButton type="submit">Sign In</StyledButton>
             </Form>
           </SignInContainer>
           <OverlayContainer signingIn={signIn}>
@@ -67,6 +126,19 @@ function Registration() {
             </Overlay>
           </OverlayContainer>
         </Container>
+        <Snackbar
+          open={snackbarOpen}
+          autoHideDuration={6000}
+          onClose={handleCloseSnackbar}
+        >
+          <Alert
+            onClose={handleCloseSnackbar}
+            severity={snackbarSeverity}
+            sx={{width: '100%'}}
+          >
+            {snackbarMessage}
+          </Alert>
+        </Snackbar>
       </VideoBackgroundContainer>
     </ContainerWrapper>
   );
