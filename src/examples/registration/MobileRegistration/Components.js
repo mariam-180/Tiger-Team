@@ -39,6 +39,14 @@ export const SignInContainer = styled.div`
       null}
 `;
 
+export const Row = styled.div`
+  display: flex;
+  gap: 10px; // Adjust the gap as needed
+  margin-bottom: 15px; // Adds some space below the row
+  height: 5%;
+  width: 120%;
+`;
+
 export const Form = styled.form`
   backdrop-filter: blur(15px);
   display: flex;
@@ -69,6 +77,16 @@ export const Input = styled.input`
   margin: 8px 0;
   height: 5%;
   width: 120%;
+`;
+
+export const RowInput = styled.input`
+  background-color: #eee;
+  font-size: 16px;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  height: 100%;
+  width: 100%;
 `;
 
 export const Button = styled.button`

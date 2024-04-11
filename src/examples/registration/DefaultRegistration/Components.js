@@ -29,6 +29,14 @@ export const Container = styled.div`
   min-height: 500px;
 `;
 
+export const Row = styled.div`
+  display: flex;
+  gap: 10px; // Adjust the gap as needed
+  margin-bottom: 15px; // Adds some space below the row
+  height: 8%;
+  width: 100%;
+`;
+
 export const SignUpContainer = styled.div`
   position: absolute;
   top: 0;
@@ -86,6 +94,16 @@ export const Input = styled.input`
   border: none;
   padding: 12px 15px;
   margin: 8px 0;
+  width: 100%;
+`;
+
+export const RowInput = styled.input`
+  background-color: #eee;
+  font-size: 13px;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  height: 100%;
   width: 100%;
 `;
 

@@ -44,6 +44,12 @@ function DefaultNavbar({
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
 
+  const mobileRoutes = routes;
+  const baseRoutes = mobileRoutes.filter(
+      (route) => route.name !== 'Registration',
+  );
+  routes = mobileView ? mobileRoutes : baseRoutes;
+
   useEffect(() => {
     function displayMobileNavbar() {
       if (window.innerWidth < breakpoints.values.lg) {
@@ -499,6 +505,17 @@ function DefaultNavbar({
             mr={center ? 'auto' : 0}
           >
             {renderNavbarItems}
+          </ThisBox>
+          <ThisBox>
+            {!mobileView && (
+              <ThisBox ml={1} display="flex" alignItems="center">
+                <Link to="/Registration">
+                  <Icon fontSize="medium" color="error">
+                    lock_open
+                  </Icon>
+                </Link>
+              </ThisBox>
+            )}
           </ThisBox>
           <ThisBox ml={{xs: 'auto', lg: 0}}>
             {action &&

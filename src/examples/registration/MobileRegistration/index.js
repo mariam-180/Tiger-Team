@@ -9,8 +9,10 @@ import {
   SignUpContainer,
   Form,
   Input,
+  RowInput,
   Anchor,
   Button,
+  Row,
 } from './Components';
 
 import ThisContainer from 'components/ThisContainer';
@@ -52,13 +54,25 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function AuthPage() {
   const [signIn, setSignIn] = useState(true);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
-  const toggleAuthMode = () => setSignIn(!signIn);
+  const toggleAuthMode = () => {
+    setUsername('');
+    setPassword('');
+    setFirstName('');
+    setLastName('');
+    setPhoneNumber('');
+    setEmail('');
+    setSignIn(!signIn);
+  };
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -86,6 +100,43 @@ function AuthPage() {
     } catch (error) {
       setSnackbarSeverity('error');
       setSnackbarMessage('An error occurred');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
+
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+
+    const signUpData = {
+      user_name: username,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone_number: phoneNumber,
+      password: password,
+    };
+
+    try {
+      const response = await fetch(process.env.REACT_APP_SIGNUP_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signUpData),
+      });
+
+      if (response.ok) {
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Sign-up successful');
+      } else {
+        const errorData = await response.json();
+        setSnackbarSeverity('error');
+        setSnackbarMessage(errorData.message || 'Sign-up failed');
+      }
+    } catch (error) {
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred during sign-up');
     } finally {
       setSnackbarOpen(true);
     }
@@ -126,11 +177,46 @@ function AuthPage() {
           </OverlayContainerToggle>
           <OverlayContainerContent>
             <SignUpContainer signingin={signIn}>
-              <Form>
-                <Input type="text" placeholder="Full Name" />
-                <Input type="email" placeholder="Email" />
-                <Input type="password" placeholder="Password" />
-                <Button>Sign Up</Button>
+              <Form onSubmit={handleSignUpSubmit}>
+                <Input
+                  type="text"
+                  placeholder="Username"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <Row>
+                  <RowInput
+                    type="text"
+                    placeholder="First Name"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                  <RowInput
+                    type="text"
+                    placeholder="Last Name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </Row>
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Input
+                  type="tel"
+                  placeholder="Phone Number"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <Button type="submit">Sign Up</Button>
               </Form>
             </SignUpContainer>
             <SignInContainer signingin={signIn}>

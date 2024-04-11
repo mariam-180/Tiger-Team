@@ -2,6 +2,7 @@ import React from 'react';
 
 import Home from 'layouts/pages/home';
 import Champion from 'layouts/pages/champion';
+import Registration from 'layouts/pages/registrationPage';
 // import Live from 'layouts/pages/live';
 import QA from 'layouts/pages/qa';
 
@@ -16,11 +17,11 @@ const routes = [
     route: '/championship',
     component: <Champion />,
   },
-  // {
-  //   name: 'live',
-  //   route: '/live',
-  //   component: <Live />,
-  // },
+  {
+    name: 'Registration',
+    route: '/Registration',
+    component: <Registration />,
+  },
   {
     name: 'QA',
     route: '/QA',

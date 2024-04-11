@@ -6,6 +6,7 @@ import theme from 'assets/theme';
 import {Routes, Route, useLocation} from 'react-router-dom';
 
 import Home from 'layouts/pages/home';
+// import Registration from 'layouts/pages/registrationPage';
 
 import routes from 'routes';
 
@@ -38,6 +39,7 @@ function App() {
       <CssBaseline />
       <Routes>
         <Route path="/" element={<Home />} />
+        {/* <Route path="/Registration" element={<Registration />} /> */}
         {getRoutes(routes)}
       </Routes>
     </ThemeProvider>

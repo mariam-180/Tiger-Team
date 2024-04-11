@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import Icon from '@mui/material/Icon';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
+import ThisBox from 'components/ThisBox';
 import {StyledButton} from 'components/ThisStyledButton';
 import {
   Container,
@@ -11,12 +13,14 @@ import {
   Form,
   Title,
   Input,
+  RowInput,
   Anchor,
   OverlayContainer,
   Overlay,
   LeftOverlayPanel,
   RightOverlayPanel,
   Paragraph,
+  Row,
 } from './Components';
 
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
@@ -26,13 +30,21 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 });
 
 function Registration() {
-  const [signIn, setSignIn] = React.useState(true);
-
+  const [signIn, setSignIn] = useState(true);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prevShowPassword) => !prevShowPassword);
+  };
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -65,6 +77,43 @@ function Registration() {
     }
   };
 
+  const handleSignUpSubmit = async (e) => {
+    e.preventDefault();
+
+    const signUpData = {
+      user_name: username,
+      first_name: firstName,
+      last_name: lastName,
+      email: email,
+      phone_number: phoneNumber,
+      password: password,
+    };
+
+    try {
+      const response = await fetch(process.env.REACT_APP_SIGNUP_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(signUpData),
+      });
+
+      if (response.ok) {
+        setSnackbarSeverity('success');
+        setSnackbarMessage('Sign-up successful');
+      } else {
+        const errorData = await response.json();
+        setSnackbarSeverity('error');
+        setSnackbarMessage(errorData.message || 'Sign-up failed');
+      }
+    } catch (error) {
+      setSnackbarSeverity('error');
+      setSnackbarMessage('An error occurred during sign-up');
+    } finally {
+      setSnackbarOpen(true);
+    }
+  };
+
   const handleCloseSnackbar = (event, reason) => {
     if (reason === 'clickaway') {
       return;
@@ -75,13 +124,68 @@ function Registration() {
     <ContainerWrapper>
       <VideoBackgroundContainer videoURL={backGroundVideo} registration={true}>
         <Container>
-          <SignUpContainer signingIn={signIn}>
-            <Form>
+          <SignUpContainer signingin={signIn}>
+            <Form onSubmit={handleSignUpSubmit}>
               <Title>Create Account</Title>
-              <Input type="text" placeholder="Full Name" />
-              <Input type="email" placeholder="Email" />
-              <Input type="password" placeholder="Password" />
-              <StyledButton>Sign Up</StyledButton>
+              <Input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <Row>
+                <RowInput
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
+                <RowInput
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+              </Row>
+              <Input
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Input
+                type="tel"
+                placeholder="Phone Number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+              <ThisBox position="relative" display="inline-block" width="100%">
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{width: '100%', paddingRight: '2.5rem'}}
+                />
+                <button
+                  onClick={togglePasswordVisibility}
+                  type="button"
+                  style={{
+                    position: 'absolute',
+                    right: '0.5rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                >
+                  <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
+                </button>
+              </ThisBox>
+              <StyledButton type="submit">Sign Up</StyledButton>
             </Form>
           </SignUpContainer>
           <SignInContainer signingIn={signIn}>
@@ -93,12 +197,32 @@ function Registration() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
               />
-              <Input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <ThisBox position="relative" display="inline-block" width="100%">
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  style={{width: '100%', paddingRight: '2.5rem'}}
+                />
+                <button
+                  onClick={togglePasswordVisibility}
+                  type="button"
+                  style={{
+                    position: 'absolute',
+                    right: '0.5rem',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    margin: 0,
+                  }}
+                >
+                  <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
+                </button>
+              </ThisBox>
               <Anchor href="#">Forgot your password?</Anchor>
               <StyledButton type="submit">Sign In</StyledButton>
             </Form>
@@ -110,7 +234,17 @@ function Registration() {
                 <Paragraph>
                   To keep connected with us please login with your personal info
                 </Paragraph>
-                <StyledButton onClick={() => setSignIn(true)}>
+                <StyledButton
+                  onClick={() => {
+                    setUsername('');
+                    setPassword('');
+                    setFirstName('');
+                    setLastName('');
+                    setPhoneNumber('');
+                    setEmail('');
+                    setSignIn(true);
+                  }}
+                >
                   Sign In
                 </StyledButton>
               </LeftOverlayPanel>
@@ -119,7 +253,13 @@ function Registration() {
                 <Paragraph>
                   Enter your personal details and start journey with us
                 </Paragraph>
-                <StyledButton onClick={() => setSignIn(false)}>
+                <StyledButton
+                  onClick={() => {
+                    setUsername('');
+                    setPassword('');
+                    setSignIn(false);
+                  }}
+                >
                   Sign Up
                 </StyledButton>
               </RightOverlayPanel>
