@@ -3,6 +3,7 @@ import {Grid} from '@mui/material';
 
 import Registration from 'examples/registration';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
+import Footer from 'examples/footer';
 
 function RegistrationPage() {
   return (
@@ -25,6 +26,7 @@ function RegistrationPage() {
     >
       <DefaultNavbar />
       <Registration />
+      <Footer />
     </Grid>
   );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Grid} from '@mui/material';
 
-import Registration from 'examples/registration';
 // import NavBar from 'examples/navbars/DefaultNavbar';
+import DatePicker from 'examples/dateTimePicker';
 
 function QA() {
   return (
@@ -24,7 +24,7 @@ function QA() {
       }}
     >
       {/* <NavBar /> */}
-      <Registration />
+      <DatePicker />
     </Grid>
   );
 }

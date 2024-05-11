@@ -33,7 +33,7 @@ export default {
   },
 
   primary: {
-    main: '#e91e63',
+    main: '#A50000',
     focus: '#e91e63',
   },
 
@@ -75,6 +75,10 @@ export default {
   darkRed: {
     main: '#A52A2A',
     text: '#FFFFFF',
+  },
+
+  darkGold: {
+    main: '#A57B0A',
   },
 
   blue: {
