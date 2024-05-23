@@ -12,6 +12,8 @@ import {makeStyles} from '@mui/styles';
 import {styled} from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
+import {validateForm} from 'utils/formValidation';
+
 const StyledRegisterButton = styled(Button)(({theme}) => ({
   'background': 'linear-gradient(45deg, #000000 0%, #A50000 90%)',
   'color': '#ffffff',
@@ -96,6 +98,21 @@ const RegistrationFormDialog = ({
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const validationResult = validateForm(formData);
+    if (validationResult.email === 'Invalid') {
+      setSnackbarMessage('Error: Unable to register; Invalid email!');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    if (validationResult.phone === 'Invalid') {
+      setSnackbarMessage('Error: Unable to register; Invalid phone number!');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    formData.email = validationResult.email;
+    formData.phone_number = validationResult.phone;
     try {
       const response = await fetch(
           process.env.REACT_APP_REGISTRATION_FORM_ENDPOINT,
@@ -113,13 +130,19 @@ const RegistrationFormDialog = ({
         setSnackbarSeverity('success');
         setSnackbarOpen(true);
         handleClose();
+      } else if (response.status == 409) {
+        setSnackbarMessage(`Error: Unable to register; Already registered!`);
+        setSnackbarSeverity('error');
+        setSnackbarOpen(true);
       } else {
-        setSnackbarMessage('Error: Unable to register.');
+        setSnackbarMessage(
+            `Error: Unable to register, Please contact administration`,
+        );
         setSnackbarSeverity('error');
         setSnackbarOpen(true);
       }
     } catch (error) {
-      setSnackbarMessage('Error: Unable to register.');
+      setSnackbarMessage(`Error: Unable to register; ${error}.`);
       setSnackbarSeverity('error');
       setSnackbarOpen(true);
     }
@@ -172,7 +195,7 @@ const RegistrationFormDialog = ({
             margin="dense"
             id="email"
             label="Email Address"
-            type="email"
+            type="text"
             fullWidth
             name="email"
             value={formData.email}

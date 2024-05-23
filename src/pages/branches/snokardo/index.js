@@ -9,7 +9,7 @@ import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
 
 // Images
-import bgImage from 'assets/images/tigers_ai/tigersTeamCar.webp';
+import bgImage from 'assets/images/tigers_ai/tigersTeamCar_5.webp';
 
 function Reservations() {
   return (

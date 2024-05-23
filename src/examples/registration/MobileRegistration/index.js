@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useAuth} from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import {Grid, Container} from '@mui/material';
@@ -64,6 +65,8 @@ function AuthPage() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
+  const {login} = useAuth();
+
   const toggleAuthMode = () => {
     setUsername('');
     setPassword('');
@@ -90,9 +93,11 @@ function AuthPage() {
         body: formData.toString(),
       });
 
+      const responseData = await response.json();
+
       if (response.ok) {
-        setSnackbarSeverity('success');
-        setSnackbarMessage('Login successful');
+        const accessToken = responseData.access_token;
+        login(accessToken);
       } else {
         setSnackbarSeverity('error');
         setSnackbarMessage('Incorrect username or password');
@@ -118,7 +123,7 @@ function AuthPage() {
     };
 
     try {
-      const response = await fetch(process.env.REACT_APP_SIGNUP_ENDPOINT, {
+      const response = await fetch(process.env.REACT_APP_USERS_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -248,6 +253,7 @@ function AuthPage() {
         <Alert
           onClose={handleCloseSnackbar}
           severity={snackbarSeverity}
+          variant="standard"
           sx={{width: '100%'}}
         >
           {snackbarMessage}

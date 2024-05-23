@@ -85,7 +85,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RotatingRing = ({images, onSelect}) => {
+const RotatingRing = ({
+  images,
+  onSelect = () => {
+    {
+    }
+  },
+}) => {
   const classes = useStyles();
   const containerRef = useRef(null);
   const ringRef = useRef(null);

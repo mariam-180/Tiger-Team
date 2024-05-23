@@ -1,29 +1,49 @@
 import React, {useState} from 'react';
+import dayjs from 'dayjs';
 import {
-  TextField,
   Box,
   useTheme,
+  FormControl,
+  InputLabel,
+  Select,
   MenuItem,
-  InputAdornment,
+  Typography,
+  ListItemText,
 } from '@mui/material';
 import {DatePicker, TimePicker} from '@mui/x-date-pickers';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {StyledButton} from 'components/ThisStyledButton';
 import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
-import dayjs from 'dayjs';
+import {useIsMobile} from 'utils/hooks';
 
 function CustomDatePicker() {
   const [date, setDate] = useState(dayjs());
-  const [startTime, setStartTime] = useState(dayjs());
-  const [duration, setDuration] = useState(1);
+  const roundToNearestFive = (minutes) => Math.ceil(minutes / 5) * 5;
+  const currentRoundedTime = dayjs()
+      .minute(roundToNearestFive(dayjs().minute()))
+      .second(0);
+
+  const [startTime, setStartTime] = useState(currentRoundedTime);
+  const [duration, setDuration] = useState(10);
 
   const theme = useTheme();
-  const isMobile = window.innerWidth < 768;
+  const isMobile = useIsMobile();
 
   const handleDateChange = (newDate) => setDate(newDate);
   const handleStartTimeChange = (newTime) => setStartTime(newTime);
-  const handleDurationChange = (event) => setDuration(event.target.value);
+  const handleChange = (event) => setDuration(event.target.value);
+
+  const formatEndTime = (minutes) => {
+    return startTime.add(minutes, 'minute').format('HH:mm');
+  };
+
+  const durations = [
+    {value: 15, label: '15 mins', endsLabel: 'ends at'},
+    {value: 30, label: '30 mins', endsLabel: 'ends at'},
+    {value: 60, label: '1 hour', endsLabel: 'ends at'},
+    {value: 90, label: '1h 30m', endsLabel: 'ends at'},
+  ];
 
   const checkAvailability = () => {
     // Logic to check availability
@@ -33,227 +53,194 @@ function CustomDatePicker() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box
         sx={{
+          position: 'relative',
+          minHeight: '100vh',
+          backgroundImage: 'url(/path-to-background-image.jpg)',
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'center',
+          padding: theme.spacing(2),
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          minHeight: '100vh',
-          backgroundColor: '#000',
-          padding: theme.spacing(2),
         }}
       >
         <Box
           sx={{
+            position: 'absolute',
             maxWidth: '900px',
-            width: '100%',
+            width: '90%',
+            bottom: '3%',
             backgroundColor: '#C0C0C0',
-            borderRadius: '16px',
+            borderRadius: '26px',
             padding: theme.spacing(3),
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
             display: 'flex',
             flexDirection: 'column',
-            gap: isMobile ? theme.spacing(2) : theme.spacing(0),
+            gap: isMobile ? theme.spacing(2) : theme.spacing(),
           }}
         >
-          <Box
-            sx={{
-              color: '#000',
-              fontSize: '1.25rem',
-              fontWeight: 'bold',
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              marginBottom: theme.spacing(2),
-            }}
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{marginBottom: theme.spacing(2)}}
           >
-            <span>Book a seat</span>
-          </Box>
+            Book a seat
+          </Typography>
           <Box
             sx={{
-              color: 'E8E9E9',
               display: 'flex',
-              flexWrap: 'wrap',
+              flexDirection: isMobile ? 'column' : 'row',
               gap: theme.spacing(2),
             }}
           >
-            <Box
-              sx={{
-                boxShadow: !isMobile ? '0 4px rgba(0, 0, 0, 0.2)' : 'none',
-                borderRadius: '5px',
-                flexGrow: 1,
-                flexBasis: '200px',
-                padding: theme.spacing(0.5),
-              }}
-            >
-              <DatePicker
-                label="Date"
-                value={date}
-                onChange={handleDateChange}
-                slotProps={{
-                  textField: {
-                    color: 'darkRed',
-                    sx: {
-                      color: '#fff',
-                      borderColor: '#fff',
-                      border: '0px solid',
+            <DatePicker
+              label="Date"
+              value={date}
+              onChange={handleDateChange}
+              minDate={dayjs()}
+              maxDate={dayjs().add(1, 'day')}
+              slotProps={{
+                textField: {
+                  sx: {
+                    color: '#fff',
+                    borderColor: '#fff',
+                    border: '0px solid',
+                  },
+                },
+                openPickerButton: {
+                  color: 'darkRed',
+                },
+                popper: {
+                  sx: {
+                    '& .MuiList-root': {
+                      backgroundColor: 'white',
                     },
-                  },
-                  openPickerButton: {
-                    color: 'darkRed',
-                  },
-                  popper: {
-                    sx: {
-                      '& .MuiList-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiMenuItem-root': {
-                        '&.Mui-selected': {
-                          backgroundColor: '#2E3438',
-                          color: 'white',
-                        },
-                        'color': 'black',
-                      },
-                      '& .MuiDialogActions-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiDialogActions-root .MuiButton-text': {
+                    '& .MuiMenuItem-root': {
+                      '&.Mui-selected': {
+                        backgroundColor: '#2E3438',
                         color: 'white',
                       },
+                      'color': 'black',
+                    },
+                    '& .MuiDialogActions-root': {
+                      backgroundColor: 'white',
+                    },
+                    '& .MuiDialogActions-root .MuiButton-text': {
+                      color: 'white',
                     },
                   },
-                }}
-              />
-            </Box>
-            <Box
-              sx={{
-                boxShadow: !isMobile ? '0 4px rgba(0, 0, 0, 0.2)' : 'none',
-                borderRadius: '5px',
-                flexGrow: 1,
-                flexBasis: '200px',
-                padding: theme.spacing(0.5),
+                },
               }}
-            >
-              <TimePicker
-                label="Start Time"
-                value={startTime}
-                onChange={handleStartTimeChange}
-                slotProps={{
-                  textField: {
-                    color: 'darkRed',
-                    sx: {
-                      color: '#fff',
-                      borderColor: '#fff',
-                      border: '0px solid',
+              sx={{flex: 1, minWidth: '150px'}}
+            />
+            <TimePicker
+              label="Start Time"
+              value={startTime}
+              onChange={handleStartTimeChange}
+              minTime={currentRoundedTime}
+              minutesStep={5}
+              slotProps={{
+                textField: {
+                  sx: {
+                    color: '#fff',
+                    borderColor: '#fff',
+                    border: '0px solid',
+                  },
+                },
+                openPickerButton: {
+                  color: 'darkRed',
+                },
+                popper: {
+                  sx: {
+                    '& .MuiList-root': {
+                      backgroundColor: 'white',
                     },
-                  },
-                  openPickerButton: {
-                    color: 'darkRed',
-                  },
-                  popper: {
-                    sx: {
-                      '& .MuiList-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiMenuItem-root': {
-                        '&.Mui-selected': {
-                          backgroundColor: '#2E3438',
-                          color: 'white',
-                        },
-                        'color': 'black',
-                      },
-                      '& .MuiDialogActions-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiDialogActions-root .MuiButton-text': {
+                    '& .MuiMenuItem-root': {
+                      '&.Mui-selected': {
+                        backgroundColor: '#2E3438',
                         color: 'white',
                       },
+                      'color': 'black',
+                    },
+                    '& .MuiDialogActions-root': {
+                      backgroundColor: 'white',
+                    },
+                    '& .MuiDialogActions-root .MuiButton-text': {
+                      color: 'white',
                     },
                   },
-                }}
-              />
-            </Box>
-            <Box
+                },
+              }}
+              sx={{flex: 1, minWidth: '150px'}}
+            />
+            <FormControl
+              fullWidth
               sx={{
-                boxShadow: !isMobile ? '0 4px rgba(0, 0, 0, 0.2)' : 'none',
-                borderRadius: '5px',
-                flexGrow: 1,
-                flexBasis: '200px',
-                padding: theme.spacing(0.5),
+                flex: 1,
+                minWidth: '200px',
               }}
             >
-              <TextField
-                label="Duration"
-                type="number"
+              <InputLabel id="duration-label">Duration</InputLabel>
+              <Select
+                labelId="duration-label"
                 value={duration}
-                Select
-                onChange={handleDurationChange}
-                InputProps={{
-                  ...(!isMobile ?
-                    {
-                      endAdornment: (
-                        <InputAdornment position="start">
-                          <SlowMotionVideoIcon color="darkRed" />
-                        </InputAdornment>
-                      ),
-                    } :
-                    {}),
-                  inputProps: {min: 5},
-                }}
-                slotProps={{
-                  textField: {
-                    color: 'darkRed',
-                    sx: {
-                      color: '#fff',
-                      borderColor: '#fff',
-                      border: '0px solid',
-                    },
+                label="Duration"
+                onChange={handleChange}
+                renderValue={(selected) =>
+                  durations.find((option) => option.value === selected)?.label
+                }
+                IconComponent={() => (
+                  <SlowMotionVideoIcon
+                    style={{color: 'darkRed', marginRight: '10px '}}
+                  />
+                )}
+                MenuProps={{
+                  anchorOrigin: {
+                    vertical: 'bottom',
+                    horizontal: 'center',
                   },
-                  openPickerButton: {
-                    color: 'darkRed',
+                  transformOrigin: {
+                    vertical: 'top',
+                    horizontal: 'center',
                   },
-                  popper: {
-                    sx: {
-                      '& .MuiList-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiMenuItem-root': {
-                        '&.Mui-selected': {
-                          backgroundColor: '#2E3438',
-                          color: 'white',
-                        },
-                        'color': 'black',
-                      },
-                      '& .MuiDialogActions-root': {
-                        backgroundColor: 'white',
-                      },
-                      '& .MuiDialogActions-root .MuiButton-text': {
-                        color: 'white',
-                      },
-                    },
-                  },
+                  getContentAnchorEl: null,
                 }}
               >
-                <MenuItem value={5}>5 minutes</MenuItem>
-                <MenuItem value={10}>10 minutes</MenuItem>
-                <MenuItem value={15}>15 minutes</MenuItem>
-                <MenuItem value={30}>30 minutes</MenuItem>
-                <MenuItem value={60}>1 hour</MenuItem>
-              </TextField>
-            </Box>
+                {durations.map((option) => (
+                  <MenuItem
+                    key={option.value}
+                    value={option.value}
+                    style={{
+                      justifyContent: 'space-between',
+                      backgroundColor:
+                        duration === option.value ? '#2E3438' : 'transparent',
+                      color: duration === option.value ? '#fff' : 'inherit',
+                    }}
+                  >
+                    <ListItemText primary={option.label} />
+                    {duration !== option.value && (
+                      <Typography
+                        variant="body2"
+                        color={
+                          duration === option.value ? '#fff' : 'textSecondary'
+                        }
+                      >
+                        {`${option.endsLabel} ${formatEndTime(option.value)}`}
+                      </Typography>
+                    )}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <StyledButton
               variant="contained"
               onClick={checkAvailability}
-              sx={
-                isMobile ?
-                  {
-                    flexGrow: 1,
-                    flexBasis: '200px',
-                    height: '60px',
-                  } :
-                  {
-                    flexGrow: 1,
-                    flexBasis: '200px',
-                  }
-              }
+              sx={{
+                flexGrow: 1,
+                flexBasis: isMobile ? 'auto' : '200px',
+                height: isMobile ? '60px' : 'auto',
+              }}
             >
               Check availability
             </StyledButton>

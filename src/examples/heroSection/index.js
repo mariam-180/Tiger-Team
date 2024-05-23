@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import {Typography, Box, Button, Snackbar, Alert} from '@mui/material';
+import PropTypes from 'prop-types';
+import {Typography, Box, Button} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import RegistrationFormDialog from 'examples/formSubmit';
 
@@ -64,6 +65,7 @@ const StyledRegisterButton = styled(Button)(({theme}) => ({
   },
 }));
 
+// eslint-disable-next-line no-unused-vars
 const ClosedRegistrationMessage = styled(Typography)(({theme}) => ({
   color: '#A50000',
   width: '80%',
@@ -101,13 +103,13 @@ const ClosedRegistrationMessage = styled(Typography)(({theme}) => ({
   },
 }));
 
-const WelcomingEventPage = () => {
+const WelcomingEventPage = ({
+  setSnackbarOpen,
+  setSnackbarMessage,
+  setSnackbarSeverity,
+}) => {
   const [open, setOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
-  // eslint-disable-next-line no-unused-vars
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -144,13 +146,16 @@ const WelcomingEventPage = () => {
       >
         Experience racing like never before. Start your engines, join now!
       </BodyText>
-      {/* <StyledRegisterButton variant="contained" size="large"
-        onClick={handleClickOpen}>
+      <StyledRegisterButton
+        variant="contained"
+        size="large"
+        onClick={handleClickOpen}
+      >
         Register Now
-      </StyledRegisterButton> */}
-      <ClosedRegistrationMessage>
+      </StyledRegisterButton>
+      {/* <ClosedRegistrationMessage>
         Registration is now closed. See you at the event!
-      </ClosedRegistrationMessage>
+      </ClosedRegistrationMessage> */}
       <RegistrationFormDialog
         open={open}
         handleClose={handleClose}
@@ -158,33 +163,14 @@ const WelcomingEventPage = () => {
         setSnackbarMessage={setSnackbarMessage}
         setSnackbarSeverity={setSnackbarSeverity}
       />
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-        anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-        sx={{
-          '& .MuiSnackbar-root': {
-            bottom: 0,
-            left: 0,
-            right: 0,
-          },
-          '& .MuiPaper-root': {
-            width: '100%',
-            maxWidth: '100%',
-          },
-        }}
-      >
-        <Alert
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-          sx={{width: '100%'}}
-        >
-          {snackbarMessage}
-        </Alert>
-      </Snackbar>
     </FlexContainer>
   );
+};
+
+WelcomingEventPage.propTypes = {
+  setSnackbarOpen: PropTypes.func.isRequired,
+  setSnackbarMessage: PropTypes.func.isRequired,
+  setSnackbarSeverity: PropTypes.func.isRequired,
 };
 
 export default WelcomingEventPage;

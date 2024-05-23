@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {Box, IconButton, styled} from '@mui/material';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -16,8 +17,8 @@ const SocialMenuBox = styled(Box)(({theme}) => ({
     'backgroundColor': '#C0C0C0',
     'color': '#000',
     'boxShadow': '0 5px 4px rgba(0,0,0,.5)',
-    // eslint-disable-next-line max-len
-    'transition': 'transform 0.5s ease-in-out, background-color 0.3s ease-in-out',
+    'transition': `transform 0.5s ease-in-out,
+    background-color 0.3s ease-in-out`,
     '&:hover': {
       backgroundColor: '#E4405F',
       color: '#fff',
@@ -32,9 +33,9 @@ const SocialMenuBox = styled(Box)(({theme}) => ({
   },
 }));
 
-const SocialMediaIcons = () => {
+const SocialMediaIcons = ({sx}) => {
   return (
-    <SocialMenuBox>
+    <SocialMenuBox sx={sx}>
       <IconButton
         href="https://web.facebook.com/TigersTeamPlayers"
         target="_blank"
@@ -51,6 +52,10 @@ const SocialMediaIcons = () => {
       </IconButton>
     </SocialMenuBox>
   );
+};
+
+SocialMediaIcons.propTypes = {
+  sx: PropTypes.object,
 };
 
 export default SocialMediaIcons;

@@ -32,7 +32,7 @@ const ActiveBox = styled(ThisBox, {
   'borderRadius': '20px 20px 0 0',
   'transition': 'all 0.3s',
   '&:hover': {
-    backgroundColor: theme.palette.darkRed.main,
+    backgroundColor: theme.palette.darkGold.main,
   },
   [theme.breakpoints.down('lg')]: {
     borderRadius: '20px 0 0 20px',

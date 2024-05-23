@@ -1,57 +1,80 @@
 import React from 'react';
-import {useNavigate} from 'react-router-dom';
+import PropTypes from 'prop-types';
+import styled from '@emotion/styled';
 
 // @mui material components
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
+import Box from '@mui/material/Box';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 
-import Typography from 'components/ThisTypography';
-import StyledContainer from 'components/ThisContainer';
-
-// Images
-import SnokardoIMG from 'assets/images/logos/logoBlack.png';
-import KeloIMG from 'assets/images/backGround/tigersTeam.png';
-
-// Branch data
-const branches = [
-  {
-    name: 'Al-Kilo Circle',
-    image: KeloIMG,
-    path: '/Products',
-    description: 'Behind auto mall, Amman, Jordan',
+const StyledContainer = styled(Box)(({theme, background}) => ({
+  'position': 'relative',
+  'width': '100%',
+  'minHeight': '100vh',
+  'overflow': 'hidden',
+  'display': 'flex',
+  'flexDirection': 'column',
+  'alignItems': 'center',
+  'justifyContent': 'flex-start',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: `url(${background}) no-repeat center center fixed`,
+    backgroundSize: 'cover',
+    filter: 'blur(8px) brightness(20%)',
   },
-  {
-    name: 'Snokardo',
-    image: SnokardoIMG,
-    path: '/Reservations/Snokardo',
-    description: 'Al-Madina Al-Monawara, Amman, Jordan',
+}));
+
+const TransparentBox = styled(Box)(({theme}) => ({
+  position: 'relative',
+  zIndex: 1,
+  width: '90%',
+  maxWidth: '800px',
+  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+  padding: theme.spacing(2),
+  textAlign: 'center',
+  borderRadius: '10px',
+  marginTop: '15%',
+  [theme.breakpoints.down('md')]: {
+    marginTop: '20%',
   },
-];
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '25%',
+  },
+}));
 
-function Reservation() {
-  const navigate = useNavigate();
+const GridContainer = styled(Grid)(({theme}) => ({
+  width: '100%',
+  padding: theme.spacing(2),
+  zIndex: 1,
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: theme.spacing(4),
+}));
 
-  const handleCardClick = (path) => {
-    navigate(path);
-  };
+function Reservation({handleCardClick, branches, background}) {
   return (
-    <StyledContainer
-      noLogo={true}
-      sx={{
-        minHeight: '60vh',
-      }}
-    >
-      <Grid
-        container
-        spacing={4}
-        justifyContent="center"
-        sx={{
-          // Set the background color to transparent
-          backgroundColor: 'transparent',
-        }}
-      >
+    <StyledContainer background={background}>
+      <TransparentBox>
+        <Typography variant="h4" component="h1" sx={{color: 'lightgray'}}>
+          Explore our awesome branches and choose your favorite!
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{color: 'lightgray', marginTop: '0.5rem'}}
+        >
+          Each branch has something unique and exciting to offer. Find out more
+          below!
+        </Typography>
+      </TransparentBox>
+      <GridContainer container spacing={4} justifyContent="center">
         {branches.map((branch, index) => (
           <Grid
             item
@@ -59,7 +82,7 @@ function Reservation() {
             sm={6}
             md={4}
             key={index}
-            onClick={() => handleCardClick(branch.path)}
+            onClick={() => handleCardClick(branch)}
             sx={{margin: '1rem'}}
           >
             <Card
@@ -72,6 +95,7 @@ function Reservation() {
                 },
                 'width': '100%',
                 'height': '310px',
+                'backgroundColor': '#A9A9A9',
               }}
             >
               <CardMedia
@@ -93,9 +117,15 @@ function Reservation() {
             </Card>
           </Grid>
         ))}
-      </Grid>
+      </GridContainer>
     </StyledContainer>
   );
 }
+
+Reservation.propTypes = {
+  handleCardClick: PropTypes.func.isRequired,
+  branches: PropTypes.array.isRequired,
+  background: PropTypes.string,
+};
 
 export default Reservation;

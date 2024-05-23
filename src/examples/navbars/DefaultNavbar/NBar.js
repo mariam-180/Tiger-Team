@@ -2,6 +2,7 @@
 import React, {Fragment, useState, useEffect} from 'react';
 
 import {Link} from 'react-router-dom';
+import {useAuth} from 'authContext';
 
 import PropTypes from 'prop-types';
 
@@ -21,6 +22,7 @@ import DefaultNavbarDropdown from 'examples/navbars/DefaultNavbar/DefaultNavbarD
 import DefaultNavbarMobile from 'examples/navbars/DefaultNavbar/DefaultNavbarMobile';
 
 import breakpoints from 'assets/theme/base/breakpoints';
+import Typography from 'components/ThisTypography';
 
 function DefaultNavbar({
   brand,
@@ -44,11 +46,13 @@ function DefaultNavbar({
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
 
-  const mobileRoutes = routes;
-  const baseRoutes = mobileRoutes.filter(
-      (route) => route.name !== 'Registration',
-  );
-  routes = mobileView ? mobileRoutes : baseRoutes;
+  const {tokenValid, logout} = useAuth();
+
+  const handleLogout = () => {
+    logout();
+  };
+
+  routes = routes.filter((route) => route.name !== 'Registration');
 
   useEffect(() => {
     function displayMobileNavbar() {
@@ -506,17 +510,6 @@ function DefaultNavbar({
           >
             {renderNavbarItems}
           </ThisBox>
-          <ThisBox>
-            {!mobileView && (
-              <ThisBox ml={1} display="flex" alignItems="center">
-                <Link to="/Registration">
-                  <Icon fontSize="medium" color="error">
-                    lock_open
-                  </Icon>
-                </Link>
-              </ThisBox>
-            )}
-          </ThisBox>
           <ThisBox ml={{xs: 'auto', lg: 0}}>
             {action &&
               (action.type === 'internal' ? (
@@ -550,6 +543,41 @@ function DefaultNavbar({
                   {action.label}
                 </ThisButton>
               ))}
+            <ThisBox
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+                width: '100%',
+              }}
+            >
+              {!tokenValid ? (
+                <Link to="/Registration" style={{textDecoration: 'none'}}>
+                  <Icon
+                    sx={{
+                      position: 'relative',
+                      top: '5px',
+                      color: '#A0830E',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    lock_open
+                  </Icon>
+                </Link>
+              ) : (
+                <Typography
+                  onClick={handleLogout}
+                  sx={{
+                    color: '#d4af37',
+                    fontSize: '0.875rem',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Log Out
+                </Typography>
+              )}
+            </ThisBox>
           </ThisBox>
           <ThisBox
             display={{xs: 'inline-block', lg: 'none'}}

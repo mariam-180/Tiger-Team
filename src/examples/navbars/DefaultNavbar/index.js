@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import routes from 'routes';
+import {useAuth} from 'authContext';
+import filterRoutesByRole from 'utils/FilterRoutesByRole';
 
 import StyledBox from 'components/ThisBox';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar/NBar';
@@ -22,6 +24,10 @@ function NavBar() {
     };
   }, [lastScrollY]);
 
+  const {userRole} = useAuth();
+
+  const filteredRoutes = filterRoutesByRole(routes, userRole);
+
   return (
     <StyledBox
       position="absolute"
@@ -37,7 +43,13 @@ function NavBar() {
         visibility: showNavbar ? 'visible' : 'hidden',
       }}
     >
-      <DefaultNavbar routes={routes} transparent relative light center />
+      <DefaultNavbar
+        routes={filteredRoutes}
+        transparent
+        relative
+        light
+        center
+      />
     </StyledBox>
   );
 }

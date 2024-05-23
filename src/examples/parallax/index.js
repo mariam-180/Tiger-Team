@@ -5,7 +5,7 @@ import Plx from 'react-plx';
 // eslint-disable-next-line max-len
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import bg from 'assets/images/parallax/trees.png';
-import background from 'assets/images/tigers_ai/tigersTeamCar.webp';
+import background from 'assets/images/tigers_ai/tigersTeamCar_5.webp';
 
 export default function ParallaxComponent() {
   useEffect(() => {

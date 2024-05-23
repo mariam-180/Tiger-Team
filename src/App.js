@@ -4,6 +4,8 @@ import CssBaseline from '@mui/material/CssBaseline';
 import theme from 'assets/theme';
 
 import {Routes, Route, useLocation} from 'react-router-dom';
+import {AuthProvider} from 'authContext';
+import {SnackbarProvider} from 'context/SnackbarContext';
 
 import Home from 'layouts/pages/home';
 import Snokardo from 'layouts/pages/snokardo';
@@ -37,11 +39,15 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Reservations/Snokardo" element={<Snokardo />} />
-        {getRoutes(routes)}
-      </Routes>
+      <AuthProvider>
+        <SnackbarProvider>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/Reservations/Snokardo" element={<Snokardo />} />
+            {getRoutes(routes)}
+          </Routes>
+        </SnackbarProvider>
+      </AuthProvider>
     </ThemeProvider>
   );
 }

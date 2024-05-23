@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {styled} from '@mui/material/styles';
 
 import formulaVideo from 'assets/videos/formula.mp4';
@@ -16,7 +17,11 @@ const CountdownContainerItem = styled('div')(({theme}) => ({
   padding: theme.spacing(2),
 }));
 
-const Banner = () => {
+const Banner = ({
+  setSnackbarOpen,
+  setSnackbarMessage,
+  setSnackbarSeverity,
+}) => {
   return (
     <VideoBackgroundContainer videoURL={formulaVideo}>
       <BackgroundContainer
@@ -30,10 +35,20 @@ const Banner = () => {
         <CountdownContainerItem>
           <CountdownClock targetDate="2024-03-1" />
         </CountdownContainerItem>
-        <WelcomingEventPage />
+        <WelcomingEventPage
+          setSnackbarOpen={setSnackbarOpen}
+          setSnackbarMessage={setSnackbarMessage}
+          setSnackbarSeverity={setSnackbarSeverity}
+        />
       </BackgroundContainer>
     </VideoBackgroundContainer>
   );
+};
+
+Banner.propTypes = {
+  setSnackbarOpen: PropTypes.func.isRequired,
+  setSnackbarMessage: PropTypes.func.isRequired,
+  setSnackbarSeverity: PropTypes.func.isRequired,
 };
 
 export default Banner;

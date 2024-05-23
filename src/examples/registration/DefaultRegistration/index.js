@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useAuth} from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Icon from '@mui/material/Icon';
@@ -23,6 +24,7 @@ import {
   Row,
 } from './Components';
 
+
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -41,6 +43,8 @@ function Registration() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
+
+  const {login} = useAuth();
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -62,9 +66,11 @@ function Registration() {
         body: formData.toString(),
       });
 
+      const responseData = await response.json();
+
       if (response.ok) {
-        setSnackbarSeverity('success');
-        setSnackbarMessage('Login successful');
+        const accessToken = responseData.access_token;
+        login(accessToken);
       } else {
         setSnackbarSeverity('error');
         setSnackbarMessage('Incorrect username or password');
@@ -90,7 +96,7 @@ function Registration() {
     };
 
     try {
-      const response = await fetch(process.env.REACT_APP_SIGNUP_ENDPOINT, {
+      const response = await fetch(process.env.REACT_APP_USERS_ENDPOINT, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -274,6 +280,7 @@ function Registration() {
           <Alert
             onClose={handleCloseSnackbar}
             severity={snackbarSeverity}
+            variant="standard"
             sx={{width: '100%'}}
           >
             {snackbarMessage}
