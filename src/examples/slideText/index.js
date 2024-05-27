@@ -9,7 +9,6 @@ const SlideText = ({source}) => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      console.log('int');
       setCurrentItemIndex((index) =>
         index === source.length - 1 ? 0 : index + 1,
       );

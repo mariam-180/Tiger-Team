@@ -1,71 +1,43 @@
+import {jwtDecode} from 'jwt-decode';
+
 const getAccessToken = (tokenName) => {
   return localStorage.getItem(tokenName);
 };
 
+const getRole = (tokenName) => {
+  return localStorage.getItem(`${tokenName}_role`);
+};
+
 const setAccessToken = (tokenName, token) => {
   localStorage.setItem(tokenName, token);
+  const decodedToken = jwtDecode(token);
+  localStorage.setItem(`${tokenName}_role`, decodedToken.role);
+  const expirationTime = decodedToken.exp * 1000;
+  localStorage.setItem(`${tokenName}_expiresAt`, expirationTime);
 };
 
 const clearAccessToken = (tokenName) => {
   localStorage.removeItem(tokenName);
+  localStorage.removeItem(`${tokenName}_role`);
+  localStorage.removeItem(`${tokenName}_expiresAt`);
 };
 
-const checkTokenStatus = async (tokenName) => {
+const isTokenExpired = (tokenName) => {
+  const expiresAt = localStorage.getItem(`${tokenName}_expiresAt`);
+  return expiresAt ? new Date().getTime() > expiresAt : true;
+};
+
+const checkTokenStatus = () => {
+  const tokenName = 'accessToken';
   const accessToken = getAccessToken(tokenName);
-  if (!accessToken) {
+  const role = getRole(tokenName);
+
+  if (!accessToken || isTokenExpired(tokenName)) {
+    clearAccessToken(tokenName);
     return {tokenValid: false, userRole: null};
   }
 
-  try {
-    const response = await fetch(process.env.REACT_APP_CHECK_TOKEN_ENDPOINT, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return {tokenValid: true, userRole: data.user_role};
-    } else {
-      clearAccessToken();
-      return {tokenValid: false, userRole: null};
-    }
-  } catch (error) {
-    clearAccessToken();
-    return {tokenValid: false, userRole: null};
-  }
-};
-
-const fetchProtectedData = async (tokenName, endpoint) => {
-  const accessToken = getAccessToken(tokenName);
-  if (!accessToken) {
-    return null;
-  }
-
-  try {
-    const response = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    } else {
-      const errorData = await response.json();
-      if (errorData.detail === 'Token has expired. Please log in again.') {
-        clearAccessToken();
-      }
-      return null;
-    }
-  } catch (error) {
-    return null;
-  }
+  return {tokenValid: true, userRole: role};
 };
 
 export {
@@ -73,5 +45,5 @@ export {
   setAccessToken,
   clearAccessToken,
   checkTokenStatus,
-  fetchProtectedData,
+  isTokenExpired,
 };

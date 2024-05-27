@@ -16,6 +16,7 @@
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.10",
     "gsap": "^3.12.5",
+    "jwt-decode": "^4.0.0",
     "react": "^17.0.0",
     "react-confetti": "^6.1.0",
     "react-dom": "^17.0.0",

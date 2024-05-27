@@ -3,6 +3,7 @@ import {Grid} from '@mui/material';
 
 import Registration from 'examples/registration';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
+import AnimatedItem from 'utils/animatedItem';
 import Footer from 'examples/footer';
 
 function RegistrationPage() {
@@ -25,8 +26,12 @@ function RegistrationPage() {
       }}
     >
       <DefaultNavbar />
-      <Registration />
-      <Footer />
+      <AnimatedItem>
+        <Registration />
+      </AnimatedItem>
+      <AnimatedItem>
+        <Footer />
+      </AnimatedItem>
     </Grid>
   );
 }

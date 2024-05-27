@@ -10,6 +10,8 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 
+import TransparentBox from 'components/ThisTransparentBox';
+
 const StyledContainer = styled(Box)(({theme, background}) => ({
   'position': 'relative',
   'width': '100%',
@@ -32,23 +34,6 @@ const StyledContainer = styled(Box)(({theme, background}) => ({
   },
 }));
 
-const TransparentBox = styled(Box)(({theme}) => ({
-  position: 'relative',
-  zIndex: 1,
-  width: '90%',
-  maxWidth: '800px',
-  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  borderRadius: '10px',
-  marginTop: '15%',
-  [theme.breakpoints.down('md')]: {
-    marginTop: '20%',
-  },
-  [theme.breakpoints.down('sm')]: {
-    marginTop: '25%',
-  },
-}));
 
 const GridContainer = styled(Grid)(({theme}) => ({
   width: '100%',

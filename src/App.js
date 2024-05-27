@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react'; // Import React
+import React, {useEffect} from 'react';
 import {ThemeProvider} from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from 'assets/theme';
-
 import {Routes, Route, useLocation} from 'react-router-dom';
 import {AuthProvider} from 'authContext';
 import {SnackbarProvider} from 'context/SnackbarContext';
+import {LoginRequiredProvider} from 'context/LoginRequiredContext';
 
-import Home from 'layouts/pages/home';
-import Snokardo from 'layouts/pages/snokardo';
-
+import Home from 'layouts/pages/home'; ;
+import LoginRequired from 'layouts/pages/loginRequired';
+import Reservations from 'layouts/pages/reservations';
 import routes from 'routes';
 
 function App() {
@@ -41,11 +41,14 @@ function App() {
       <CssBaseline />
       <AuthProvider>
         <SnackbarProvider>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/Reservations/Snokardo" element={<Snokardo />} />
-            {getRoutes(routes)}
-          </Routes>
+          <LoginRequiredProvider>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login-required" element={<LoginRequired />} />
+              <Route path="/reservations/*" element={<Reservations />} />
+              {getRoutes(routes)}
+            </Routes>
+          </LoginRequiredProvider>
         </SnackbarProvider>
       </AuthProvider>
     </ThemeProvider>

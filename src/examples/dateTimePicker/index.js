@@ -97,7 +97,7 @@ function CustomDatePicker({
             value={date}
             onChange={handleDateChange}
             minDate={dayjs()}
-            maxDate={dayjs()}
+            maxDate={dayjs().add(1, 'day')}
             slotProps={{
               textField: {
                 sx: {

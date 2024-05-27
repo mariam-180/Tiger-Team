@@ -38,9 +38,9 @@ function Home() {
           Sharpen your skills and dominate the leaderboards!
         </>
       ),
-      button: '',
+      button: 'Book your place',
       onClick: () => {
-        console.log('Start Drifting Clicked');
+        navigate('/reservations');
       },
     },
     {
@@ -55,7 +55,7 @@ function Home() {
       ),
       button: 'Join Now',
       onClick: () => {
-        navigate('/Registration');
+        navigate('/registration');
       },
     },
     {
@@ -93,7 +93,9 @@ function Home() {
     >
       <DefaultNavbar />
       {/* <Header/> */}
-      <ImageSlider images={images} />
+      <AnimatedItem>
+        <ImageSlider images={images} />
+      </AnimatedItem>
       <AnimatedItem>
         <CsMovingWrap texts={texts} map={customMap} backgroundimage={darkBG} />
       </AnimatedItem>

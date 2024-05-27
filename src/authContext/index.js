@@ -22,15 +22,18 @@ export const AuthProvider = ({children}) => {
   );
   const [userRole, setUserRole] = useState(null);
   const [tokenValid, setTokenValid] = useState(false);
+  const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const validateToken = useCallback(async () => {
-    const {tokenValid, userRole} = await checkTokenStatus('accessToken');
+  const validateToken = useCallback(() => {
+    const {tokenValid, userRole} = checkTokenStatus();
     setTokenValid(tokenValid);
     setUserRole(userRole);
+    setLoading(false);
 
     if (!tokenValid) {
       clearAccessToken('accessToken');
+      setAccessTokenState(null);
       navigate('/');
     }
   }, [navigate]);
@@ -38,8 +41,10 @@ export const AuthProvider = ({children}) => {
   useEffect(() => {
     if (accessToken) {
       validateToken();
+    } else {
+      setLoading(false);
     }
-  }, [accessToken, navigate, validateToken]);
+  }, [accessToken, validateToken]);
 
   const login = (token) => {
     setAccessToken('accessToken', token);
@@ -58,9 +63,9 @@ export const AuthProvider = ({children}) => {
 
   return (
     <AuthContext.Provider
-      value={{accessToken, userRole, login, logout, tokenValid}}
+      value={{accessToken, userRole, login, logout, tokenValid, loading}}
     >
-      {children}
+      {!loading && children}
     </AuthContext.Provider>
   );
 };
@@ -69,6 +74,4 @@ AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export const useAuth = () => useContext(AuthContext);

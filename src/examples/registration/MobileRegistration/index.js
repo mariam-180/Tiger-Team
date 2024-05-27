@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -66,6 +67,11 @@ function AuthPage() {
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
   const {login} = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const params = new URLSearchParams(location.search);
+  const redirect = params.get('redirect') || '/';
 
   const toggleAuthMode = () => {
     setUsername('');
@@ -98,6 +104,7 @@ function AuthPage() {
       if (response.ok) {
         const accessToken = responseData.access_token;
         login(accessToken);
+        navigate(redirect);
       } else {
         setSnackbarSeverity('error');
         setSnackbarMessage('Incorrect username or password');

@@ -1,6 +1,6 @@
 import React from 'react';
-// import PrivateRoute from 'privateRoutes';
-// import {RoleBasedPrivateRoute} from 'roleBasedPrivateRoute';
+import PrivateRoute from 'privateRoutes';
+import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
 import Home from 'layouts/pages/home';
 import Champion from 'layouts/pages/champion';
@@ -24,34 +24,34 @@ const routes = [
   },
   {
     name: 'Registration',
-    route: '/Registration',
+    route: '/registration',
     component: <Registration />,
     requiredRole: null,
   },
   {
     name: 'Reservations',
-    route: '/Reservations',
+    route: '/reservations',
     component: <Reservations />,
   },
-  // {
-  //   name: 'QA',
-  //   route: '/QA',
-  //   component: <PrivateRoute element={<QA />} />,
-  //   requiredRole: null,
-  // },
-  // {
-  //   name: 'QA',
-  //   route: '/QA',
-  //   component: (
-  //     <RoleBasedPrivateRoute element={<QA />} requiredRole="SUPER_USER" />
-  //   ),
-  //   requiredRole: 'SUPER_USER',
-  // },
   {
     name: 'QA',
     route: '/QA',
-    component: <QA />,
+    component: <PrivateRoute element={<QA />} />,
     requiredRole: null,
   },
+  {
+    name: 'QAPrivate',
+    route: '/QA/Private',
+    component: (
+      <RoleBasedPrivateRoute element={<QA />} requiredRole="SUPER_USER" />
+    ),
+    requiredRole: 'SUPER_USER',
+  },
+  // {
+  //   name: 'QA',
+  //   route: '/QA',
+  //   component: <QA />,
+  //   requiredRole: null,
+  // },
 ];
 export default routes;
