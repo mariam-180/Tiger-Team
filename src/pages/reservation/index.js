@@ -1,7 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import dayjs from 'dayjs';
 import {Grid, Box, Typography} from '@mui/material';
 import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
+import axios from 'axios';
+import {useAuth} from 'authContext';
 
 // Components
 import TransparentBox from 'components/ThisTransparentBox';
@@ -24,31 +26,9 @@ import background from 'assets/images/tigers_ai/tigersTeamCar_6.webp';
 import SnokardoIMG from 'assets/images/logos/logoBlack.png';
 import KeloIMG from 'assets/images/backGround/tigersTeam.png';
 
-// Branch data
-const branches = [
-  {
-    ID: 'Al-Kilo Circle',
-    name: 'Al-Kilo Circle',
-    image: KeloIMG,
-    description: 'Behind auto mall, Amman, Jordan',
-    price: 6,
-    totalPrice: {
-      30: 4,
-      60: 6,
-      90: 10,
-    },
-  },
-  {
-    ID: 'Snokardo',
-    name: 'Snokardo',
-    image: SnokardoIMG,
-    description: 'Al-Madina Al-Monawara, Amman, Jordan',
-    price: 4,
-  },
-];
-
 function Reservations() {
   const {showSnackbar} = useSnackbar();
+  const {accessToken} = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -60,14 +40,55 @@ function Reservations() {
   const [loading, setLoading] = useState(false);
   const [selectedPC, setSelectedPC] = useState(null);
   const [branch, setBranch] = useState('');
-  const [date, setDate] = useState(dayjs());
   const roundToNearestFive = (minutes) => Math.ceil(minutes / 5) * 5;
   const currentRoundedTime = dayjs()
       .minute(roundToNearestFive(dayjs().minute()))
       .second(0);
+
+  const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(currentRoundedTime);
   const [duration, setDuration] = useState(0);
   const [totalCost, setTotalCost] = useState(0);
+  const [branches, setBranches] = useState([]);
+
+  const [PCs, setPCS] = useState([
+    {id: 1, is_available: 'false'},
+    {id: 2, is_available: 'false'},
+    {id: 3, is_available: 'false'},
+    {id: 4, is_available: 'false'},
+    {id: 5, is_available: 'false'},
+    {id: 6, is_available: 'false'},
+    {id: 7, is_available: 'false'},
+  ]);
+
+  const calculateEndTime = useCallback((start, duration) => {
+    const startDate = new Date(start);
+    startDate.setMinutes(startDate.getMinutes() + duration);
+    return startDate.toISOString();
+  }, []);
+
+  const endTime = calculateEndTime(startTime, duration);
+
+  useEffect(() => {
+    const fetchBranches = async () => {
+      try {
+        const response = await axios.get(
+            process.env.REACT_APP_BRANCHES_ENDPOINT,
+        );
+        const branchesData = response.data.map((branch) => {
+          return {
+            ...branch,
+            image: branch.name === 'Al-Kilo Circle' ? KeloIMG : SnokardoIMG,
+          };
+        });
+        setBranches(branchesData);
+      } catch (error) {
+        console.error('Error fetching branches:', error);
+      }
+    };
+
+    fetchBranches();
+  }, []);
 
   useEffect(() => {
     switch (location.pathname) {
@@ -123,12 +144,74 @@ function Reservations() {
     }, 1000);
   };
 
-  const handlePcClick = (PC) => {
+  const handlePcClick = async (PC) => {
     window.scrollTo({top: 0, behavior: 'smooth'});
     setSelectedPC(PC);
-    setShowRoomSelector(false);
+    try {
+      const response = await axios.post(
+          process.env.REACT_APP_CREATE_RESERVATION_ENDPOINT,
+          {
+            branch_id: branch.id,
+            reservation_start: new Date(startTime).toISOString(),
+            reservation_end: endTime,
+            duration,
+            pc_id: PC,
+            total_cost: totalCost,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          },
+      );
+      setShowRoomSelector(false);
+      setLoading(true);
+      setTimeout(() => {
+        setLoading(false);
+        if (response.status === 201) {
+          setshowBookingSummary(true);
+          navigate('/reservations/booking-summary');
+          showSnackbar('Booking confirmed!', 'success');
+        }
+      }, 1000);
+    } catch (error) {
+      console.error('Error confirming booking:', error);
+      showSnackbar('Error confirming booking. Please try again.', 'error');
+    }
     setshowBookingSummary(true);
-    navigate('/reservations/booking-summary');
+  };
+
+  const fetchPCs = async () => {
+    try {
+      const response = await axios.get(
+          process.env.REACT_APP_PCS_AVAILABILITY_ENDPOINT,
+          {
+            params: {
+              branch_name: branch.name,
+              start: new Date(startTime).toISOString(),
+              end: endTime,
+            },
+          },
+      );
+      const PCsData = response.data.map((pc) => {
+        return {
+          ...pc,
+          is_available: pc.is_available ? 'true' : 'false',
+        };
+      });
+      if (PCsData.length !== 0) {
+        setPCS(PCsData);
+      }
+    } catch (error) {
+      console.error('Error fetching PCs:', error);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+        setShowRoomSelector(true);
+        setShowDatePicker(false);
+        navigate('/reservations/room-selector');
+      }, 1000);
+    }
   };
 
   const checkAvailability = () => {
@@ -148,14 +231,8 @@ function Reservations() {
       return;
     }
     setLoading(true);
-    setShowDatePicker(false);
-    setTimeout(() => {
-      setLoading(false);
-      setShowRoomSelector(true);
-      navigate('/reservations/room-selector');
-    }, 1000);
+    fetchPCs();
   };
-
   return (
     <Grid
       container
@@ -240,8 +317,10 @@ function Reservations() {
                   brightness="20"
                 >
                   <RoomSelector
-                    roomType={branch.ID}
+                    branch={branch}
+                    PCs={PCs}
                     handlePcClick={handlePcClick}
+                    loading={loading}
                   />
                 </ParentContainer>
               </AnimatedItem>

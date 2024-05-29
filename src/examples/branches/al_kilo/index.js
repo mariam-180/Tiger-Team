@@ -138,9 +138,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
         <Grid container spacing={2} direction="row">
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[0].isavailable}
+              isavailable={pcs[0].is_available}
               onClick={() =>
-                pcs[0].isavailable === 'true' && handlePcClick(pcs[0].id)
+                pcs[0].is_available === 'true' &&
+                handlePcClick(pcs[0].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -149,9 +150,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[1].isavailable}
+              isavailable={pcs[1].is_available}
               onClick={() =>
-                pcs[1].isavailable === 'true' && handlePcClick(pcs[1].id)
+                pcs[1].is_available === 'true' &&
+                handlePcClick(pcs[1].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -160,9 +162,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[2].isavailable}
+              isavailable={pcs[2].is_available}
               onClick={() =>
-                pcs[2].isavailable === 'true' && handlePcClick(pcs[2].id)
+                pcs[2].is_available === 'true' &&
+                handlePcClick(pcs[2].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -171,9 +174,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[3].isavailable}
+              isavailable={pcs[3].is_available}
               onClick={() =>
-                pcs[3].isavailable === 'true' && handlePcClick(pcs[3].id)
+                pcs[3].is_available === 'true' &&
+                handlePcClick(pcs[3].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -189,9 +193,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
               }}
             >
               <EquipmentBox
-                isavailable={pcs[4].isavailable}
+                isavailable={pcs[4].is_available}
                 onClick={() =>
-                  pcs[4].isavailable === 'true' && handlePcClick(pcs[4].id)
+                  pcs[4].is_available === 'true' &&
+                  handlePcClick(pcs[4].pc_number)
                 }
               >
                 <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -209,9 +214,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
               }}
             >
               <EquipmentBox
-                isavailable={pcs[5].isavailable}
+                isavailable={pcs[5].is_available}
                 onClick={() =>
-                  pcs[5].isavailable === 'true' && handlePcClick(pcs[5].id)
+                  pcs[5].is_available === 'true' &&
+                  handlePcClick(pcs[5].pc_number)
                 }
               >
                 <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -229,9 +235,10 @@ const KeloRoom = ({pcs, handlePcClick}) => {
               }}
             >
               <EquipmentBox
-                isavailable={pcs[6].isavailable}
+                isavailable={pcs[6].is_available}
                 onClick={() =>
-                  pcs[6].isavailable === 'true' && handlePcClick(pcs[6].id)
+                  pcs[6].is_available === 'true' &&
+                  handlePcClick(pcs[6].pc_number)
                 }
               >
                 <FontAwesomeIcon icon={faDesktopAlt} size="1x" />

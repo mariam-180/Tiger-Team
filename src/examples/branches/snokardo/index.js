@@ -92,7 +92,7 @@ const StyledTypography = styled(Typography)(({theme, sx}) => ({
 
 const SnokardoRoom = ({pcs, handlePcClick}) => {
   const theme = useTheme();
-
+  console.log(pcs);
   return (
     <>
       <Box
@@ -160,9 +160,10 @@ const SnokardoRoom = ({pcs, handlePcClick}) => {
         >
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[0].isavailable}
+              isavailable={pcs[0].is_available}
               onClick={() =>
-                pcs[0].isavailable === 'true' && handlePcClick(pcs[0].id)
+                pcs[0].is_available === 'true' &&
+                handlePcClick(pcs[0].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -171,9 +172,10 @@ const SnokardoRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[1].isavailable}
+              isavailable={pcs[1].is_available}
               onClick={() =>
-                pcs[1].isavailable === 'true' && handlePcClick(pcs[1].id)
+                pcs[1].is_available === 'true' &&
+                handlePcClick(pcs[1].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -182,9 +184,10 @@ const SnokardoRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[2].isavailable}
+              isavailable={pcs[2].is_available}
               onClick={() =>
-                pcs[2].isavailable === 'true' && handlePcClick(pcs[2].id)
+                pcs[2].is_available === 'true' &&
+                handlePcClick(pcs[2].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
@@ -193,9 +196,10 @@ const SnokardoRoom = ({pcs, handlePcClick}) => {
           </Grid>
           <Grid item xs={3}>
             <EquipmentBox
-              isavailable={pcs[3].isavailable}
+              isavailable={pcs[3].is_available}
               onClick={() =>
-                pcs[3].isavailable === 'true' && handlePcClick(pcs[3].id)
+                pcs[3].is_available === 'true' &&
+                handlePcClick(pcs[3].pc_number)
               }
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />

@@ -12,6 +12,7 @@ import {
   setAccessToken,
   clearAccessToken,
   checkTokenStatus,
+  getRole,
 } from './auth';
 
 const AuthContext = createContext();
@@ -25,31 +26,45 @@ export const AuthProvider = ({children}) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const validateToken = useCallback(() => {
-    const {tokenValid, userRole} = checkTokenStatus();
-    setTokenValid(tokenValid);
-    setUserRole(userRole);
-    setLoading(false);
+  const validateToken = useCallback(async () => {
+    let isMounted = true;
+    const {tokenValid, userRole} = await checkTokenStatus();
+    if (isMounted) {
+      setTokenValid(tokenValid);
+      setUserRole(userRole);
+      setLoading(false);
 
-    if (!tokenValid) {
-      clearAccessToken('accessToken');
-      setAccessTokenState(null);
-      navigate('/');
+      if (!tokenValid) {
+        clearAccessToken('accessToken');
+        setAccessTokenState(null);
+        navigate('/');
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [navigate]);
 
   useEffect(() => {
+    let isMounted = true;
     if (accessToken) {
-      validateToken();
+      validateToken().catch(() => {
+        if (isMounted) {
+          setLoading(false);
+        }
+      });
     } else {
       setLoading(false);
     }
+    return () => {
+      isMounted = false;
+    };
   }, [accessToken, validateToken]);
 
-  const login = (token) => {
+  const login = async (token) => {
     setAccessToken('accessToken', token);
     setAccessTokenState(token);
-    validateToken();
+    await validateToken();
     navigate('/');
   };
 
@@ -61,9 +76,28 @@ export const AuthProvider = ({children}) => {
     navigate('/');
   };
 
+  const fetchUserRole = async () => {
+    let isMounted = true;
+    const role = await getRole('accessToken');
+    if (isMounted) {
+      setUserRole(role);
+    }
+    return () => {
+      isMounted = false;
+    };
+  };
+
   return (
     <AuthContext.Provider
-      value={{accessToken, userRole, login, logout, tokenValid, loading}}
+      value={{
+        accessToken,
+        userRole,
+        login,
+        logout,
+        tokenValid,
+        loading,
+        fetchUserRole,
+      }}
     >
       {!loading && children}
     </AuthContext.Provider>

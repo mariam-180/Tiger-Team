@@ -4,32 +4,19 @@ import KeloRoom from './al_kilo';
 import SnokardoRoom from './snokardo';
 
 const RoomSelector = ({
-  roomType,
+  branch,
   backgroundImage,
   handlePcClick,
+  PCs,
+  loading,
   ...props
 }) => {
-  const keloPCs = [
-    {id: 1, isavailable: 'true'},
-    {id: 2, isavailable: 'false'},
-    {id: 3, isavailable: 'true'},
-    {id: 4, isavailable: 'true'},
-    {id: 5, isavailable: 'false'},
-    {id: 6, isavailable: 'true'},
-    {id: 7, isavailable: 'true'},
-  ];
-  const SnokardoPCs = [
-    {id: 1, isavailable: 'true'},
-    {id: 2, isavailable: 'false'},
-    {id: 3, isavailable: 'true'},
-    {id: 4, isavailable: 'true'},
-  ];
-
+  const roomType = branch.name;
   if (roomType === 'Al-Kilo Circle') {
     return (
       <KeloRoom
         {...props}
-        pcs={keloPCs}
+        pcs={PCs}
         backgroundImage={backgroundImage}
         handlePcClick={handlePcClick}
       />
@@ -38,7 +25,7 @@ const RoomSelector = ({
     return (
       <SnokardoRoom
         {...props}
-        pcs={SnokardoPCs}
+        pcs={PCs}
         backgroundImage={backgroundImage}
         handlePcClick={handlePcClick}
       />
@@ -49,10 +36,11 @@ const RoomSelector = ({
 };
 
 RoomSelector.propTypes = {
-  roomType: PropTypes.string.isRequired,
+  branch: PropTypes.object.isRequired,
   backgroundImage: PropTypes.string,
-  handlePcClick: PropTypes.func,
-  pcs: PropTypes.array,
+  handlePcClick: PropTypes.func.isRequired,
+  PCs: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 export default RoomSelector;

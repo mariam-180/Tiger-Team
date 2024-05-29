@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
@@ -72,6 +72,12 @@ function AuthPage() {
 
   const params = new URLSearchParams(location.search);
   const redirect = params.get('redirect') || '/';
+
+  useEffect(() => {
+    return () => {
+      setSnackbarOpen(false);
+    };
+  }, []);
 
   const toggleAuthMode = () => {
     setUsername('');

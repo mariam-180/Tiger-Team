@@ -1,7 +1,7 @@
 import {styled} from '@mui/material/styles';
 import {Button} from '@mui/material';
 
-export const StyledButton = styled(Button)(() => ({
+export const StyledButton = styled(Button)(({sx}) => ({
   'background': 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
   'color': '#ffffff',
   'padding': '12px 45px',
@@ -24,4 +24,5 @@ export const StyledButton = styled(Button)(() => ({
   '&:focus': {
     outline: 'none',
   },
+  ...sx,
 }));

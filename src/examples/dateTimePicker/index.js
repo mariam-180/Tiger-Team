@@ -45,7 +45,7 @@ function CustomDatePicker({
     if (
       branch.name === 'Al-Kilo Circle'
     ) {
-      total = branch.totalPrice[event.target.value];
+      total = branch.total_price[event.target.value];
     } else {
       total = (event.target.value / 60) * branch.price;
     }

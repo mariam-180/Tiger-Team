@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useLocation, useNavigate} from 'react-router-dom';
 import {useAuth} from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
@@ -24,7 +24,6 @@ import {
   Paragraph,
   Row,
 } from './Components';
-
 
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
 
@@ -56,6 +55,11 @@ function Registration() {
     setShowPassword((prevShowPassword) => !prevShowPassword);
   };
 
+  useEffect(() => {
+    return () => {
+      setSnackbarOpen(false);
+    };
+  }, []);
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -134,6 +138,7 @@ function Registration() {
     }
     setSnackbarOpen(false);
   };
+
   return (
     <ContainerWrapper>
       <VideoBackgroundContainer videoURL={backGroundVideo} registration={true}>
