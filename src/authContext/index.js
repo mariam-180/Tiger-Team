@@ -24,6 +24,7 @@ export const AuthProvider = ({children}) => {
   const [userRole, setUserRole] = useState(null);
   const [tokenValid, setTokenValid] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [redirectPath, setRedirectPath] = useState('/');
   const navigate = useNavigate();
 
   const validateToken = useCallback(async () => {
@@ -65,7 +66,8 @@ export const AuthProvider = ({children}) => {
     setAccessToken('accessToken', token);
     setAccessTokenState(token);
     await validateToken();
-    navigate('/');
+    localStorage.removeItem('reservationState');
+    navigate(redirectPath);
   };
 
   const logout = () => {
@@ -96,6 +98,7 @@ export const AuthProvider = ({children}) => {
         logout,
         tokenValid,
         loading,
+        setRedirectPath,
         fetchUserRole,
       }}
     >

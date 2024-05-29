@@ -56,9 +56,9 @@ const LoginRequiredPage = () => {
           <Typography
             variant="h2"
             component="h1"
-            sx={{color: 'white', fontWeight: 'bold', mb: 2}}
+            sx={{color: '#6666FF', fontWeight: 'bold', mb: 2}}
           >
-            Access Restricted
+            Please login to continue
           </Typography>
           <Typography
             variant="h6"

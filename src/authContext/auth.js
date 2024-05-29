@@ -22,6 +22,7 @@ const setAccessToken = (tokenName, token) => {
 const clearAccessToken = (tokenName) => {
   localStorage.removeItem(tokenName);
   localStorage.removeItem(`${tokenName}_expiresAt`);
+  localStorage.removeItem('reservationState');
 };
 
 const isTokenExpired = (tokenName) => {

@@ -4,6 +4,7 @@ import {Grid, Box, Typography} from '@mui/material';
 import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import {useAuth} from 'authContext';
+import {useLoginRequired} from 'context/LoginRequiredContext';
 
 // Components
 import TransparentBox from 'components/ThisTransparentBox';
@@ -28,7 +29,9 @@ import KeloIMG from 'assets/images/backGround/tigersTeam.png';
 
 function Reservations() {
   const {showSnackbar} = useSnackbar();
-  const {accessToken} = useAuth();
+  const {accessToken, tokenValid, setRedirectPath} = useAuth();
+  const {showLoginRequired} = useLoginRequired();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -68,6 +71,37 @@ function Reservations() {
   }, []);
 
   const endTime = calculateEndTime(startTime, duration);
+
+  useEffect(() => {
+    const savedState = localStorage.getItem('reservationState');
+    if (savedState) {
+      const {
+        selectedPC,
+        branch,
+        startTime,
+        date,
+        duration,
+        totalCost,
+        showDatePicker,
+        showRoomSelector,
+        showBookingSummary,
+        showReservation,
+        PCs,
+      } = JSON.parse(savedState);
+
+      setSelectedPC(selectedPC);
+      setBranch(branch);
+      setStartTime(dayjs(startTime));
+      setDate(dayjs(date));
+      setDuration(duration);
+      setTotalCost(totalCost);
+      setShowDatePicker(showDatePicker);
+      setShowRoomSelector(showRoomSelector);
+      setshowBookingSummary(showBookingSummary);
+      setShowReservation(showReservation);
+      setPCS(PCs);
+    }
+  }, []);
 
   useEffect(() => {
     const fetchBranches = async () => {
@@ -147,6 +181,31 @@ function Reservations() {
   const handlePcClick = async (PC) => {
     window.scrollTo({top: 0, behavior: 'smooth'});
     setSelectedPC(PC);
+
+    const stateToSave = {
+      selectedPC: PC,
+      branch,
+      startTime,
+      date,
+      duration,
+      totalCost,
+      showDatePicker,
+      showRoomSelector,
+      showBookingSummary,
+      showReservation,
+      PCs,
+    };
+
+    localStorage.setItem('reservationState', JSON.stringify(stateToSave));
+
+    if (!accessToken || !tokenValid) {
+      showSnackbar('You need to log in first to access that page', 'warning');
+      showLoginRequired();
+      setRedirectPath(location.pathname + location.search);
+      navigate('/login-required', {state: {from: location}});
+      return;
+    }
+
     try {
       const response = await axios.post(
           process.env.REACT_APP_CREATE_RESERVATION_ENDPOINT,
@@ -164,6 +223,7 @@ function Reservations() {
             },
           },
       );
+
       setShowRoomSelector(false);
       setLoading(true);
       setTimeout(() => {
@@ -175,8 +235,16 @@ function Reservations() {
         }
       }, 1000);
     } catch (error) {
-      console.error('Error confirming booking:', error);
-      showSnackbar('Error confirming booking. Please try again.', 'error');
+      setLoading(false);
+      if (error.response && error.response.status === 402) {
+        showSnackbar(
+            `Insufficient Credit!
+            You do not have enough credit to make this reservation.`,
+            'error',
+        );
+      } else {
+        showSnackbar('Error confirming booking. Please try again.', 'error');
+      }
     }
     setshowBookingSummary(true);
   };

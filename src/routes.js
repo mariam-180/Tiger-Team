@@ -1,10 +1,11 @@
 import React from 'react';
-import PrivateRoute from 'privateRoutes';
+// import PrivateRoute from 'privateRoutes';
 import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
 import Home from 'layouts/pages/home';
 import Champion from 'layouts/pages/champion';
 import Registration from 'layouts/pages/registrationPage';
+import Admin from 'layouts/pages/admin';
 import QA from 'layouts/pages/qa';
 import Reservations from 'layouts/pages/reservations';
 // import Live from 'layouts/pages/live';
@@ -33,11 +34,19 @@ const routes = [
     route: '/reservations',
     component: <Reservations />,
   },
+  // {
+  //   name: 'QA',
+  //   route: '/QA',
+  //   component: <PrivateRoute element={<QA />} />,
+  //   requiredRole: null,
+  // },
   {
-    name: 'QA',
-    route: '/QA',
-    component: <PrivateRoute element={<QA />} />,
-    requiredRole: null,
+    name: 'Admin',
+    route: '/Admin',
+    component: (
+      <RoleBasedPrivateRoute element={<Admin />} requiredRole="SUPER_USER" />
+    ),
+    requiredRole: 'SUPER_USER',
   },
   {
     name: 'QAPrivate',
