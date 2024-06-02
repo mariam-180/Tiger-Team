@@ -92,7 +92,6 @@ const StyledTypography = styled(Typography)(({theme, sx}) => ({
 
 const SnokardoRoom = ({pcs, handlePcClick}) => {
   const theme = useTheme();
-  console.log(pcs);
   return (
     <>
       <Box

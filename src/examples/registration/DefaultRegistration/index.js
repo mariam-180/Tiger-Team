@@ -25,6 +25,8 @@ import {
   Row,
 } from './Components';
 
+import {validateForm} from 'utils/formValidation';
+
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
@@ -107,6 +109,22 @@ function Registration() {
       password: password,
     };
 
+    const {email: validatedEmail, phone: validatedPhone} =
+      validateForm(signUpData);
+
+    if (validatedEmail === 'Invalid') {
+      setSnackbarMessage('Error: Unable to register; Invalid email!');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+    if (validatedPhone === 'Invalid') {
+      setSnackbarMessage('Error: Unable to register; Invalid phone number!');
+      setSnackbarSeverity('error');
+      setSnackbarOpen(true);
+      return;
+    }
+
     try {
       const response = await fetch(process.env.REACT_APP_USERS_ENDPOINT, {
         method: 'POST',
@@ -121,8 +139,28 @@ function Registration() {
         setSnackbarMessage('Sign-up successful');
       } else {
         const errorData = await response.json();
+        let errorMessage = 'Sign-up failed';
+
+        if (errorData.failure_detail) {
+          errorMessage = errorData.failure_detail;
+          if (errorData.field) {
+            switch (errorData.field) {
+              case 'user_name':
+                errorMessage = 'Username already exists';
+                break;
+              case 'phone_number':
+                errorMessage = 'Phone number already exists';
+                break;
+              case 'email':
+                errorMessage = 'Email already exists';
+                break;
+              default:
+                break;
+            }
+          }
+        }
         setSnackbarSeverity('error');
-        setSnackbarMessage(errorData.message || 'Sign-up failed');
+        setSnackbarMessage(errorMessage);
       }
     } catch (error) {
       setSnackbarSeverity('error');

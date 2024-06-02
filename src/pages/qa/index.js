@@ -9,6 +9,9 @@ import NavBar from 'examples/navbars/DefaultNavbar';
 import SnokardoRoom from 'examples/branches/snokardo';
 import ParentContainer from 'components/ThisContainer/filtered';
 import Footer from 'examples/footer';
+import ComingSoon from './tem';
+
+import background from 'assets/images/tigers_ai/tigersTeamCar_9.webp';
 
 function QA() {
   const SnokardoPcs = [
@@ -27,7 +30,7 @@ function QA() {
       direction="column"
       minHeight="100vh"
       sx={{
-        backgroundColor: '#060708',
+        backgroundColor: '#fff',
         backgroundimage: ({
           functions: {linearGradient, rgba},
           palette: {gradients},
@@ -40,8 +43,8 @@ function QA() {
       }}
     >
       <NavBar />
-      <ParentContainer>
-        <SnokardoRoom pcs={SnokardoPcs} />
+      <ParentContainer backgroundImage={background} brightness={20}>
+        <ComingSoon />
       </ParentContainer>
       <Footer />
     </Grid>

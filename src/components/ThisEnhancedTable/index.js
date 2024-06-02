@@ -19,6 +19,7 @@ import {
   Tooltip,
   FormControlLabel,
   Switch,
+  TextField,
 } from '@mui/material';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -110,7 +111,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const {numSelected, onDelete} = props;
+  const {tableName, numSelected, onDelete} = props;
 
   return (
     <Toolbar
@@ -142,7 +143,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Records
+          {tableName}
         </Typography>
       )}
 
@@ -165,10 +166,19 @@ function EnhancedTableToolbar(props) {
 
 EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
+  tableName: PropTypes.string.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
-export default function EnhancedTable({headers, records, onEdit, onDelete}) {
+export default function EnhancedTable({
+  headers,
+  records,
+  onEdit,
+  onDelete,
+  tableName,
+  searchQuery,
+  handleSearchChange,
+}) {
   const [order, setOrder] = React.useState('asc');
   const [orderBy, setOrderBy] = React.useState(headers[0]?.id || '');
   const [selected, setSelected] = React.useState([]);
@@ -235,8 +245,49 @@ export default function EnhancedTable({headers, records, onEdit, onDelete}) {
 
   return (
     <Box sx={{width: '100%', overflowX: 'auto'}}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 2,
+        }}
+      >
+        <FormControlLabel
+          control={
+            <Switch
+              sx={{
+                background: '#fff',
+                borderRadius: '20px',
+                marginRight: '10px',
+              }}
+              checked={dense}
+              onChange={handleChangeDense}
+            />
+          }
+          label="Dense padding"
+          sx={{
+            marginLeft: '2px',
+            color: '#fff',
+            padding: '2px',
+            justifyContent: 'space-between',
+            justifyItems: 'center',
+          }}
+        />
+        <TextField
+          label="Search"
+          value={searchQuery}
+          onChange={handleSearchChange}
+          sx={{
+            backgroundColor: '#ffff',
+            borderRadius: 4,
+            width: '300px',
+          }}
+        />
+      </Box>
       <Paper sx={{width: '100%', mb: 2, p: 2, backgroundColor: 'white'}}>
         <EnhancedTableToolbar
+          tableName={tableName}
           numSelected={selected.length}
           onDelete={() => selected.forEach((id) => onDelete(id))}
         />
@@ -322,21 +373,6 @@ export default function EnhancedTable({headers, records, onEdit, onDelete}) {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch sx={{
-          background: '#fff',
-          borderRadius: '20px',
-          marginRight: '10px',
-        }} checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-        sx={{
-          marginLeft: '2px',
-          color: '#fff',
-          padding: '2px',
-          justifyContent: 'space-between',
-          justifyItems: 'center',
-        }}
-      />
     </Box>
   );
 }
@@ -353,4 +389,7 @@ EnhancedTable.propTypes = {
   records: PropTypes.arrayOf(PropTypes.object).isRequired,
   onEdit: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired,
+  tableName: PropTypes.string.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  handleSearchChange: PropTypes.func.isRequired,
 };

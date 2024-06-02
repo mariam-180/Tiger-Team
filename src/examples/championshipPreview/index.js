@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {Box, Button, Typography} from '@mui/material';
 import {styled} from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom';
@@ -6,6 +6,8 @@ import {useNavigate} from 'react-router-dom';
 // eslint-disable-next-line max-len
 import championshipPreviewImage from 'assets/images/backGround/championship.webp';
 import logoIMG from 'assets/images/logos/logo.png';
+
+import ComingSoon from 'pages/comingSoon/signboard';
 
 import AnimatedTypingText from 'utils/Typing';
 
@@ -98,38 +100,56 @@ const StyledButton = styled(Button)(({theme}) => ({
 const ChampionshipPreview = () => {
   const navigate = useNavigate();
 
+  // eslint-disable-next-line no-unused-vars
+  const [eventClosed, setEventClosed] = useState('true');
+
   const handleNavigate = () => {
     navigate('/championship');
   };
 
   return (
     <PreviewContainer>
-      <AnimatedTypingText
-        sx={{
-          color: 'gold',
-          variant: 'h2',
-          component: 'h2',
-          fontSize: '2rem',
-          fontWeight: 'bold',
-          zIndex: 2,
-        }}
-        strings={['Get Ready for the Big Race!']}
-        backSpeed={25}
-        smartBackspace={true}
-      ></AnimatedTypingText>
-      <Typography
-        color="#ffffff"
-        variant="h4"
-        sx={{mt: 2, mb: 2, maxWidth: '600px', textAlign: 'center', zIndex: 1}}
-      >
-        Get set for an amazing car race event on March 1st, 2024! It&apos;s a
-        fun day where drivers show off their amazing driving skills in exciting
-        races. It&apos;s perfect for anyone who loves cars and racing.
-        Don&apos;t miss it!
-      </Typography>
-      <StyledButton variant="contained" size="large" onClick={handleNavigate}>
-        Discover More
-      </StyledButton>
+      {eventClosed && <ComingSoon />}
+      {!eventClosed && (
+        <AnimatedTypingText
+          sx={{
+            color: 'gold',
+            variant: 'h2',
+            component: 'h2',
+            fontSize: '2rem',
+            fontWeight: 'bold',
+            zIndex: 2,
+          }}
+          strings={['Get Ready for the Big Race!']}
+          backSpeed={25}
+          smartBackspace={true}
+        ></AnimatedTypingText>
+      ) && (
+        <Typography
+          color="#ffffff"
+          variant="h4"
+          sx={{
+            mt: 2,
+            mb: 2,
+            maxWidth: '600px',
+            textAlign: 'center',
+            zIndex: 1,
+          }}
+        >
+            Get set for an amazing car race event on March 1st, 2024! It&apos;s
+            a fun day where drivers show off their amazing driving skills in
+            exciting races. It&apos;s perfect for anyone who loves cars and
+            racing. Don&apos;t miss it!
+        </Typography>
+      ) && (
+        <StyledButton
+          variant="contained"
+          size="large"
+          onClick={handleNavigate}
+        >
+            Discover More
+        </StyledButton>
+      )}
     </PreviewContainer>
   );
 };

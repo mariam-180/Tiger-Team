@@ -5,9 +5,11 @@ import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 import Home from 'layouts/pages/home';
 import Champion from 'layouts/pages/champion';
 import Registration from 'layouts/pages/registrationPage';
-import Admin from 'layouts/pages/admin';
-import QA from 'layouts/pages/qa';
+import AdminUsers from 'layouts/pages/admin/users';
+import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
+import Profile from 'layouts/pages/profile';
+// import QA from 'layouts/pages/qa';
 // import Live from 'layouts/pages/live';
 
 const routes = [
@@ -34,32 +36,60 @@ const routes = [
     route: '/reservations',
     component: <Reservations />,
   },
-  // {
-  //   name: 'QA',
-  //   route: '/QA',
-  //   component: <PrivateRoute element={<QA />} />,
-  //   requiredRole: null,
-  // },
+  {
+    name: 'Profile',
+    route: '/profile',
+    component: (
+      <RoleBasedPrivateRoute element={<Profile />} requiredRole="END_USER" />
+    ),
+    requiredRole: 'END_USER',
+  },
   {
     name: 'Admin',
-    route: '/Admin',
-    component: (
-      <RoleBasedPrivateRoute element={<Admin />} requiredRole="SUPER_USER" />
-    ),
-    requiredRole: 'SUPER_USER',
+    collapse: [
+      {
+        name: 'Users',
+        route: '/admin/users',
+        component: (
+          <RoleBasedPrivateRoute
+            element={<AdminUsers />}
+            requiredRole="EMPLOYEE_USER"
+          />
+        ),
+        requiredRole: 'EMPLOYEE_USER',
+      },
+      {
+        name: 'Reservation',
+        route: '/admin/reservations',
+        component: (
+          <RoleBasedPrivateRoute
+            element={<AdminReservation />}
+            requiredRole="EMPLOYEE_USER"
+          />
+        ),
+        requiredRole: 'EMPLOYEE_USER',
+      },
+    ],
+    requiredRole: 'EMPLOYEE_USER',
   },
-  {
-    name: 'QAPrivate',
-    route: '/QA/Private',
-    component: (
-      <RoleBasedPrivateRoute element={<QA />} requiredRole="SUPER_USER" />
-    ),
-    requiredRole: 'SUPER_USER',
-  },
+  // {
+  //   name: 'QAPrivate',
+  //   route: '/QA/Private',
+  //   component: (
+  //     <RoleBasedPrivateRoute element={<QA />} requiredRole="SUPER_USER" />
+  //   ),
+  //   requiredRole: 'SUPER_USER',
+  // },
   // {
   //   name: 'QA',
   //   route: '/QA',
   //   component: <QA />,
+  //   requiredRole: null,
+  // },
+  // {
+  //   name: 'QA',
+  //   route: '/QA',
+  //   component: <PrivateRoute element={<QA />} />,
   //   requiredRole: null,
   // },
 ];

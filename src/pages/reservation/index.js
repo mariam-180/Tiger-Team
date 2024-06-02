@@ -1,6 +1,20 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import dayjs from 'dayjs';
-import {Grid, Box, Typography} from '@mui/material';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+import {
+  Grid,
+  Box,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+} from '@mui/material';
 import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
 import axios from 'axios';
 import {useAuth} from 'authContext';
@@ -9,6 +23,7 @@ import {useLoginRequired} from 'context/LoginRequiredContext';
 // Components
 import TransparentBox from 'components/ThisTransparentBox';
 import ParentContainer from 'components/ThisContainer/filtered';
+import {StyledButton} from 'components/ThisStyledButton';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import CustomDatePicker from 'examples/dateTimePicker';
 import BookingSummary from 'examples/summaryBox';
@@ -54,6 +69,9 @@ function Reservations() {
   const [totalCost, setTotalCost] = useState(0);
   const [branches, setBranches] = useState([]);
 
+  const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [tempPC, setTempPC] = useState(null);
+
   const [PCs, setPCS] = useState([
     {id: 1, is_available: 'false'},
     {id: 2, is_available: 'false'},
@@ -70,7 +88,9 @@ function Reservations() {
     return startDate.toISOString();
   }, []);
 
-  const endTime = calculateEndTime(startTime, duration);
+  const endTime = dayjs(calculateEndTime(startTime, duration))
+      .utcOffset(3)
+      .format();
 
   useEffect(() => {
     const savedState = localStorage.getItem('reservationState');
@@ -178,12 +198,17 @@ function Reservations() {
     }, 1000);
   };
 
-  const handlePcClick = async (PC) => {
+  const handlePcClick = (PC) => {
     window.scrollTo({top: 0, behavior: 'smooth'});
-    setSelectedPC(PC);
+    setTempPC(PC);
+    setConfirmDialogOpen(true);
+  };
+  const handleConfirm = async () => {
+    setSelectedPC(tempPC);
+    setConfirmDialogOpen(false);
 
     const stateToSave = {
-      selectedPC: PC,
+      selectedPC: tempPC,
       branch,
       startTime,
       date,
@@ -206,15 +231,20 @@ function Reservations() {
       return;
     }
 
+    const reservationStart = dayjs(startTime).utcOffset(3).format();
+    const endTime = dayjs(calculateEndTime(startTime, duration))
+        .utcOffset(3)
+        .format();
+
     try {
       const response = await axios.post(
           process.env.REACT_APP_CREATE_RESERVATION_ENDPOINT,
           {
             branch_id: branch.id,
-            reservation_start: new Date(startTime).toISOString(),
+            reservation_start: reservationStart,
             reservation_end: endTime,
             duration,
-            pc_id: PC,
+            pc_id: tempPC,
             total_cost: totalCost,
           },
           {
@@ -249,6 +279,11 @@ function Reservations() {
     setshowBookingSummary(true);
   };
 
+  const handleCancel = () => {
+    setTempPC(null);
+    setConfirmDialogOpen(false);
+  };
+
   const fetchPCs = async () => {
     try {
       const response = await axios.get(
@@ -256,7 +291,7 @@ function Reservations() {
           {
             params: {
               branch_name: branch.name,
-              start: new Date(startTime).toISOString(),
+              start: dayjs(startTime).utcOffset(3).format(),
               end: endTime,
             },
           },
@@ -446,6 +481,70 @@ function Reservations() {
       </Routes>
       <AnimatedItem>
         <Footer />
+      </AnimatedItem>
+      <AnimatedItem>
+        <Dialog
+          open={confirmDialogOpen}
+          onClose={handleCancel}
+          sx={{
+            overflow: 'auto',
+          }}
+        >
+          <DialogTitle
+            sx={{color: '#8B0000', fontWeight: 'bold', fontSize: '1.4rem'}}
+          >
+            Confirm Reservation
+          </DialogTitle>
+          <DialogContent>
+            <Box display="flex" alignItems="center">
+              <Typography>Branch: </Typography>
+              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+                {branch.name}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Date: </Typography>
+              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+                {date.format('YYYY-MM-DD')}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Start Time: </Typography>
+              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+                {startTime.format('HH:mm')}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Duration: </Typography>
+              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+                {duration} minutes
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Selected PC: </Typography>
+              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+                {tempPC}
+              </Typography>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <Typography>Total Cost: </Typography>
+              <Typography sx={{color: '#8B0000', marginLeft: 1}}>
+                {totalCost} JOD
+              </Typography>
+            </Box>
+            <Typography marginTop={2}>
+              Are you sure you want to reserve this PC?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <StyledButton onClick={handleCancel} color="primary">
+              Cancel
+            </StyledButton>
+            <StyledButton onClick={handleConfirm} color="primary">
+              Confirm
+            </StyledButton>
+          </DialogActions>
+        </Dialog>
       </AnimatedItem>
     </Grid>
   );

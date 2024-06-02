@@ -159,6 +159,9 @@ export default {
       main: '#000000',
       state: '#000000',
     },
+    darkGold: {
+      main: '#A57B0A',
+    },
   },
 
   socialMediaColors: {

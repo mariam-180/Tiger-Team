@@ -191,8 +191,6 @@ function Admin() {
   };
 
   const handleUserDialogClose = () => setEditUserDialogOpen(false);
-  const handleReservationDialogClose = () =>
-    setEditReservationDialogOpen(false);
 
   const handleUserSave = () => {
     updateUser(selectedUser.id, selectedUser);
