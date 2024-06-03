@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react';
 import {useAuth} from 'authContext';
 import axios from 'axios';
 
+import {socket, subscribeToReservations} from 'functions/socketService';
+
 import {
   Grid,
   Dialog,
@@ -66,11 +68,12 @@ function AdminReservaions() {
 
   const fetchData = async () => {
     try {
-      const [reservationsResponse] = await Promise.all([
-        axios.get(process.env.REACT_APP_RESERVATION_ENDPOINT, {
-          headers: {Authorization: `Bearer ${accessToken}`},
-        }),
-      ]);
+      const reservationsResponse = await axios.get(
+          process.env.REACT_APP_RESERVATION_ENDPOINT,
+          {
+            headers: {Authorization: `Bearer ${accessToken}`},
+          },
+      );
       setReservations(reservationsResponse.data);
       setFilteredReservation(reservationsResponse.data);
     } catch (error) {
@@ -130,17 +133,54 @@ function AdminReservaions() {
     setSearchQuery(query);
 
     const filtered = reservations.filter((reservation) =>
-      ['branch_name', 'pc_number', 'user_name'].some(
-          (key) => reservation[key].toLowerCase().includes(query),
+      ['branch_name', 'pc_number', 'user_name'].some((key) =>
+        reservation[key].toLowerCase().includes(query),
       ),
     );
 
     setFilteredReservation(filtered);
   };
-
   useEffect(() => {
     fetchData();
-  }, []);
+
+    subscribeToReservations((event, reservation) => {
+      setReservations((prevReservations) => {
+        if (event === 'new_reservation') {
+          return [...prevReservations, reservation];
+        } else if (event === 'update_reservation') {
+          return prevReservations.map((res) =>
+            res.id === reservation.id ? reservation : res,
+          );
+        } else if (event === 'delete_reservation') {
+          return prevReservations.filter(
+              (res) => res.id !== reservation.reservation_id,
+          );
+        }
+        return prevReservations;
+      });
+
+      setFilteredReservation((prevFiltered) => {
+        if (event === 'new_reservation') {
+          return [...prevFiltered, reservation];
+        } else if (event === 'update_reservation') {
+          return prevFiltered.map((res) =>
+            res.id === reservation.id ? reservation : res,
+          );
+        } else if (event === 'delete_reservation') {
+          return prevFiltered.filter(
+              (res) => res.id !== reservation.reservation_id,
+          );
+        }
+        return prevFiltered; // Fallback to ensure a valid state
+      });
+    });
+
+    return () => {
+      socket.off('new_reservation');
+      socket.off('update_reservation');
+      socket.off('delete_reservation');
+    };
+  }, [accessToken, showSnackbar]);
 
   return (
     <Grid
@@ -178,7 +218,9 @@ function AdminReservaions() {
           <AnimatedItem>
             <EnhancedTable
               headers={reservationHeaders}
-              records={filteredReservation}
+              records={
+                Array.isArray(filteredReservation) ? filteredReservation : []
+              }
               onEdit={handleEditReservation}
               onDelete={deleteReservation}
               tableName="Reservations"
