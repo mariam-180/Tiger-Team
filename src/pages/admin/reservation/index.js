@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useAuth} from 'authContext';
 import axios from 'axios';
 
-import {socket, subscribeToReservations} from 'functions/socketService';
+// import {socket, subscribeToReservations} from 'functions/socketService';
 
 import {
   Grid,
@@ -140,46 +140,51 @@ function AdminReservaions() {
 
     setFilteredReservation(filtered);
   };
+
+  // useEffect(() => {
+  //   fetchData();
+
+  //   subscribeToReservations((event, reservation) => {
+  //     setReservations((prevReservations) => {
+  //       if (event === 'new_reservation') {
+  //         return [...prevReservations, reservation];
+  //       } else if (event === 'update_reservation') {
+  //         return prevReservations.map((res) =>
+  //           res.id === reservation.id ? reservation : res,
+  //         );
+  //       } else if (event === 'delete_reservation') {
+  //         return prevReservations.filter(
+  //             (res) => res.id !== reservation.reservation_id,
+  //         );
+  //       }
+  //       return prevReservations;
+  //     });
+
+  //     setFilteredReservation((prevFiltered) => {
+  //       if (event === 'new_reservation') {
+  //         return [...prevFiltered, reservation];
+  //       } else if (event === 'update_reservation') {
+  //         return prevFiltered.map((res) =>
+  //           res.id === reservation.id ? reservation : res,
+  //         );
+  //       } else if (event === 'delete_reservation') {
+  //         return prevFiltered.filter(
+  //             (res) => res.id !== reservation.reservation_id,
+  //         );
+  //       }
+  //       return prevFiltered; // Fallback to ensure a valid state
+  //     });
+  //   });
+
+  //   return () => {
+  //     socket.off('new_reservation');
+  //     socket.off('update_reservation');
+  //     socket.off('delete_reservation');
+  //   };
+  // }, [accessToken, showSnackbar]);
+
   useEffect(() => {
     fetchData();
-
-    subscribeToReservations((event, reservation) => {
-      setReservations((prevReservations) => {
-        if (event === 'new_reservation') {
-          return [...prevReservations, reservation];
-        } else if (event === 'update_reservation') {
-          return prevReservations.map((res) =>
-            res.id === reservation.id ? reservation : res,
-          );
-        } else if (event === 'delete_reservation') {
-          return prevReservations.filter(
-              (res) => res.id !== reservation.reservation_id,
-          );
-        }
-        return prevReservations;
-      });
-
-      setFilteredReservation((prevFiltered) => {
-        if (event === 'new_reservation') {
-          return [...prevFiltered, reservation];
-        } else if (event === 'update_reservation') {
-          return prevFiltered.map((res) =>
-            res.id === reservation.id ? reservation : res,
-          );
-        } else if (event === 'delete_reservation') {
-          return prevFiltered.filter(
-              (res) => res.id !== reservation.reservation_id,
-          );
-        }
-        return prevFiltered; // Fallback to ensure a valid state
-      });
-    });
-
-    return () => {
-      socket.off('new_reservation');
-      socket.off('update_reservation');
-      socket.off('delete_reservation');
-    };
   }, [accessToken, showSnackbar]);
 
   return (
