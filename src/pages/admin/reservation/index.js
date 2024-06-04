@@ -74,8 +74,16 @@ function AdminReservaions() {
             headers: {Authorization: `Bearer ${accessToken}`},
           },
       );
-      setReservations(reservationsResponse.data);
-      setFilteredReservation(reservationsResponse.data);
+      const newReservations = reservationsResponse.data;
+      const currentReservations = reservations;
+
+      const newReservationsJSON = JSON.stringify(newReservations);
+      const currentReservationsJSON = JSON.stringify(currentReservations);
+
+      if (newReservationsJSON !== currentReservationsJSON) {
+        setReservations(newReservations);
+        setFilteredReservation(newReservations);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
       showSnackbar('Error fetching data. Please try again.', 'error');
@@ -185,6 +193,11 @@ function AdminReservaions() {
 
   useEffect(() => {
     fetchData();
+
+    // 3 Min 180 Sec (180,000 milliseconds)
+    const intervalId = setInterval(fetchData, 180000);
+
+    return () => clearInterval(intervalId);
   }, [accessToken, showSnackbar]);
 
   return (
