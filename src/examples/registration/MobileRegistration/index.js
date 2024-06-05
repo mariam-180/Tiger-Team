@@ -19,6 +19,7 @@ import {
 
 import ThisContainer from 'components/ThisContainer';
 import LoginSignupToggle from 'components/ThisCircle';
+import VerificationPopup from '../VerificationPopup';
 
 import {validateForm} from 'utils/formValidation';
 
@@ -65,6 +66,7 @@ function AuthPage() {
   const [username, setUsername] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
+  const [popupOpen, setPopupOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
@@ -92,6 +94,11 @@ function AuthPage() {
     setSignIn(!signIn);
   };
 
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+    navigate('/');
+  };
+
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
 
@@ -114,6 +121,10 @@ function AuthPage() {
         const accessToken = responseData.access_token;
         login(accessToken);
         navigate(redirect);
+      } else if (response.status === 403) {
+        setSnackbarSeverity('warning');
+        setSnackbarMessage('Please verify your account.');
+        setPopupOpen(true);
       } else {
         setSnackbarSeverity('error');
         setSnackbarMessage('Incorrect username or password');
@@ -166,6 +177,7 @@ function AuthPage() {
       if (response.ok) {
         setSnackbarSeverity('success');
         setSnackbarMessage('Sign-up successful');
+        setPopupOpen(true);
       } else {
         const errorData = await response.json();
         let errorMessage = 'Sign-up failed';
@@ -311,6 +323,7 @@ function AuthPage() {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <VerificationPopup open={popupOpen} onClose={handleClosePopup} />
     </Grid>
   );
 }

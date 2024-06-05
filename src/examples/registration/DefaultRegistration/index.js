@@ -26,6 +26,7 @@ import {
 } from './Components';
 
 import {validateForm} from 'utils/formValidation';
+import VerificationPopup from '../VerificationPopup';
 
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
 
@@ -42,6 +43,7 @@ function Registration() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [popupOpen, setPopupOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
@@ -62,6 +64,11 @@ function Registration() {
       setSnackbarOpen(false);
     };
   }, []);
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+    navigate('/');
+  };
 
   const handleSignInSubmit = async (e) => {
     e.preventDefault();
@@ -85,6 +92,10 @@ function Registration() {
         const accessToken = responseData.access_token;
         login(accessToken);
         navigate(redirect);
+      } else if (response.status === 403) {
+        setSnackbarSeverity('warning');
+        setSnackbarMessage('Please verify your account.');
+        setPopupOpen(true);
       } else {
         setSnackbarSeverity('error');
         setSnackbarMessage('Incorrect username or password');
@@ -137,6 +148,7 @@ function Registration() {
       if (response.ok) {
         setSnackbarSeverity('success');
         setSnackbarMessage('Sign-up successful');
+        setPopupOpen(true);
       } else {
         const errorData = await response.json();
         let errorMessage = 'Sign-up failed';
@@ -337,6 +349,7 @@ function Registration() {
             {snackbarMessage}
           </Alert>
         </Snackbar>
+        <VerificationPopup open={popupOpen} onClose={handleClosePopup} />
       </VideoBackgroundContainer>
     </ContainerWrapper>
   );
