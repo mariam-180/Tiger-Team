@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {useEffect, useState} from 'react';
 import {useAuth} from 'authContext';
 import axios from 'axios';
@@ -12,13 +13,17 @@ import {
   Box,
   MenuItem,
 } from '@mui/material';
-import EnhancedTable from 'components/ThisEnhancedTable';
+import Avatar from 'components/ThisAvatar';
+import Typography from 'components/ThisTypography';
+import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
 import {useSnackbar} from 'context/SnackbarContext';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
 import AnimatedItem from 'utils/animatedItem';
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
+import avatarImg from 'assets/images/logos/logoBlack.png';
 
 const roleHierarchy = {
   SUPER_USER: '3',
@@ -31,29 +36,12 @@ const roleOptions = Object.entries(roleHierarchy).map(([key]) => ({
   key,
 }));
 
-const userHeaders = [
-  {
-    id: 'first_name',
-    numeric: false,
-    disablePadding: true,
-    label: 'First Name',
-  },
-  {
-    id: 'last_name',
-    numeric: false,
-    disablePadding: false,
-    label: 'Last Name',
-  },
-  {id: 'email', numeric: false, disablePadding: false, label: 'Email'},
-  {
-    id: 'phone_number',
-    numeric: false,
-    disablePadding: false,
-    label: 'Phone Number',
-  },
-  {id: 'user_name', numeric: false, disablePadding: false, label: 'Username'},
-  {id: 'credit', numeric: true, disablePadding: false, label: 'Credit'},
-  {id: 'role', numeric: false, disablePadding: false, label: 'Role'},
+const userColumns = [
+  {Header: 'Author', accessor: 'author', width: '45%', align: 'left'},
+  {Header: 'Username', accessor: 'user_name', align: 'left'},
+  {Header: 'Credit', accessor: 'credit', align: 'center'},
+  {Header: 'Role', accessor: 'role', align: 'center'},
+  {Header: 'Action', accessor: 'action', align: 'center'},
 ];
 
 function AdminUsers() {
@@ -61,9 +49,20 @@ function AdminUsers() {
   const {showSnackbar} = useSnackbar();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const Author = ({image, name, email}) => (
+    <Box display="flex" alignItems="center" lineHeight={1}>
+      <Avatar src={image} name={name} size="sm" />
+      <Box ml={2} lineHeight={1}>
+        <Typography display="block" variant="button" fontWeight="medium">
+          {name}
+        </Typography>
+        <Typography variant="caption">{email}</Typography>
+      </Box>
+    </Box>
+  );
 
   const fetchData = async () => {
     try {
@@ -119,22 +118,39 @@ function AdminUsers() {
 
   const handleUserDialogClose = () => setEditUserDialogOpen(false);
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    const filtered = users.filter((user) =>
-      ['first_name', 'last_name', 'email', 'phone_number', 'user_name'].some(
-          (key) => user[key].toLowerCase().includes(query),
-      ),
-    );
-
-    setFilteredUsers(filtered);
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
+
+  const userRows = filteredUsers.map((user) => ({
+    author: (
+      <Author
+        image={avatarImg}
+        name={`${user.first_name} ${user.last_name}`}
+        email={user.email}
+      />
+    ),
+    user_name: user.user_name,
+    credit: user.credit,
+    role:
+      roleOptions.find((role) => role.key === user.role)?.label || user.role,
+    action: (
+      <Box display="flex" justifyContent="center">
+        <Button
+          onClick={() => handleEditUser(user.id)}
+          sx={{color: '#00008B', opacity: '0.9'}}
+        >
+          Edit
+        </Button>
+        <Button
+          onClick={() => deleteUser(user.id)}
+          sx={{color: '#8B0000', opacity: '0.9'}}
+        >
+          Delete
+        </Button>
+      </Box>
+    ),
+  }));
 
   return (
     <Grid
@@ -151,36 +167,44 @@ function AdminUsers() {
               rgba(gradients.dark.main, 0.01),
               rgba(gradients.dark.state, 0.01),
           )}`,
-        overflow: 'auto',
+        overflow: 'hidden',
       }}
     >
       <DefaultNavbar />
       <ParentContainer
-        backgroundImage={backgroundImage}
         blur={2}
-        brightness={40}
+        brightness={20}
+        backgroundImage={backgroundImage}
+        sx={{
+          padding: '',
+          alignItems: '',
+        }}
       >
-        <Box
-          position="relative"
-          sx={{
-            justifyContent: {xs: 'space-between', md: 'center'},
-            marginTop: '90px',
-          }}
-          display="flex"
-          alignItems="center"
-        >
-          <AnimatedItem>
-            <EnhancedTable
-              headers={userHeaders}
-              records={filteredUsers}
-              onEdit={handleEditUser}
-              onDelete={deleteUser}
-              tableName="Users"
-              searchQuery={searchQuery}
-              handleSearchChange={handleSearchChange}
-            />
-          </AnimatedItem>
-        </Box>
+        <DashboardLayout>
+          <Box
+            sx={{
+              width: {
+                xs: '90vw',
+                sm: '92vw',
+                md: '94vw',
+                xl: '95.5vw',
+              },
+            }}
+          >
+            <AnimatedItem>
+              <DynamicTable
+                title="Users"
+                columns={userColumns}
+                rows={userRows}
+                isSorted={true}
+                canSearch={true}
+                entriesPerPage={true}
+                showTotalEntries={false}
+                noEndBorder
+              />
+            </AnimatedItem>
+          </Box>
+        </DashboardLayout>
       </ParentContainer>
       <AnimatedItem>
         <Footer />

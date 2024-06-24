@@ -1,27 +1,107 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable new-cap */
 import React from 'react';
 
 import {Grid} from '@mui/material';
+import Box from 'components/ThisBox';
+import Avatar from 'components/ThisAvatar';
+import Typography from 'components/ThisTypography';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
+import DynamicTable from 'components/ThisEnhancedTable';
 
 import NavBar from 'examples/navbars/DefaultNavbar';
-import SnokardoRoom from 'examples/branches/snokardo';
 import ParentContainer from 'components/ThisContainer/filtered';
 import Footer from 'examples/footer';
-import ComingSoon from './tem';
 
 import background from 'assets/images/tigers_ai/tigersTeamCar_9.webp';
+import team2 from 'assets/images/tigers_ai/tigersTeamCar_6.webp';
 
 function QA() {
-  const SnokardoPcs = [
-    {id: 1, isavailable: 'true'},
-    {id: 2, isavailable: 'false'},
-    {id: 3, isavailable: 'true'},
-    {id: 4, isavailable: 'true'},
-    {id: 5, isavailable: 'false'},
-    {id: 6, isavailable: 'true'},
-    {id: 7, isavailable: 'true'},
+  const Author = ({image, name, email}) => (
+    <Box display="flex" alignItems="center" lineHeight={1}>
+      <Avatar src={image} name={name} size="sm" />
+      <Box ml={2} lineHeight={1}>
+        <Typography display="block" variant="button" fontWeight="medium">
+          {name}
+        </Typography>
+        <Typography variant="caption">{email}</Typography>
+      </Box>
+    </Box>
+  );
+
+  const columns = [
+    {Header: 'Author', accessor: 'author', width: '45%', align: 'left'},
+    {Header: 'Username', accessor: 'user_name', align: 'left'},
+    {Header: 'Credit', accessor: 'credit', align: 'center'},
+    {Header: 'Role', accessor: 'role', align: 'center'},
+    {Header: 'Action', accessor: 'action', align: 'center'},
+  ];
+
+  const rows = [
+    {
+      author: (
+        <Author
+          image={team2}
+          name="John Michael"
+          email="john@creative-tim.com"
+        />
+      ),
+      user_name: (
+        <Typography
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          TEST
+        </Typography>
+      ),
+      action: (
+        <Typography
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          Edit
+        </Typography>
+      ),
+    },
+    {
+      author: (
+        <Author
+          image={team2}
+          name="Aohn Michael"
+          email="john@creative-tim.com"
+        />
+      ),
+      user_name: (
+        <Typography
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          A
+        </Typography>
+      ),
+      action: (
+        <Typography
+          component="a"
+          href="#"
+          variant="caption"
+          color="text"
+          fontWeight="medium"
+        >
+          Edit
+        </Typography>
+      ),
+    },
   ];
 
   return (
@@ -30,7 +110,7 @@ function QA() {
       direction="column"
       minHeight="100vh"
       sx={{
-        backgroundColor: '#fff',
+        backgroundColor: '#000',
         backgroundimage: ({
           functions: {linearGradient, rgba},
           palette: {gradients},
@@ -43,8 +123,37 @@ function QA() {
       }}
     >
       <NavBar />
-      <ParentContainer backgroundImage={background} brightness={20}>
-        <ComingSoon />
+      <ParentContainer
+        blur={2}
+        brightness={20}
+        backgroundImage={background}
+        sx={{
+          padding: '',
+          alignItems: '',
+        }}
+      >
+        <DashboardLayout>
+          <Box
+            sx={{
+              width: {
+                xs: '90vw',
+                sm: '92vw',
+                md: '94vw',
+                xl: '95.5vw',
+              },
+            }}
+          >
+            <Grid container spacing={6}>
+              <Grid item xs={12}>
+                <DynamicTable
+                  title="Authors Table"
+                  columns={columns}
+                  rows={rows}
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </DashboardLayout>
       </ParentContainer>
       <Footer />
     </Grid>

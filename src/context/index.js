@@ -6,7 +6,6 @@ const MaterialUI = createContext();
 
 MaterialUI.displayName = 'MaterialUIContext';
 
-// Material Dashboard 2 React reducer
 function reducer(state, action) {
   switch (action.type) {
     case 'MINI_SIDENAV': {
@@ -45,7 +44,6 @@ function reducer(state, action) {
   }
 }
 
-// Material Dashboard 2 React context provider
 function MaterialUIControllerProvider({children}) {
   const initialState = {
     miniSidenav: false,

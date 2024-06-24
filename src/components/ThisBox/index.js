@@ -2,7 +2,7 @@ import React, {forwardRef} from 'react';
 import PropTypes from 'prop-types';
 import BoxRoot from 'components/ThisBox/BoxRoot';
 
-const CUBox = forwardRef(
+const Box = forwardRef(
     (
         {
           variant,
@@ -32,8 +32,8 @@ const CUBox = forwardRef(
     ),
 );
 
-// Setting default values for the props of CUBox
-CUBox.defaultProps = {
+// Setting default values for the props of Box
+Box.defaultProps = {
   variant: 'contained',
   bgColor: 'transparent',
   color: 'dark',
@@ -43,8 +43,8 @@ CUBox.defaultProps = {
   coloredShadow: 'none',
 };
 
-// Typechecking props for the CUBox
-CUBox.propTypes = {
+// Typechecking props for the Box
+Box.propTypes = {
   variant: PropTypes.oneOf(['contained', 'gradient']),
   bgColor: PropTypes.string,
   color: PropTypes.string,
@@ -65,6 +65,6 @@ CUBox.propTypes = {
 };
 
 // Assigning display name to the component
-CUBox.displayName = 'CUBox';
+Box.displayName = 'Box';
 
-export default CUBox;
+export default Box;

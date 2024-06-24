@@ -1,9 +1,6 @@
-import React, {useEffect, useState} from 'react';
-import {useAuth} from 'authContext';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from 'authContext';
 import axios from 'axios';
-
-// import {socket, subscribeToReservations} from 'functions/socketService';
-
 import {
   Grid,
   Dialog,
@@ -14,90 +11,68 @@ import {
   TextField,
   Box,
 } from '@mui/material';
-import EnhancedTable from 'components/ThisEnhancedTable';
+import DynamicTable from 'components/ThisEnhancedTable'; // Importing DynamicTable
 import ParentContainer from 'components/ThisContainer/filtered';
-import {useSnackbar} from 'context/SnackbarContext';
-
+import { useSnackbar } from 'context/SnackbarContext';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
+import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import Footer from 'examples/footer';
-
 import AnimatedItem from 'utils/animatedItem';
-
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 
-const reservationHeaders = [
-  {
-    id: 'branch_name',
-    numeric: true,
-    disablePadding: true,
-    label: 'Branch Name',
-  },
-  {id: 'pc_number', numeric: true, disablePadding: false, label: 'PC Number'},
-  {id: 'user_name', numeric: false, disablePadding: false, label: 'Username'},
-  {
-    id: 'reservation_start',
-    numeric: false,
-    disablePadding: false,
-    label: 'Reservation Start',
-  },
-  {
-    id: 'reservation_end',
-    numeric: false,
-    disablePadding: false,
-    label: 'Reservation End',
-  },
-  {id: 'duration', numeric: true, disablePadding: false, label: 'Duration'},
-  {
-    id: 'total_cost',
-    numeric: true,
-    disablePadding: false,
-    label: 'Total Cost',
-  },
+const reservationColumns = [
+  { Header: 'Branch Name', accessor: 'branch_name', align: 'left' },
+  { Header: 'PC Number', accessor: 'pc_number', align: 'left' },
+  { Header: 'Username', accessor: 'user_name', align: 'left' },
+  { Header: 'Reservation Start', accessor: 'reservation_start', align: 'left' },
+  { Header: 'Reservation End', accessor: 'reservation_end', align: 'left' },
+  { Header: 'Duration', accessor: 'duration', align: 'left' },
+  { Header: 'Total Cost', accessor: 'total_cost', align: 'left' },
+  { Header: 'Action', accessor: 'action', align: 'center' },
 ];
 
-function AdminReservaions() {
-  const {accessToken} = useAuth();
-
-  const {showSnackbar} = useSnackbar();
+function AdminReservations() {
+  const { accessToken } = useAuth();
+  const { showSnackbar } = useSnackbar();
   const [reservations, setReservations] = useState([]);
+  const [filteredReservations, setFilteredReservations] = useState([]);
+  const [filter] = useState('');
   const [editReservationDialogOpen, setEditReservationDialogOpen] =
     useState(false);
-  const [filteredReservation, setFilteredReservation] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
   const [selectedReservation, setSelectedReservation] = useState(null);
-
   const fetchData = async () => {
     try {
       const reservationsResponse = await axios.get(
-          process.env.REACT_APP_RESERVATION_ENDPOINT,
-          {
-            headers: {Authorization: `Bearer ${accessToken}`},
-          },
+        process.env.REACT_APP_RESERVATION_ENDPOINT,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
       );
-      const newReservations = reservationsResponse.data;
-      const currentReservations = reservations;
-
-      const newReservationsJSON = JSON.stringify(newReservations);
-      const currentReservationsJSON = JSON.stringify(currentReservations);
-
-      if (newReservationsJSON !== currentReservationsJSON) {
-        setReservations(newReservations);
-        setFilteredReservation(newReservations);
-      }
+      const fetchedReservations = reservationsResponse.data;
+      setReservations(fetchedReservations);
+      setFilteredReservations(applyFilter(fetchedReservations, filter));
     } catch (error) {
       console.error('Error fetching data:', error);
       showSnackbar('Error fetching data. Please try again.', 'error');
     }
   };
 
+  const applyFilter = (data, filter) => {
+    if (!filter) return data;
+    return data.filter(
+      (item) =>
+        item.branch_name.includes(filter) || item.user_name.includes(filter)
+    );
+  };
+
   const updateReservation = async (id, data) => {
     try {
       await axios.patch(
-          `${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`,
-          data,
-          {
-            headers: {Authorization: `Bearer ${accessToken}`},
-          },
+        `${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }
       );
       fetchData();
       showSnackbar('Reservation updated successfully', 'success');
@@ -110,7 +85,7 @@ function AdminReservaions() {
   const deleteReservation = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('Reservation deleted successfully', 'success');
@@ -122,7 +97,7 @@ function AdminReservaions() {
 
   const handleEditReservation = (id) => {
     const reservation = reservations.find(
-        (reservation) => reservation.id === id,
+      (reservation) => reservation.id === id
     );
     setSelectedReservation(reservation);
     setEditReservationDialogOpen(true);
@@ -136,69 +111,75 @@ function AdminReservaions() {
     setEditReservationDialogOpen(false);
   };
 
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    const filtered = reservations.filter((reservation) =>
-      ['branch_name', 'pc_number', 'user_name'].some((key) =>
-        reservation[key].toLowerCase().includes(query),
-      ),
-    );
-
-    setFilteredReservation(filtered);
-  };
-
-  // useEffect(() => {
-  //   fetchData();
-
-  //   subscribeToReservations((event, reservation) => {
-  //     setReservations((prevReservations) => {
-  //       if (event === 'new_reservation') {
-  //         return [...prevReservations, reservation];
-  //       } else if (event === 'update_reservation') {
-  //         return prevReservations.map((res) =>
-  //           res.id === reservation.id ? reservation : res,
-  //         );
-  //       } else if (event === 'delete_reservation') {
-  //         return prevReservations.filter(
-  //             (res) => res.id !== reservation.reservation_id,
-  //         );
-  //       }
-  //       return prevReservations;
-  //     });
-
-  //     setFilteredReservation((prevFiltered) => {
-  //       if (event === 'new_reservation') {
-  //         return [...prevFiltered, reservation];
-  //       } else if (event === 'update_reservation') {
-  //         return prevFiltered.map((res) =>
-  //           res.id === reservation.id ? reservation : res,
-  //         );
-  //       } else if (event === 'delete_reservation') {
-  //         return prevFiltered.filter(
-  //             (res) => res.id !== reservation.reservation_id,
-  //         );
-  //       }
-  //       return prevFiltered; // Fallback to ensure a valid state
-  //     });
-  //   });
-
-  //   return () => {
-  //     socket.off('new_reservation');
-  //     socket.off('update_reservation');
-  //     socket.off('delete_reservation');
-  //   };
-  // }, [accessToken, showSnackbar]);
-
   useEffect(() => {
     fetchData();
-
-    // 3 Min 180 Sec (180,000 milliseconds)
     const intervalId = setInterval(fetchData, 180000);
-
     return () => clearInterval(intervalId);
-  }, [accessToken, showSnackbar]);
+  }, [accessToken, showSnackbar, filter]);
+
+  useEffect(() => {
+    setFilteredReservations(applyFilter(reservations, filter));
+  }, [filter, reservations]);
+
+  const alKiloCircleReservations = filteredReservations.filter(
+    (reservation) => reservation.branch_name === 'Al-Kilo Circle'
+  );
+
+  const snokardoReservations = filteredReservations.filter(
+    (reservation) => reservation.branch_name === 'Snokardo'
+  );
+
+  const alKiloCircleRows = alKiloCircleReservations.map((reservation) => ({
+    branch_name: reservation.branch_name,
+    pc_number: reservation.pc_number,
+    user_name: reservation.user_name,
+    reservation_start: reservation.reservation_start,
+    reservation_end: reservation.reservation_end,
+    duration: reservation.duration,
+    total_cost: reservation.total_cost,
+    action: (
+      <Box display="flex" justifyContent="center">
+        <Button
+          onClick={() => handleEditReservation(reservation.id)}
+          sx={{ color: '#00008B', opacity: '0.9' }}
+        >
+          Edit
+        </Button>
+        <Button
+          onClick={() => deleteReservation(reservation.id)}
+          sx={{ color: '#8B0000', opacity: '0.9' }}
+        >
+          Delete
+        </Button>
+      </Box>
+    ),
+  }));
+
+  const snokardoRows = snokardoReservations.map((reservation) => ({
+    branch_name: reservation.branch_name,
+    pc_number: reservation.pc_number,
+    user_name: reservation.user_name,
+    reservation_start: reservation.reservation_start,
+    reservation_end: reservation.reservation_end,
+    duration: reservation.duration,
+    total_cost: reservation.total_cost,
+    action: (
+      <Box display="flex" justifyContent="center">
+        <Button
+          onClick={() => handleEditReservation(reservation.id)}
+          sx={{ color: '#00008B', opacity: '0.9' }}
+        >
+          Edit
+        </Button>
+        <Button
+          onClick={() => deleteReservation(reservation.id)}
+          sx={{ color: '#8B0000', opacity: '0.9' }}
+        >
+          Delete
+        </Button>
+      </Box>
+    ),
+  }));
 
   return (
     <Grid
@@ -208,45 +189,75 @@ function AdminReservaions() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
-          `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
-          )}`,
-        overflow: 'auto',
+          `${linearGradient(rgba(gradients.dark.main, 0.01), rgba(gradients.dark.state, 0.01))}`,
+        overflow: 'hidden',
       }}
     >
       <DefaultNavbar />
       <ParentContainer
         backgroundImage={backgroundImage}
         blur={2}
-        brightness={40}
+        brightness={20}
+        sx={{
+          padding: '',
+          alignItems: '',
+        }}
       >
-        <Box
-          position="relative"
-          sx={{
-            justifyContent: {xs: 'space-between', md: 'center'},
-            marginTop: '90px',
-          }}
-          display="flex"
-          alignItems="center"
-        >
-          <AnimatedItem>
-            <EnhancedTable
-              headers={reservationHeaders}
-              records={
-                Array.isArray(filteredReservation) ? filteredReservation : []
-              }
-              onEdit={handleEditReservation}
-              onDelete={deleteReservation}
-              tableName="Reservations"
-              searchQuery={searchQuery}
-              handleSearchChange={handleSearchChange}
-            />
-          </AnimatedItem>
-        </Box>
+        <DashboardLayout>
+          <Box
+            sx={{
+              width: {
+                xs: '90vw',
+                sm: '92vw',
+                md: '94vw',
+                xl: '95.5vw',
+              },
+              marginBottom: '40px',
+              marginTop: '90px',
+            }}
+          >
+            <AnimatedItem>
+              <DynamicTable
+                title="Al-Kilo Circle Reservations"
+                columns={reservationColumns}
+                rows={alKiloCircleRows}
+                isSorted
+                canSearch
+                entriesPerPage
+                showTotalEntries={false}
+                noEndBorder
+              />
+            </AnimatedItem>
+          </Box>
+          <Box
+            sx={{
+              width: {
+                xs: '90vw',
+                sm: '92vw',
+                md: '94vw',
+                xl: '95.5vw',
+              },
+              marginBottom: '40px',
+              marginTop: '90px',
+            }}
+          >
+            <AnimatedItem>
+              <DynamicTable
+                title="Snokardo Reservations"
+                columns={reservationColumns}
+                rows={snokardoRows}
+                isSorted
+                canSearch
+                entriesPerPage
+                showTotalEntries={false}
+                noEndBorder
+              />
+            </AnimatedItem>
+          </Box>
+        </DashboardLayout>
       </ParentContainer>
       <AnimatedItem>
         <Footer />
@@ -258,33 +269,28 @@ function AdminReservaions() {
         <DialogTitle>Edit Reservation</DialogTitle>
         <DialogContent>
           <TextField
-            label="Branch ID"
-            value={selectedReservation?.branch_id || ''}
+            label="Branch Name"
+            value={selectedReservation?.branch_name || ''}
             onChange={(e) =>
               setSelectedReservation({
                 ...selectedReservation,
-                branch_id: e.target.value,
+                branch_name: e.target.value,
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-              marginTop: 2,
-            }}
+            sx={{ marginBottom: 2, marginTop: 2 }}
           />
           <TextField
-            label="PC ID"
-            value={selectedReservation?.pc_id || ''}
+            label="PC Number"
+            value={selectedReservation?.pc_number || ''}
             onChange={(e) =>
               setSelectedReservation({
                 ...selectedReservation,
-                pc_id: e.target.value,
+                pc_number: e.target.value,
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-            }}
+            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Username"
@@ -296,9 +302,7 @@ function AdminReservaions() {
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-            }}
+            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Reservation Start"
@@ -310,9 +314,7 @@ function AdminReservaions() {
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-            }}
+            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Reservation End"
@@ -324,9 +326,7 @@ function AdminReservaions() {
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-            }}
+            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Duration"
@@ -338,9 +338,7 @@ function AdminReservaions() {
               })
             }
             fullWidth
-            sx={{
-              marginBottom: 2,
-            }}
+            sx={{ marginBottom: 2 }}
           />
           <TextField
             label="Total Cost"
@@ -367,4 +365,4 @@ function AdminReservaions() {
   );
 }
 
-export default AdminReservaions;
+export default AdminReservations;

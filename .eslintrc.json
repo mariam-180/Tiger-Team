@@ -3,14 +3,23 @@
     "browser": true,
     "es2021": true
   },
-  "extends": ["google", "plugin:react/recommended"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ],
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 12,
     "sourceType": "module"
   },
-  "plugins": ["react"],
+  "plugins": [
+    "react"
+  ],
   "rules": {
-    "require-jsdoc": "off"
+    "prettier/prettier": "error"
   },
   "settings": {
     "react": {
