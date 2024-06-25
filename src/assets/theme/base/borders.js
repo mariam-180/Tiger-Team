@@ -2,7 +2,7 @@ import colors from 'assets/theme/base//colors';
 
 import pxToRem from 'assets/theme/functions/pxToRem';
 
-const {grey} = colors;
+const { grey } = colors;
 
 export default {
   borderColor: grey[300],

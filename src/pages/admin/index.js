@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {useAuth} from 'authContext';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from 'authContext';
 import axios from 'axios';
 
 import {
@@ -15,7 +15,7 @@ import {
 } from '@mui/material';
 import EnhancedTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
-import {useSnackbar} from 'context/SnackbarContext';
+import { useSnackbar } from 'context/SnackbarContext';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
@@ -48,16 +48,16 @@ const userHeaders = [
     disablePadding: false,
     label: 'Last Name',
   },
-  {id: 'email', numeric: false, disablePadding: false, label: 'Email'},
+  { id: 'email', numeric: false, disablePadding: false, label: 'Email' },
   {
     id: 'phone_number',
     numeric: false,
     disablePadding: false,
     label: 'Phone Number',
   },
-  {id: 'user_name', numeric: false, disablePadding: false, label: 'Username'},
-  {id: 'credit', numeric: true, disablePadding: false, label: 'Credit'},
-  {id: 'role', numeric: false, disablePadding: false, label: 'Role'},
+  { id: 'user_name', numeric: false, disablePadding: false, label: 'Username' },
+  { id: 'credit', numeric: true, disablePadding: false, label: 'Credit' },
+  { id: 'role', numeric: false, disablePadding: false, label: 'Role' },
 ];
 
 const reservationHeaders = [
@@ -67,8 +67,8 @@ const reservationHeaders = [
     disablePadding: true,
     label: 'Branch Name',
   },
-  {id: 'pc_id', numeric: true, disablePadding: false, label: 'PC ID'},
-  {id: 'user_name', numeric: false, disablePadding: false, label: 'Username'},
+  { id: 'pc_id', numeric: true, disablePadding: false, label: 'PC ID' },
+  { id: 'user_name', numeric: false, disablePadding: false, label: 'Username' },
   {
     id: 'reservation_start',
     numeric: false,
@@ -81,7 +81,7 @@ const reservationHeaders = [
     disablePadding: false,
     label: 'Reservation End',
   },
-  {id: 'duration', numeric: true, disablePadding: false, label: 'Duration'},
+  { id: 'duration', numeric: true, disablePadding: false, label: 'Duration' },
   {
     id: 'total_cost',
     numeric: true,
@@ -91,9 +91,9 @@ const reservationHeaders = [
 ];
 
 function Admin() {
-  const {accessToken} = useAuth();
+  const { accessToken } = useAuth();
 
-  const {showSnackbar} = useSnackbar();
+  const { showSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
   const [reservations, setReservations] = useState([]);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
@@ -106,10 +106,10 @@ function Admin() {
     try {
       const [usersResponse, reservationsResponse] = await Promise.all([
         axios.get(process.env.REACT_APP_USERS_ENDPOINT, {
-          headers: {Authorization: `Bearer ${accessToken}`},
+          headers: { Authorization: `Bearer ${accessToken}` },
         }),
         axios.get(process.env.REACT_APP_RESERVATION_ENDPOINT, {
-          headers: {Authorization: `Bearer ${accessToken}`},
+          headers: { Authorization: `Bearer ${accessToken}` },
         }),
       ]);
       setUsers(usersResponse.data);
@@ -123,7 +123,7 @@ function Admin() {
   const updateUser = async (id, data) => {
     try {
       await axios.patch(`${process.env.REACT_APP_USERS_ENDPOINT}${id}`, data, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('User updated successfully', 'success');
@@ -136,7 +136,7 @@ function Admin() {
   const deleteUser = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_USERS_ENDPOINT}${id}`, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('User deleted successfully', 'success');
@@ -149,11 +149,11 @@ function Admin() {
   const updateReservation = async (id, data) => {
     try {
       await axios.patch(
-          `${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`,
-          data,
-          {
-            headers: {Authorization: `Bearer ${accessToken}`},
-          },
+        `${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`,
+        data,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
       );
       fetchData();
       showSnackbar('Reservation updated successfully', 'success');
@@ -166,7 +166,7 @@ function Admin() {
   const deleteReservation = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('Reservation deleted successfully', 'success');
@@ -184,7 +184,7 @@ function Admin() {
 
   const handleEditReservation = (id) => {
     const reservation = reservations.find(
-        (reservation) => reservation.id === id,
+      (reservation) => reservation.id === id,
     );
     setSelectedReservation(reservation);
     setEditReservationDialogOpen(true);
@@ -214,12 +214,12 @@ function Admin() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'auto',
       }}
@@ -233,7 +233,7 @@ function Admin() {
         <Box
           position="relative"
           sx={{
-            justifyContent: {xs: 'space-between', md: 'center'},
+            justifyContent: { xs: 'space-between', md: 'center' },
             marginTop: '90px',
           }}
           display="flex"
@@ -265,7 +265,7 @@ function Admin() {
             label="First Name"
             value={selectedUser?.first_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, first_name: e.target.value})
+              setSelectedUser({ ...selectedUser, first_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -277,7 +277,7 @@ function Admin() {
             label="Last Name"
             value={selectedUser?.last_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, last_name: e.target.value})
+              setSelectedUser({ ...selectedUser, last_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -288,7 +288,7 @@ function Admin() {
             label="Email"
             value={selectedUser?.email || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, email: e.target.value})
+              setSelectedUser({ ...selectedUser, email: e.target.value })
             }
             fullWidth
             sx={{
@@ -299,7 +299,7 @@ function Admin() {
             label="Phone Number"
             value={selectedUser?.phone_number || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, phone_number: e.target.value})
+              setSelectedUser({ ...selectedUser, phone_number: e.target.value })
             }
             fullWidth
             sx={{
@@ -310,7 +310,7 @@ function Admin() {
             label="Username"
             value={selectedUser?.user_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, user_name: e.target.value})
+              setSelectedUser({ ...selectedUser, user_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -322,7 +322,7 @@ function Admin() {
             type="number"
             value={selectedUser?.credit || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, credit: e.target.value})
+              setSelectedUser({ ...selectedUser, credit: e.target.value })
             }
             fullWidth
             sx={{
@@ -334,7 +334,7 @@ function Admin() {
             label="Role"
             value={selectedUser?.role || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, role: e.target.value})
+              setSelectedUser({ ...selectedUser, role: e.target.value })
             }
             fullWidth
             sx={{

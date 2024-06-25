@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useCallback,
 } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
   getAccessToken,
@@ -17,9 +17,9 @@ import {
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessTokenState] = useState(
-      getAccessToken('accessToken'),
+    getAccessToken('accessToken'),
   );
   const [userRole, setUserRole] = useState(null);
   const [tokenValid, setTokenValid] = useState(false);
@@ -29,7 +29,7 @@ export const AuthProvider = ({children}) => {
 
   const validateToken = useCallback(async () => {
     let isMounted = true;
-    const {tokenValid, userRole} = await checkTokenStatus();
+    const { tokenValid, userRole } = await checkTokenStatus();
     if (isMounted) {
       setTokenValid(tokenValid);
       setUserRole(userRole);

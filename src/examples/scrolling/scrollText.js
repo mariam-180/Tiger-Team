@@ -1,13 +1,13 @@
 import React from 'react';
 
-import {styled, useTheme} from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import {ControlRotate} from 'components/ThisInteractive/ControlRotate';
-import {ControlTranslate} from 'components/ThisInteractive/ControlTranslate';
-import {ScrollableArea} from 'components/ThisInteractive/ScrollableArea';
+import { ControlRotate } from 'components/ThisInteractive/ControlRotate';
+import { ControlTranslate } from 'components/ThisInteractive/ControlTranslate';
+import { ScrollableArea } from 'components/ThisInteractive/ScrollableArea';
 import AnimatedTypingText from 'utils/Typing';
 
-const StyledCard = styled('div')(({theme}) => ({
+const StyledCard = styled('div')(({ theme }) => ({
   borderRadius: theme.shape.borderRadius,
   boxSizing: 'border-box',
   display: 'flex',

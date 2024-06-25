@@ -3,15 +3,15 @@ import typography from 'assets/theme/base/typography';
 
 import pxToRem from 'assets/theme/functions/pxToRem';
 
-const {white, text, info, secondary} = colors;
-const {size} = typography;
+const { white, text, info, secondary } = colors;
+const { size } = typography;
 
 export default {
   base: {
-    'backgroundColor': white.main,
-    'minHeight': pxToRem(40),
-    'color': text.main,
-    'padding': `${pxToRem(10)} ${pxToRem(24)}`,
+    backgroundColor: white.main,
+    minHeight: pxToRem(40),
+    color: text.main,
+    padding: `${pxToRem(10)} ${pxToRem(24)}`,
 
     '&:hover': {
       backgroundColor: white.main,
@@ -27,9 +27,9 @@ export default {
   },
 
   small: {
-    'minHeight': pxToRem(32),
-    'padding': `${pxToRem(6)} ${pxToRem(16)}`,
-    'fontSize': size.xs,
+    minHeight: pxToRem(32),
+    padding: `${pxToRem(6)} ${pxToRem(16)}`,
+    fontSize: size.xs,
 
     '& .material-icon, .material-icons-round, svg': {
       fontSize: `${pxToRem(12)} !important`,
@@ -37,9 +37,9 @@ export default {
   },
 
   large: {
-    'minHeight': pxToRem(47),
-    'padding': `${pxToRem(12)} ${pxToRem(28)}`,
-    'fontSize': size.sm,
+    minHeight: pxToRem(47),
+    padding: `${pxToRem(12)} ${pxToRem(28)}`,
+    fontSize: size.sm,
 
     '& .material-icon, .material-icons-round, svg': {
       fontSize: `${pxToRem(22)} !important`,
@@ -47,7 +47,7 @@ export default {
   },
 
   primary: {
-    'backgroundColor': info.main,
+    backgroundColor: info.main,
 
     '&:hover': {
       backgroundColor: info.main,
@@ -59,7 +59,7 @@ export default {
   },
 
   secondary: {
-    'backgroundColor': secondary.main,
+    backgroundColor: secondary.main,
 
     '&:hover': {
       backgroundColor: secondary.main,

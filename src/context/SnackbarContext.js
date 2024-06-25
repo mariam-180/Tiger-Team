@@ -1,11 +1,11 @@
-import React, {createContext, useState, useContext} from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
 const SnackbarContext = createContext();
 
-export const SnackbarProvider = ({children}) => {
+export const SnackbarProvider = ({ children }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
@@ -21,7 +21,7 @@ export const SnackbarProvider = ({children}) => {
   };
 
   return (
-    <SnackbarContext.Provider value={{showSnackbar}}>
+    <SnackbarContext.Provider value={{ showSnackbar }}>
       {children}
       <Snackbar
         open={snackbarOpen}
@@ -33,7 +33,7 @@ export const SnackbarProvider = ({children}) => {
           onClose={handleCloseSnackbar}
           severity={snackbarSeverity}
           variant="standard"
-          sx={{width: '100%'}}
+          sx={{ width: '100%' }}
         >
           {snackbarMessage}
         </MuiAlert>

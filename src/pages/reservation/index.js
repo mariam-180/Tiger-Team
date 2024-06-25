@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
@@ -15,15 +15,15 @@ import {
   DialogContent,
   DialogActions,
 } from '@mui/material';
-import {Routes, Route, useNavigate, useLocation} from 'react-router-dom';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import {useAuth} from 'authContext';
-import {useLoginRequired} from 'context/LoginRequiredContext';
+import { useAuth } from 'authContext';
+import { useLoginRequired } from 'context/LoginRequiredContext';
 
 // Components
 import TransparentBox from 'components/ThisTransparentBox';
 import ParentContainer from 'components/ThisContainer/filtered';
-import {StyledButton} from 'components/ThisStyledButton';
+import { StyledButton } from 'components/ThisStyledButton';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import CustomDatePicker from 'examples/dateTimePicker';
 import BookingSummary from 'examples/summaryBox';
@@ -35,7 +35,7 @@ import Footer from 'examples/footer';
 import BeatLoaderUtil from 'utils/beatLoader';
 import validateDateTime from 'utils/validateDateTime';
 import AnimatedItem from 'utils/animatedItem';
-import {useSnackbar} from 'context/SnackbarContext';
+import { useSnackbar } from 'context/SnackbarContext';
 
 // Images
 import background from 'assets/images/tigers_ai/tigersTeamCar_6.webp';
@@ -43,9 +43,9 @@ import SnokardoIMG from 'assets/images/logos/logoBlack.png';
 import KeloIMG from 'assets/images/backGround/tigersTeam.png';
 
 function Reservations() {
-  const {showSnackbar} = useSnackbar();
-  const {accessToken, tokenValid, setRedirectPath} = useAuth();
-  const {showLoginRequired} = useLoginRequired();
+  const { showSnackbar } = useSnackbar();
+  const { accessToken, tokenValid, setRedirectPath } = useAuth();
+  const { showLoginRequired } = useLoginRequired();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -60,8 +60,8 @@ function Reservations() {
   const [branch, setBranch] = useState('');
   const roundToNearestFive = (minutes) => Math.ceil(minutes / 5) * 5;
   const currentRoundedTime = dayjs()
-      .minute(roundToNearestFive(dayjs().minute()))
-      .second(0);
+    .minute(roundToNearestFive(dayjs().minute()))
+    .second(0);
 
   const [date, setDate] = useState(dayjs());
   const [startTime, setStartTime] = useState(currentRoundedTime);
@@ -73,13 +73,13 @@ function Reservations() {
   const [tempPC, setTempPC] = useState(null);
 
   const [PCs, setPCS] = useState([
-    {id: 1, is_available: 'false'},
-    {id: 2, is_available: 'false'},
-    {id: 3, is_available: 'false'},
-    {id: 4, is_available: 'false'},
-    {id: 5, is_available: 'false'},
-    {id: 6, is_available: 'false'},
-    {id: 7, is_available: 'false'},
+    { id: 1, is_available: 'false' },
+    { id: 2, is_available: 'false' },
+    { id: 3, is_available: 'false' },
+    { id: 4, is_available: 'false' },
+    { id: 5, is_available: 'false' },
+    { id: 6, is_available: 'false' },
+    { id: 7, is_available: 'false' },
   ]);
 
   const calculateEndTime = useCallback((start, duration) => {
@@ -89,8 +89,8 @@ function Reservations() {
   }, []);
 
   const endTime = dayjs(calculateEndTime(startTime, duration))
-      .utcOffset(3)
-      .format();
+    .utcOffset(3)
+    .format();
 
   useEffect(() => {
     const savedState = localStorage.getItem('reservationState');
@@ -127,7 +127,7 @@ function Reservations() {
     const fetchBranches = async () => {
       try {
         const response = await axios.get(
-            process.env.REACT_APP_BRANCHES_ENDPOINT,
+          process.env.REACT_APP_BRANCHES_ENDPOINT,
         );
         const branchesData = response.data.map((branch) => {
           return {
@@ -180,7 +180,7 @@ function Reservations() {
   }, [location.pathname]);
 
   const handleCardClick = (branch) => {
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setLoading(true);
     setShowReservation(false);
     setBranch(branch);
@@ -199,7 +199,7 @@ function Reservations() {
   };
 
   const handlePcClick = (PC) => {
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     setTempPC(PC);
     setConfirmDialogOpen(true);
   };
@@ -227,31 +227,31 @@ function Reservations() {
       showSnackbar('You need to log in first to access that page', 'warning');
       showLoginRequired();
       setRedirectPath(location.pathname + location.search);
-      navigate('/login-required', {state: {from: location}});
+      navigate('/login-required', { state: { from: location } });
       return;
     }
 
     const reservationStart = dayjs(startTime).utcOffset(3).format();
     const endTime = dayjs(calculateEndTime(startTime, duration))
-        .utcOffset(3)
-        .format();
+      .utcOffset(3)
+      .format();
 
     try {
       const response = await axios.post(
-          process.env.REACT_APP_CREATE_RESERVATION_ENDPOINT,
-          {
-            branch_id: branch.id,
-            reservation_start: reservationStart,
-            reservation_end: endTime,
-            duration,
-            pc_id: tempPC,
-            total_cost: totalCost,
+        process.env.REACT_APP_CREATE_RESERVATION_ENDPOINT,
+        {
+          branch_id: branch.id,
+          reservation_start: reservationStart,
+          reservation_end: endTime,
+          duration,
+          pc_id: tempPC,
+          total_cost: totalCost,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          },
+        },
       );
 
       setShowRoomSelector(false);
@@ -268,9 +268,9 @@ function Reservations() {
       setLoading(false);
       if (error.response && error.response.status === 402) {
         showSnackbar(
-            `Insufficient Credit!
+          `Insufficient Credit!
             You do not have enough credit to make this reservation.`,
-            'error',
+          'error',
         );
       } else {
         showSnackbar('Error confirming booking. Please try again.', 'error');
@@ -287,14 +287,14 @@ function Reservations() {
   const fetchPCs = async () => {
     try {
       const response = await axios.get(
-          process.env.REACT_APP_PCS_AVAILABILITY_ENDPOINT,
-          {
-            params: {
-              branch_name: branch.name,
-              start: dayjs(startTime).utcOffset(3).format(),
-              end: endTime,
-            },
+        process.env.REACT_APP_PCS_AVAILABILITY_ENDPOINT,
+        {
+          params: {
+            branch_name: branch.name,
+            start: dayjs(startTime).utcOffset(3).format(),
+            end: endTime,
           },
+        },
       );
       const PCsData = response.data.map((pc) => {
         return {
@@ -318,7 +318,7 @@ function Reservations() {
   };
 
   const checkAvailability = () => {
-    window.scrollTo({top: 0, behavior: 'smooth'});
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     const missingFields = [];
     if (!startTime) missingFields.push('time');
     if (!date) missingFields.push('date');
@@ -344,12 +344,12 @@ function Reservations() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -391,7 +391,7 @@ function Reservations() {
                     selected=""
                     totalCost={totalCost}
                   />
-                  <Box sx={{height: '2vh'}} />
+                  <Box sx={{ height: '2vh' }} />
                   <CustomDatePicker
                     branch={branch}
                     date={date}
@@ -462,7 +462,7 @@ function Reservations() {
                       }}
                     >
                       Your booking is
-                      <span style={{color: 'green'}}> confirmed</span> ✅!
+                      <span style={{ color: 'green' }}> confirmed</span> ✅!
                     </Typography>
                   </TransparentBox>
                   <BookingSummary
@@ -491,44 +491,44 @@ function Reservations() {
           }}
         >
           <DialogTitle
-            sx={{color: '#8B0000', fontWeight: 'bold', fontSize: '1.4rem'}}
+            sx={{ color: '#8B0000', fontWeight: 'bold', fontSize: '1.4rem' }}
           >
             Confirm Reservation
           </DialogTitle>
           <DialogContent>
             <Box display="flex" alignItems="center">
               <Typography>Branch: </Typography>
-              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+              <Typography sx={{ color: '#00008B', marginLeft: 1 }}>
                 {branch.name}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Typography>Date: </Typography>
-              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+              <Typography sx={{ color: '#00008B', marginLeft: 1 }}>
                 {date.format('YYYY-MM-DD')}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Typography>Start Time: </Typography>
-              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+              <Typography sx={{ color: '#00008B', marginLeft: 1 }}>
                 {startTime.format('HH:mm')}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Typography>Duration: </Typography>
-              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+              <Typography sx={{ color: '#00008B', marginLeft: 1 }}>
                 {duration} minutes
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Typography>Selected PC: </Typography>
-              <Typography sx={{color: '#00008B', marginLeft: 1}}>
+              <Typography sx={{ color: '#00008B', marginLeft: 1 }}>
                 {tempPC}
               </Typography>
             </Box>
             <Box display="flex" alignItems="center">
               <Typography>Total Cost: </Typography>
-              <Typography sx={{color: '#8B0000', marginLeft: 1}}>
+              <Typography sx={{ color: '#8B0000', marginLeft: 1 }}>
                 {totalCost} JOD
               </Typography>
             </Box>

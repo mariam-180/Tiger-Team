@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Grid from '@mui/material/Grid';
@@ -12,7 +12,7 @@ import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import ParentContainer from 'components/ThisContainer/filtered';
 import Header from 'pages/profile/components/Header';
 
-import {useAuth} from 'authContext';
+import { useAuth } from 'authContext';
 
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_1.webp';
 import background from 'assets/images/tigers_ai/tigersTeamCar_7.webp';
@@ -21,7 +21,7 @@ import avatarImg from 'assets/images/logos/logoGray.png';
 import AnimatedItem from 'utils/animatedItem';
 
 function Profile() {
-  const {accessToken} = useAuth();
+  const { accessToken } = useAuth();
 
   const [profileData, setProfileData] = useState({
     firstName: '',
@@ -35,10 +35,10 @@ function Profile() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-          process.env.REACT_APP_CURRENT_USER_ENDPOINT,
-          {
-            headers: {Authorization: `Bearer ${accessToken}`},
-          },
+        process.env.REACT_APP_CURRENT_USER_ENDPOINT,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
       );
       const data = response.data;
       setProfileData({
@@ -68,12 +68,12 @@ function Profile() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -98,8 +98,8 @@ function Profile() {
             >
               <Box mt={5} mb={3}>
                 <Grid container spacing={1}>
-                  <Grid item xs={12} md={6} xl={4} sx={{display: 'flex'}}>
-                    <Divider orientation="vertical" sx={{ml: -2, mr: 1}} />
+                  <Grid item xs={12} md={6} xl={4} sx={{ display: 'flex' }}>
+                    <Divider orientation="vertical" sx={{ ml: -2, mr: 1 }} />
                     <ProfileInfoCard
                       title="profile information"
                       description={`Hello ${profileData.firstName},
@@ -115,10 +115,10 @@ function Profile() {
                         credit: profileData.credit,
                       }}
                       social={[]}
-                      action={{route: '', tooltip: 'Edit Profile'}}
+                      action={{ route: '', tooltip: 'Edit Profile' }}
                       shadow={false}
                     />
-                    <Divider orientation="vertical" sx={{mx: 0}} />
+                    <Divider orientation="vertical" sx={{ mx: 0 }} />
                   </Grid>
                 </Grid>
               </Box>

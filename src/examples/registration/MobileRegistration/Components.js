@@ -11,13 +11,13 @@ export const SignUpContainer = styled.div`
   opacity: 0;
   z-index: 1;
   ${(props) =>
-    props.signingin !== true ?
-      `
+    props.signingin !== true
+      ? `
     transform: translateX(0%);
     opacity: 1;
     z-index: 5;
-  ` :
-      null}
+  `
+      : null}
 `;
 
 export const SignInContainer = styled.div`
@@ -30,13 +30,13 @@ export const SignInContainer = styled.div`
   width: 100%;
   z-index: 2;
   ${(props) =>
-    props.signingin !== true ?
-      `
+    props.signingin !== true
+      ? `
   transform: translateX(-100%);
   opacity: 0;
   z-index: 5;
-` :
-      null}
+`
+      : null}
 `;
 
 export const Row = styled.div`

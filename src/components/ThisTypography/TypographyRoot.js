@@ -1,5 +1,5 @@
 import Typography from '@mui/material/Typography';
-import {styled, keyframes} from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 
 const shinyAnimation = keyframes`
 0% {
@@ -40,8 +40,8 @@ const wavingColorAnimation = keyframes`
   }
 `;
 
-export default styled(Typography)(({theme, ownerState}) => {
-  const {palette, typography, functions} = theme;
+export default styled(Typography)(({ theme, ownerState }) => {
+  const { palette, typography, functions } = theme;
   const {
     color,
     textTransform,
@@ -51,14 +51,14 @@ export default styled(Typography)(({theme, ownerState}) => {
     textGradient,
   } = ownerState;
 
-  const {gradients, transparent} = palette;
+  const { gradients, transparent } = palette;
   const {
     fontWeightLight,
     fontWeightRegular,
     fontWeightMedium,
     fontWeightBold,
   } = typography;
-  const {linearGradient} = functions;
+  const { linearGradient } = functions;
 
   // fontWeight styles
   const fontWeights = {
@@ -74,9 +74,9 @@ export default styled(Typography)(({theme, ownerState}) => {
       color !== 'inherit' &&
       color !== 'text' &&
       color !== 'white' &&
-      gradients[color] ?
-        linearGradient(gradients[color].main, gradients[color].state) :
-        linearGradient(gradients.dark.main, gradients.dark.state),
+      gradients[color]
+        ? linearGradient(gradients[color].main, gradients[color].state)
+        : linearGradient(gradients.dark.main, gradients.dark.state),
     display: 'inline-block',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: transparent.main,

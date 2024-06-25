@@ -11,7 +11,7 @@ import {
   TextField,
   Box,
 } from '@mui/material';
-import DynamicTable from 'components/ThisEnhancedTable'; // Importing DynamicTable
+import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
 import { useSnackbar } from 'context/SnackbarContext';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
@@ -46,7 +46,7 @@ function AdminReservations() {
         process.env.REACT_APP_RESERVATION_ENDPOINT,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        },
       );
       const fetchedReservations = reservationsResponse.data;
       setReservations(fetchedReservations);
@@ -61,7 +61,7 @@ function AdminReservations() {
     if (!filter) return data;
     return data.filter(
       (item) =>
-        item.branch_name.includes(filter) || item.user_name.includes(filter)
+        item.branch_name.includes(filter) || item.user_name.includes(filter),
     );
   };
 
@@ -72,7 +72,7 @@ function AdminReservations() {
         data,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
-        }
+        },
       );
       fetchData();
       showSnackbar('Reservation updated successfully', 'success');
@@ -97,7 +97,7 @@ function AdminReservations() {
 
   const handleEditReservation = (id) => {
     const reservation = reservations.find(
-      (reservation) => reservation.id === id
+      (reservation) => reservation.id === id,
     );
     setSelectedReservation(reservation);
     setEditReservationDialogOpen(true);
@@ -122,11 +122,11 @@ function AdminReservations() {
   }, [filter, reservations]);
 
   const alKiloCircleReservations = filteredReservations.filter(
-    (reservation) => reservation.branch_name === 'Al-Kilo Circle'
+    (reservation) => reservation.branch_name === 'Al-Kilo Circle',
   );
 
   const snokardoReservations = filteredReservations.filter(
-    (reservation) => reservation.branch_name === 'Snokardo'
+    (reservation) => reservation.branch_name === 'Snokardo',
   );
 
   const alKiloCircleRows = alKiloCircleReservations.map((reservation) => ({
@@ -192,7 +192,10 @@ function AdminReservations() {
           functions: { linearGradient, rgba },
           palette: { gradients },
         }) =>
-          `${linearGradient(rgba(gradients.dark.main, 0.01), rgba(gradients.dark.state, 0.01))}`,
+          `${linearGradient(
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
+          )}`,
         overflow: 'hidden',
       }}
     >

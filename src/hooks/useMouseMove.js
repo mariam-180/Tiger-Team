@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useMouseMove = (onMouseMove = (mouseX = 0, mouseY = 0) => {}) => {
   const _onMouseMove = useRef(onMouseMove);
@@ -22,8 +22,8 @@ export const useMouseMove = (onMouseMove = (mouseX = 0, mouseY = 0) => {}) => {
         prevWinHeight !== currentWinHeight
       ) {
         _onMouseMove.current(
-            -(currentWinWidth * 0.5 - currentMouseX) / (currentWinWidth * 0.5),
-            (currentWinHeight * 0.5 - currentMouseY) / (currentWinHeight * 0.5),
+          -(currentWinWidth * 0.5 - currentMouseX) / (currentWinWidth * 0.5),
+          (currentWinHeight * 0.5 - currentMouseY) / (currentWinHeight * 0.5),
         );
       }
 

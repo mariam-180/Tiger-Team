@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
-import React, {Fragment, useState, useEffect} from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 
-import {Link} from 'react-router-dom';
-import {useAuth} from 'authContext';
+import { Link } from 'react-router-dom';
+import { useAuth } from 'authContext';
 
 import PropTypes from 'prop-types';
 
@@ -46,7 +46,7 @@ function DefaultNavbar({
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
 
-  const {tokenValid, logout} = useAuth();
+  const { tokenValid, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -73,181 +73,181 @@ function DefaultNavbar({
   }, []);
 
   const renderNavbarItems = routes.map(
-      ({name, icon, href, route, collapse}) => (
-        <DefaultNavbarDropdown
-          key={name}
-          name={name}
-          icon={icon}
-          href={href}
-          route={route}
-          collapse={Boolean(collapse)}
-          onMouseEnter={({currentTarget}) => {
-            if (collapse) {
-              setDropdown(currentTarget);
-              setDropdownEl(currentTarget);
-              setDropdownName(name);
-            }
-          }}
-          onMouseLeave={() => collapse && setDropdown(null)}
-          light={light}
-        />
-      ),
+    ({ name, icon, href, route, collapse }) => (
+      <DefaultNavbarDropdown
+        key={name}
+        name={name}
+        icon={icon}
+        href={href}
+        route={route}
+        collapse={Boolean(collapse)}
+        onMouseEnter={({ currentTarget }) => {
+          if (collapse) {
+            setDropdown(currentTarget);
+            setDropdownEl(currentTarget);
+            setDropdownName(name);
+          }
+        }}
+        onMouseLeave={() => collapse && setDropdown(null)}
+        light={light}
+      />
+    ),
   );
 
   const renderRoutes = routes.map(
-      ({name, collapse, columns, rowsPerColumn}) => {
-        let template;
+    ({ name, collapse, columns, rowsPerColumn }) => {
+      let template;
 
-        if (collapse && columns && name === dropdownName) {
-          const calculateColumns = collapse.reduce((resultArray, item, index) => {
-            const chunkIndex = Math.floor(index / rowsPerColumn);
+      if (collapse && columns && name === dropdownName) {
+        const calculateColumns = collapse.reduce((resultArray, item, index) => {
+          const chunkIndex = Math.floor(index / rowsPerColumn);
 
-            if (!resultArray[chunkIndex]) {
-              resultArray[chunkIndex] = [];
-            }
+          if (!resultArray[chunkIndex]) {
+            resultArray[chunkIndex] = [];
+          }
 
-            resultArray[chunkIndex].push(item);
+          resultArray[chunkIndex].push(item);
 
-            return resultArray;
-          }, []);
+          return resultArray;
+        }, []);
 
-          template = (
-            <Grid key={name} container spacing={3} py={1} px={1.5}>
-              {calculateColumns.map((cols, key) => {
-                const gridKey = `grid-${key}`;
-                const dividerKey = `divider-${key}`;
+        template = (
+          <Grid key={name} container spacing={3} py={1} px={1.5}>
+            {calculateColumns.map((cols, key) => {
+              const gridKey = `grid-${key}`;
+              const dividerKey = `divider-${key}`;
 
-                return (
-                  <Grid
-                    key={gridKey}
-                    item
-                    xs={12 / columns}
-                    sx={{position: 'relative'}}
-                  >
-                    {cols.map((col, index) => (
-                      <Fragment key={col.name}>
+              return (
+                <Grid
+                  key={gridKey}
+                  item
+                  xs={12 / columns}
+                  sx={{ position: 'relative' }}
+                >
+                  {cols.map((col, index) => (
+                    <Fragment key={col.name}>
+                      <CUTypography
+                        display="block"
+                        variant="button"
+                        fontWeight="bold"
+                        textTransform="capitalize"
+                        py={1}
+                        px={0.5}
+                        mt={index !== 0 ? 2 : 0}
+                      >
+                        {col.name}
+                      </CUTypography>
+                      {col.collapse.map((item) => (
                         <CUTypography
+                          key={item.name}
+                          component={item.route ? Link : MuiLink}
+                          to={item.route ? item.route : ''}
+                          href={
+                            item.href ? item.href : (e) => e.preventDefault()
+                          }
+                          target={item.href ? '_blank' : ''}
+                          rel={item.href ? 'noreferrer' : 'noreferrer'}
+                          minWidth="11.25rem"
                           display="block"
                           variant="button"
-                          fontWeight="bold"
+                          color="text"
                           textTransform="capitalize"
-                          py={1}
-                          px={0.5}
-                          mt={index !== 0 ? 2 : 0}
+                          fontWeight="regular"
+                          py={0.625}
+                          px={2}
+                          sx={({
+                            palette: { grey, dark },
+                            borders: { borderRadius },
+                          }) => ({
+                            borderRadius: borderRadius.md,
+                            cursor: 'pointer',
+                            transition: 'all 300ms linear',
+
+                            '&:hover': {
+                              backgroundColor: grey[200],
+                              color: dark.main,
+                            },
+                          })}
                         >
-                          {col.name}
+                          {item.name}
                         </CUTypography>
-                        {col.collapse.map((item) => (
-                          <CUTypography
-                            key={item.name}
-                            component={item.route ? Link : MuiLink}
-                            to={item.route ? item.route : ''}
-                            href={
-                            item.href ? item.href : (e) => e.preventDefault()
-                            }
-                            target={item.href ? '_blank' : ''}
-                            rel={item.href ? 'noreferrer' : 'noreferrer'}
-                            minWidth="11.25rem"
-                            display="block"
-                            variant="button"
-                            color="text"
-                            textTransform="capitalize"
-                            fontWeight="regular"
-                            py={0.625}
-                            px={2}
-                            sx={({
-                              palette: {grey, dark},
-                              borders: {borderRadius},
-                            }) => ({
-                              'borderRadius': borderRadius.md,
-                              'cursor': 'pointer',
-                              'transition': 'all 300ms linear',
+                      ))}
+                    </Fragment>
+                  ))}
+                  {key !== 0 && (
+                    <Divider
+                      key={dividerKey}
+                      orientation="vertical"
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '-4px',
+                        transform: 'translateY(-45%)',
+                        height: '90%',
+                      }}
+                    />
+                  )}
+                </Grid>
+              );
+            })}
+          </Grid>
+        );
+      } else if (collapse && name === dropdownName) {
+        template = collapse.map((item) => {
+          const linkComponent = {
+            component: MuiLink,
+            href: item.href,
+            target: '_blank',
+            rel: 'noreferrer',
+          };
 
-                              '&:hover': {
-                                backgroundColor: grey[200],
-                                color: dark.main,
-                              },
-                            })}
-                          >
-                            {item.name}
-                          </CUTypography>
-                        ))}
-                      </Fragment>
-                    ))}
-                    {key !== 0 && (
-                      <Divider
-                        key={dividerKey}
-                        orientation="vertical"
-                        sx={{
-                          position: 'absolute',
-                          top: '50%',
-                          left: '-4px',
-                          transform: 'translateY(-45%)',
-                          height: '90%',
-                        }}
-                      />
-                    )}
-                  </Grid>
-                );
-              })}
-            </Grid>
-          );
-        } else if (collapse && name === dropdownName) {
-          template = collapse.map((item) => {
-            const linkComponent = {
-              component: MuiLink,
-              href: item.href,
-              target: '_blank',
-              rel: 'noreferrer',
-            };
+          const routeComponent = {
+            component: Link,
+            to: item.route,
+          };
 
-            const routeComponent = {
-              component: Link,
-              to: item.route,
-            };
+          return (
+            <CUTypography
+              key={item.name}
+              {...(item.route ? routeComponent : linkComponent)}
+              display="flex"
+              justifyContent="space-between"
+              alignItems="center"
+              variant="button"
+              textTransform="capitalize"
+              minWidth={item.description ? '14rem' : '12rem'}
+              color={item.description ? 'dark' : 'text'}
+              fontWeight={item.description ? 'bold' : 'regular'}
+              py={item.description ? 1 : 0.625}
+              px={2}
+              sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                borderRadius: borderRadius.md,
+                cursor: 'pointer',
+                transition: 'all 300ms linear',
 
-            return (
-              <CUTypography
-                key={item.name}
-                {...(item.route ? routeComponent : linkComponent)}
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center"
-                variant="button"
-                textTransform="capitalize"
-                minWidth={item.description ? '14rem' : '12rem'}
-                color={item.description ? 'dark' : 'text'}
-                fontWeight={item.description ? 'bold' : 'regular'}
-                py={item.description ? 1 : 0.625}
-                px={2}
-                sx={({palette: {grey, dark}, borders: {borderRadius}}) => ({
-                  'borderRadius': borderRadius.md,
-                  'cursor': 'pointer',
-                  'transition': 'all 300ms linear',
+                '&:hover': {
+                  backgroundColor: grey[200],
+                  color: dark.main,
 
-                  '&:hover': {
-                    'backgroundColor': grey[200],
-                    'color': dark.main,
-
-                    '& *': {
-                      color: dark.main,
-                    },
+                  '& *': {
+                    color: dark.main,
                   },
-                })}
-                onMouseEnter={({currentTarget}) => {
-                  if (item.dropdown) {
-                    setNestedDropdown(currentTarget);
-                    setNestedDropdownEl(currentTarget);
-                    setNestedDropdownName(item.name);
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (item.dropdown) {
-                    setNestedDropdown(null);
-                  }
-                }}
-              >
-                {item.description ? (
+                },
+              })}
+              onMouseEnter={({ currentTarget }) => {
+                if (item.dropdown) {
+                  setNestedDropdown(currentTarget);
+                  setNestedDropdownEl(currentTarget);
+                  setNestedDropdownName(item.name);
+                }
+              }}
+              onMouseLeave={() => {
+                if (item.dropdown) {
+                  setNestedDropdown(null);
+                }
+              }}
+            >
+              {item.description ? (
                 <ThisBox>
                   {item.name}
                   <CUTypography
@@ -255,7 +255,7 @@ function DefaultNavbar({
                     variant="button"
                     color="text"
                     fontWeight="regular"
-                    sx={{transition: 'all 300ms linear'}}
+                    sx={{ transition: 'all 300ms linear' }}
                   >
                     {item.description}
                   </CUTypography>
@@ -263,25 +263,25 @@ function DefaultNavbar({
               ) : (
                 item.name
               )}
-                {item.collapse && (
-                  <Icon
-                    fontSize="small"
-                    sx={{
-                      fontWeight: 'normal',
-                      verticalAlign: 'middle',
-                      mr: -0.5,
-                    }}
-                  >
+              {item.collapse && (
+                <Icon
+                  fontSize="small"
+                  sx={{
+                    fontWeight: 'normal',
+                    verticalAlign: 'middle',
+                    mr: -0.5,
+                  }}
+                >
                   keyboard_arrow_right
-                  </Icon>
-                )}
-              </CUTypography>
-            );
-          });
-        }
+                </Icon>
+              )}
+            </CUTypography>
+          );
+        });
+      }
 
-        return template;
-      },
+      return template;
+    },
   );
 
   const dropdownMenu = (
@@ -291,7 +291,7 @@ function DefaultNavbar({
       open={Boolean(dropdown)}
       placement="top-start"
       transition
-      style={{zIndex: 10}}
+      style={{ zIndex: 10 }}
       modifiers={[
         {
           name: 'arrow',
@@ -309,17 +309,17 @@ function DefaultNavbar({
         }
       }}
     >
-      {({TransitionProps}) => (
+      {({ TransitionProps }) => (
         <Grow
           {...TransitionProps}
           sx={{
             transformOrigin: 'left top',
-            background: ({palette: {white}}) => white.main,
+            background: ({ palette: { white } }) => white.main,
           }}
         >
           <ThisBox borderRadius="lg">
             <CUTypography variant="h1" color="white">
-              <Icon ref={setArrowRef} sx={{mt: -3}}>
+              <Icon ref={setArrowRef} sx={{ mt: -3 }}>
                 arrow_drop_up
               </Icon>
             </CUTypography>
@@ -332,13 +332,13 @@ function DefaultNavbar({
     </Popper>
   );
 
-  const renderNestedRoutes = routes.map(({collapse, columns}) =>
-    collapse && !columns ?
-      collapse.map(({name: parentName, collapse: nestedCollapse}) => {
-        let template;
+  const renderNestedRoutes = routes.map(({ collapse, columns }) =>
+    collapse && !columns
+      ? collapse.map(({ name: parentName, collapse: nestedCollapse }) => {
+          let template;
 
-        if (parentName === nestedDropdownName) {
-          template =
+          if (parentName === nestedDropdownName) {
+            template =
               nestedCollapse &&
               nestedCollapse.map((item) => {
                 const linkComponent = {
@@ -368,16 +368,16 @@ function DefaultNavbar({
                     py={item.description ? 1 : 0.625}
                     px={2}
                     sx={({
-                      palette: {grey, dark},
-                      borders: {borderRadius},
+                      palette: { grey, dark },
+                      borders: { borderRadius },
                     }) => ({
-                      'borderRadius': borderRadius.md,
-                      'cursor': 'pointer',
-                      'transition': 'all 300ms linear',
+                      borderRadius: borderRadius.md,
+                      cursor: 'pointer',
+                      transition: 'all 300ms linear',
 
                       '&:hover': {
-                        'backgroundColor': grey[200],
-                        'color': dark.main,
+                        backgroundColor: grey[200],
+                        color: dark.main,
 
                         '& *': {
                           color: dark.main,
@@ -393,7 +393,7 @@ function DefaultNavbar({
                           variant="button"
                           color="text"
                           fontWeight="regular"
-                          sx={{transition: 'all 300ms linear'}}
+                          sx={{ transition: 'all 300ms linear' }}
                         >
                           {item.description}
                         </CUTypography>
@@ -416,11 +416,11 @@ function DefaultNavbar({
                   </CUTypography>
                 );
               });
-        }
+          }
 
-        return template;
-      }) :
-      null,
+          return template;
+        })
+      : null,
   );
 
   const nestedDropdownMenu = (
@@ -430,7 +430,7 @@ function DefaultNavbar({
       open={Boolean(nestedDropdown)}
       placement="right-start"
       transition
-      style={{zIndex: 10}}
+      style={{ zIndex: 10 }}
       onMouseEnter={() => {
         setNestedDropdown(nestedDropdownEl);
       }}
@@ -440,12 +440,12 @@ function DefaultNavbar({
         setDropdown(null);
       }}
     >
-      {({TransitionProps}) => (
+      {({ TransitionProps }) => (
         <Grow
           {...TransitionProps}
           sx={{
             transformOrigin: 'left top',
-            background: ({palette: {white}}) => white.main,
+            background: ({ palette: { white } }) => white.main,
           }}
         >
           <ThisBox ml={2.5} mt={-2.5} borderRadius="lg">
@@ -459,10 +459,10 @@ function DefaultNavbar({
   );
 
   return (
-    <Container sx={sticky ? {position: 'sticky', top: 0, zIndex: 10} : null}>
+    <Container sx={sticky ? { position: 'sticky', top: 0, zIndex: 10 } : null}>
       <ThisBox
         py={1}
-        px={{xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2}}
+        px={{ xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2 }}
         my={relative ? 0 : 2}
         mx={relative ? 0 : 3}
         width={relative ? '100%' : 'calc(100% - 48px)'}
@@ -473,12 +473,12 @@ function DefaultNavbar({
         left={0}
         zIndex={3}
         sx={({
-          palette: {transparent: transparentColor, white},
-          functions: {rgba},
+          palette: { transparent: transparentColor, white },
+          functions: { rgba },
         }) => ({
-          backgroundColor: transparent ?
-            transparentColor.main :
-            rgba(white.main, 0.8),
+          backgroundColor: transparent
+            ? transparentColor.main
+            : rgba(white.main, 0.8),
           backdropFilter: transparent ? 'none' : `saturate(200%) blur(30px)`,
         })}
       >
@@ -492,7 +492,7 @@ function DefaultNavbar({
             to="/"
             lineHeight={1}
             py={transparent ? 1.5 : 0.75}
-            pl={relative || transparent ? 0 : {xs: 0, lg: 1}}
+            pl={relative || transparent ? 0 : { xs: 0, lg: 1 }}
           >
             <CUTypography
               variant="button"
@@ -504,22 +504,22 @@ function DefaultNavbar({
           </ThisBox>
           <ThisBox
             color="inherit"
-            display={{xs: 'none', lg: 'flex'}}
+            display={{ xs: 'none', lg: 'flex' }}
             ml="auto"
             mr={center ? 'auto' : 0}
           >
             {renderNavbarItems}
           </ThisBox>
-          <ThisBox ml={{xs: 'auto', lg: 0}}>
+          <ThisBox ml={{ xs: 'auto', lg: 0 }}>
             {action &&
               (action.type === 'internal' ? (
                 <ThisButton
                   component={Link}
                   to={action.route}
                   variant={
-                    action.color === 'white' || action.color === 'default' ?
-                      'contained' :
-                      'gradient'
+                    action.color === 'white' || action.color === 'default'
+                      ? 'contained'
+                      : 'gradient'
                   }
                   color={action.color ? action.color : 'info'}
                   size="small"
@@ -533,9 +533,9 @@ function DefaultNavbar({
                   target="_blank"
                   rel="noreferrer"
                   variant={
-                    action.color === 'white' || action.color === 'default' ?
-                      'contained' :
-                      'gradient'
+                    action.color === 'white' || action.color === 'default'
+                      ? 'contained'
+                      : 'gradient'
                   }
                   color={action.color ? action.color : 'info'}
                   size="small"
@@ -553,7 +553,7 @@ function DefaultNavbar({
               }}
             >
               {!tokenValid ? (
-                <Link to="/Registration" style={{textDecoration: 'none'}}>
+                <Link to="/Registration" style={{ textDecoration: 'none' }}>
                   <Icon
                     sx={{
                       position: 'relative',
@@ -580,12 +580,12 @@ function DefaultNavbar({
             </ThisBox>
           </ThisBox>
           <ThisBox
-            display={{xs: 'inline-block', lg: 'none'}}
+            display={{ xs: 'inline-block', lg: 'none' }}
             lineHeight={0}
             py={1.5}
             pl={1.5}
             color={transparent ? 'white' : 'inherit'}
-            sx={{cursor: 'pointer'}}
+            sx={{ cursor: 'pointer' }}
             onClick={openMobileNavbar}
           >
             <Icon fontSize="default">{mobileNavbar ? 'close' : 'menu'}</Icon>

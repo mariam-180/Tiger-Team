@@ -1,8 +1,8 @@
 import React from 'react';
-import {useContext} from 'react';
+import { useContext } from 'react';
 import PropTypes from 'prop-types';
 
-import {ScrollableAreaContext} from 'components/ThisInteractive/ScrollableArea';
+import { ScrollableAreaContext } from 'components/ThisInteractive/ScrollableArea';
 import Easing from 'utils/Easing';
 
 export const ControlRotate = ({

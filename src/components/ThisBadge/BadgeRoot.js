@@ -1,8 +1,8 @@
 import Badge from '@mui/material/Badge';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
-export default styled(Badge)(({theme, ownerState}) => {
-  const {palette, typography, borders, functions} = theme;
+export default styled(Badge)(({ theme, ownerState }) => {
+  const { palette, typography, borders, functions } = theme;
   const {
     color,
     circular,
@@ -14,10 +14,10 @@ export default styled(Badge)(({theme, ownerState}) => {
     children,
   } = ownerState;
 
-  const {white, dark, gradients, badgeColors} = palette;
-  const {size: fontSize, fontWeightBold} = typography;
-  const {borderRadius, borderWidth} = borders;
-  const {pxToRem, linearGradient} = functions;
+  const { white, dark, gradients, badgeColors } = palette;
+  const { size: fontSize, fontWeightBold } = typography;
+  const { borderRadius, borderWidth } = borders;
+  const { pxToRem, linearGradient } = functions;
 
   const paddings = {
     xs: '0.45em 0.775em',
@@ -57,9 +57,9 @@ export default styled(Badge)(({theme, ownerState}) => {
   };
 
   const gradientStyles = (colorProp) => {
-    const backgroundValue = gradients[colorProp] ?
-      linearGradient(gradients[colorProp].main, gradients[colorProp].state) :
-      linearGradient(gradients.info.main, gradients.info.state);
+    const backgroundValue = gradients[colorProp]
+      ? linearGradient(gradients[colorProp].main, gradients[colorProp].state)
+      : linearGradient(gradients.info.main, gradients.info.state);
     const colorValue = colorProp === 'light' ? dark.main : white.main;
 
     return {
@@ -69,12 +69,12 @@ export default styled(Badge)(({theme, ownerState}) => {
   };
 
   const containedStyles = (colorProp) => {
-    const backgroundValue = badgeColors[colorProp] ?
-      badgeColors[colorProp].background :
-      badgeColors.info.background;
-    let colorValue = badgeColors[colorProp] ?
-      badgeColors[colorProp].text :
-      badgeColors.info.text;
+    const backgroundValue = badgeColors[colorProp]
+      ? badgeColors[colorProp].background
+      : badgeColors.info.background;
+    let colorValue = badgeColors[colorProp]
+      ? badgeColors[colorProp].text
+      : badgeColors.info.text;
 
     if (colorProp === 'light') {
       colorValue = dark.main;

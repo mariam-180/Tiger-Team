@@ -1,20 +1,20 @@
-import React, {useRef, useEffect} from 'react';
-import {makeStyles} from '@mui/styles';
+import React, { useRef, useEffect } from 'react';
+import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
-import {gsap} from 'gsap';
+import { gsap } from 'gsap';
 
 const useStyles = makeStyles((theme) => ({
   stage: {
-    'width': '100%',
-    'transform': 'scale(0.8)',
-    'height': '25vh',
-    'backfaceVisibility': 'hidden',
-    'userSelect': 'none',
-    'overflow': 'hidden',
-    'background': 'transparent',
-    'position': 'absolute',
-    'zIndex': 2,
-    'transition': 'transform 0.3s ease-in-out, height 0.3s ease-in-out',
+    width: '100%',
+    transform: 'scale(0.8)',
+    height: '25vh',
+    backfaceVisibility: 'hidden',
+    userSelect: 'none',
+    overflow: 'hidden',
+    background: 'transparent',
+    position: 'absolute',
+    zIndex: 2,
+    transition: 'transform 0.3s ease-in-out, height 0.3s ease-in-out',
     [theme.breakpoints.up('sm')]: {
       transform: 'scale(0.8)',
       height: '40vh',
@@ -103,10 +103,10 @@ const RotatingRing = ({
     const totalImages = images.length;
     const angle = 360 / totalImages;
 
-    gsap.set(ringRef.current, {rotationY: 180, cursor: 'grab'});
+    gsap.set(ringRef.current, { rotationY: 180, cursor: 'grab' });
     images.forEach((img, index) => {
       const elem = containerRef.current.querySelectorAll(
-          `.${classes.imgWrapper}`,
+        `.${classes.imgWrapper}`,
       )[index];
       gsap.set(elem, {
         rotateY: index * -angle,
@@ -118,12 +118,12 @@ const RotatingRing = ({
 
     const container = containerRef.current;
     const imgs = containerRef.current.querySelectorAll(
-        `.${classes.imgWrapper}`,
+      `.${classes.imgWrapper}`,
     );
 
     imgs.forEach((img) => {
       img.addEventListener('mouseenter', () => {
-        gsap.to(img, {opacity: 1, ease: 'power3'});
+        gsap.to(img, { opacity: 1, ease: 'power3' });
         gsap.to(imgs, {
           opacity: (i, target) => (target === img ? 1 : 0.5),
           ease: 'power3',
@@ -131,7 +131,7 @@ const RotatingRing = ({
       });
 
       img.addEventListener('mouseleave', () => {
-        gsap.to(imgs, {opacity: 1, ease: 'power2.inOut'});
+        gsap.to(imgs, { opacity: 1, ease: 'power2.inOut' });
       });
     });
 
@@ -141,7 +141,7 @@ const RotatingRing = ({
     const dragStart = (e) => {
       if (e.touches) e.clientX = e.touches[0].clientX;
       xPos = Math.round(e.clientX);
-      gsap.set(ringRef.current, {cursor: 'grabbing'});
+      gsap.set(ringRef.current, { cursor: 'grabbing' });
       container.addEventListener('mousemove', drag);
       container.addEventListener('touchmove', drag);
     };
@@ -160,7 +160,7 @@ const RotatingRing = ({
     const dragEnd = () => {
       container.removeEventListener('mousemove', drag);
       container.removeEventListener('touchmove', drag);
-      gsap.set(ringRef.current, {cursor: 'grab'});
+      gsap.set(ringRef.current, { cursor: 'grab' });
     };
 
     container.addEventListener('mousedown', dragStart);
@@ -187,7 +187,7 @@ const RotatingRing = ({
               key={image.id}
               className={classes.imgWrapper}
               onClick={() => onSelect(index)}
-              style={{backgroundImage: `url(${image.url})`}}
+              style={{ backgroundImage: `url(${image.url})` }}
             >
               <span>{image.title}</span>
             </div>
@@ -200,10 +200,10 @@ const RotatingRing = ({
 
 RotatingRing.propTypes = {
   images: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired,
-      }),
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      url: PropTypes.string.isRequired,
+    }),
   ).isRequired,
   onSelect: PropTypes.func.isRequired,
 };

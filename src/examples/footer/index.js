@@ -1,12 +1,12 @@
 import React from 'react';
-import {Box, Container, Grid, Typography, Divider} from '@mui/material';
+import { Box, Container, Grid, Typography, Divider } from '@mui/material';
 import SocialMediaIcons from 'examples/socialMediaIcons';
 
 const Footer = () => {
   return (
     <Box
-      px={{xs: 6, sm: 10}}
-      py={{xs: 6, sm: 10}}
+      px={{ xs: 6, sm: 10 }}
+      py={{ xs: 6, sm: 10 }}
       color="#C0C0C0"
       sx={{
         backgroundImage: 'linear-gradient(135deg, #A50000 10%, black 100%)',
@@ -52,7 +52,7 @@ const Footer = () => {
               Contact us
             </Typography>
             <Divider
-              style={{backgroundColor: '#C0C0C0', marginBottom: '16px'}}
+              style={{ backgroundColor: '#C0C0C0', marginBottom: '16px' }}
             />
             <Typography variant="subtitle2" gutterBottom>
               Contact us if need help with anything
@@ -66,7 +66,7 @@ const Footer = () => {
             <SocialMediaIcons />
           </Grid>
         </Grid>
-        <Box textAlign="center" pt={{xs: 5, sm: 10}} pb={{xs: 5, sm: 0}}>
+        <Box textAlign="center" pt={{ xs: 5, sm: 10 }} pb={{ xs: 5, sm: 0 }}>
           @ 2024 TigersTeam
         </Box>
       </Container>

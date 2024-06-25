@@ -1,19 +1,19 @@
-import React, {useEffect} from 'react';
-import {ThemeProvider} from '@mui/material/styles';
+import React, { useEffect } from 'react';
+import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import theme from 'assets/theme';
-import {Routes, Route, useLocation} from 'react-router-dom';
-import {AuthProvider} from 'authContext';
-import {SnackbarProvider} from 'context/SnackbarContext';
-import {LoginRequiredProvider} from 'context/LoginRequiredContext';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { AuthProvider } from 'authContext';
+import { SnackbarProvider } from 'context/SnackbarContext';
+import { LoginRequiredProvider } from 'context/LoginRequiredContext';
 
-import Home from 'layouts/pages/home'; ;
+import Home from 'layouts/pages/home';
 import LoginRequired from 'layouts/pages/loginRequired';
 import Reservations from 'layouts/pages/reservations';
 import routes from 'routes';
 
 function App() {
-  const {pathname} = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
     document.documentElement.scrollTop = 0;

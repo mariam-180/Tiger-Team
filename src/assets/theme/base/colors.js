@@ -282,6 +282,6 @@ export default {
   inputBorderColor: '#d2d6da',
 
   tabs: {
-    indicator: {boxShadow: '#ddd'},
+    indicator: { boxShadow: '#ddd' },
   },
 };

@@ -4,19 +4,19 @@ import styled from '@emotion/styled';
 
 const StyledContainer = styled('div', {
   shouldForwardProp: (prop) => prop !== 'sx',
-})(({theme, backgroundimage, secondbackground, sx}) => ({
-  'position': 'relative',
-  'minHeight': '100vh',
-  'display': 'flex',
-  'flexDirection': 'column',
-  'justifyContent': 'center',
-  'alignItems': 'center',
-  'background': `url(${backgroundimage}) no-repeat center center fixed`,
-  'overflow': 'hidden',
-  'backgroundSize': 'cover',
-  'backgroundPosition': 'center',
-  'backgroundAttachment': 'fixed',
-  'width': '100vw',
+})(({ theme, backgroundimage, secondbackground, sx }) => ({
+  position: 'relative',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  background: `url(${backgroundimage}) no-repeat center center fixed`,
+  overflow: 'hidden',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  width: '100vw',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -64,7 +64,10 @@ const StyledContainer = styled('div', {
 }));
 
 const BackgroundContainer = ({
-  backgroundimage, secondbackground, children, sx,
+  backgroundimage,
+  secondbackground,
+  children,
+  sx,
 }) => {
   return (
     <StyledContainer

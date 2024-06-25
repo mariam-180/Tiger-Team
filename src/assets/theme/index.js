@@ -1,4 +1,4 @@
-import {createTheme} from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 // Base styles
 import colors from 'assets/theme/base/colors';
@@ -22,11 +22,11 @@ import flatpickr from 'assets/theme/components/flatpickr';
 import container from 'assets/theme/components/container';
 
 const theme = createTheme({
-  breakpoints: {...breakpoints},
-  palette: {...colors},
-  typography: {...typography},
-  boxShadows: {...boxShadows},
-  borders: {...borders},
+  breakpoints: { ...breakpoints },
+  palette: { ...colors },
+  typography: { ...typography },
+  boxShadows: { ...boxShadows },
+  borders: { ...borders },
   functions: {
     boxShadow,
     hexToRgb,
@@ -43,7 +43,7 @@ const theme = createTheme({
         ...container,
       },
     },
-    MuiButton: {...button},
+    MuiButton: { ...button },
   },
 });
 

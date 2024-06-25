@@ -1,9 +1,9 @@
 // ConfettiUtil.js
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Confetti from 'react-confetti';
 
-const ConfettiUtil = ({run, onComplete}) => {
+const ConfettiUtil = ({ run, onComplete }) => {
   const [showConfetti, setShowConfetti] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ const ConfettiUtil = ({run, onComplete}) => {
     }
   }, [run, onComplete]);
 
-  return showConfetti && <Confetti/>;
+  return showConfetti && <Confetti />;
 };
 
 ConfettiUtil.propTypes = {

@@ -1,14 +1,14 @@
 import Button from '@mui/material/Button';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
-export default styled(Button)(({theme, ownerState}) => {
-  const {palette, functions, borders, boxShadows} = theme;
-  const {color, variant, size, circular, iconOnly} = ownerState;
+export default styled(Button)(({ theme, ownerState }) => {
+  const { palette, functions, borders, boxShadows } = theme;
+  const { color, variant, size, circular, iconOnly } = ownerState;
 
-  const {white, text, transparent, gradients, dark} = palette;
-  const {boxShadow, linearGradient, pxToRem, rgba} = functions;
-  const {borderRadius} = borders;
-  const {colored} = boxShadows;
+  const { white, text, transparent, gradients, dark } = palette;
+  const { boxShadow, linearGradient, pxToRem, rgba } = functions;
+  const { borderRadius } = borders;
+  const { colored } = boxShadows;
 
   // styles for the button with variant="contained"
   const containedStyles = () => {
@@ -16,29 +16,29 @@ export default styled(Button)(({theme, ownerState}) => {
     const backgroundValue = palette[color] ? palette[color].main : white.main;
 
     // backgroundColor value when button is focused
-    const focusedBackgroundValue = palette[color] ?
-      palette[color].focus :
-      white.focus;
+    const focusedBackgroundValue = palette[color]
+      ? palette[color].focus
+      : white.focus;
 
     // boxShadow value
-    const boxShadowValue = colored[color] ?
-      `${boxShadow([0, 3], [3, 0], palette[color].main, 0.15)}, ${boxShadow(
+    const boxShadowValue = colored[color]
+      ? `${boxShadow([0, 3], [3, 0], palette[color].main, 0.15)}, ${boxShadow(
           [0, 3],
           [1, -2],
           palette[color].main,
           0.2,
-      )}, ${boxShadow([0, 1], [5, 0], palette[color].main, 0.15)}` :
-      'none';
+        )}, ${boxShadow([0, 1], [5, 0], palette[color].main, 0.15)}`
+      : 'none';
 
     // boxShadow value when button is hovered
-    const hoveredBoxShadowValue = colored[color] ?
-      `${boxShadow([0, 14], [26, -12], palette[color].main, 0.4)}, ${boxShadow(
+    const hoveredBoxShadowValue = colored[color]
+      ? `${boxShadow([0, 14], [26, -12], palette[color].main, 0.4)}, ${boxShadow(
           [0, 4],
           [23, 0],
           palette[color].main,
           0.15,
-      )}, ${boxShadow([0, 8], [10, -5], palette[color].main, 0.2)}` :
-      'none';
+        )}, ${boxShadow([0, 8], [10, -5], palette[color].main, 0.2)}`
+      : 'none';
 
     // color value
     let colorValue = white.main;
@@ -61,9 +61,9 @@ export default styled(Button)(({theme, ownerState}) => {
     }
 
     return {
-      'background': backgroundValue,
-      'color': colorValue,
-      'boxShadow': boxShadowValue,
+      background: backgroundValue,
+      color: colorValue,
+      boxShadow: boxShadowValue,
 
       '&:hover': {
         backgroundColor: backgroundValue,
@@ -72,9 +72,9 @@ export default styled(Button)(({theme, ownerState}) => {
 
       '&:focus:not(:hover)': {
         backgroundColor: focusedBackgroundValue,
-        boxShadow: palette[color] ?
-          boxShadow([0, 0], [0, 3.2], palette[color].main, 0.5) :
-          boxShadow([0, 0], [0, 3.2], white.main, 0.5),
+        boxShadow: palette[color]
+          ? boxShadow([0, 0], [0, 3.2], palette[color].main, 0.5)
+          : boxShadow([0, 0], [0, 3.2], white.main, 0.5),
       },
 
       '&:disabled': {
@@ -90,22 +90,22 @@ export default styled(Button)(({theme, ownerState}) => {
 
     const colorValue = palette[color] ? palette[color].main : white.main;
 
-    const boxShadowValue = palette[color] ?
-      boxShadow([0, 0], [0, 3.2], palette[color].main, 0.5) :
-      boxShadow([0, 0], [0, 3.2], white.main, 0.5);
+    const boxShadowValue = palette[color]
+      ? boxShadow([0, 0], [0, 3.2], palette[color].main, 0.5)
+      : boxShadow([0, 0], [0, 3.2], white.main, 0.5);
 
-    let borderColorValue = palette[color] ?
-      palette[color].main :
-      rgba(white.main, 0.75);
+    let borderColorValue = palette[color]
+      ? palette[color].main
+      : rgba(white.main, 0.75);
 
     if (color === 'white') {
       borderColorValue = rgba(white.main, 0.75);
     }
 
     return {
-      'background': backgroundValue,
-      'color': colorValue,
-      'borderColor': borderColorValue,
+      background: backgroundValue,
+      color: colorValue,
+      borderColor: borderColorValue,
 
       '&:hover': {
         background: transparent.main,
@@ -132,27 +132,27 @@ export default styled(Button)(({theme, ownerState}) => {
 
   const gradientStyles = () => {
     const backgroundValue =
-      color === 'white' || !gradients[color] ?
-        white.main :
-        linearGradient(gradients[color].main, gradients[color].state);
+      color === 'white' || !gradients[color]
+        ? white.main
+        : linearGradient(gradients[color].main, gradients[color].state);
 
-    const boxShadowValue = colored[color] ?
-      `${boxShadow([0, 3], [3, 0], palette[color].main, 0.15)}, ${boxShadow(
+    const boxShadowValue = colored[color]
+      ? `${boxShadow([0, 3], [3, 0], palette[color].main, 0.15)}, ${boxShadow(
           [0, 3],
           [1, -2],
           palette[color].main,
           0.2,
-      )}, ${boxShadow([0, 1], [5, 0], palette[color].main, 0.15)}` :
-      'none';
+        )}, ${boxShadow([0, 1], [5, 0], palette[color].main, 0.15)}`
+      : 'none';
 
-    const hoveredBoxShadowValue = colored[color] ?
-      `${boxShadow([0, 14], [26, -12], palette[color].main, 0.4)}, ${boxShadow(
+    const hoveredBoxShadowValue = colored[color]
+      ? `${boxShadow([0, 14], [26, -12], palette[color].main, 0.4)}, ${boxShadow(
           [0, 4],
           [23, 0],
           palette[color].main,
           0.15,
-      )}, ${boxShadow([0, 8], [10, -5], palette[color].main, 0.2)}` :
-      'none';
+        )}, ${boxShadow([0, 8], [10, -5], palette[color].main, 0.2)}`
+      : 'none';
 
     let colorValue = white.main;
 
@@ -163,9 +163,9 @@ export default styled(Button)(({theme, ownerState}) => {
     }
 
     return {
-      'background': backgroundValue,
-      'color': colorValue,
-      'boxShadow': boxShadowValue,
+      background: backgroundValue,
+      color: colorValue,
+      boxShadow: boxShadowValue,
 
       '&:hover': {
         backgroundColor: white.main,
@@ -186,12 +186,12 @@ export default styled(Button)(({theme, ownerState}) => {
   const textStyles = () => {
     const colorValue = palette[color] ? palette[color].main : white.main;
 
-    const focusedColorValue = palette[color] ?
-      palette[color].focus :
-      white.focus;
+    const focusedColorValue = palette[color]
+      ? palette[color].focus
+      : white.focus;
 
     return {
-      'color': colorValue,
+      color: colorValue,
 
       '&:hover': {
         color: focusedColorValue,
@@ -225,11 +225,11 @@ export default styled(Button)(({theme, ownerState}) => {
     }
 
     return {
-      'width': sizeValue,
-      'minWidth': sizeValue,
-      'height': sizeValue,
-      'minHeight': sizeValue,
-      'padding': paddingValue,
+      width: sizeValue,
+      minWidth: sizeValue,
+      height: sizeValue,
+      minHeight: sizeValue,
+      padding: paddingValue,
 
       '& .material-icons': {
         marginTop: 0,

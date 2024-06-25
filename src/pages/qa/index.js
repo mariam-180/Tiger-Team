@@ -4,7 +4,7 @@
 /* eslint-disable new-cap */
 import React from 'react';
 
-import {Grid} from '@mui/material';
+import { Grid } from '@mui/material';
 import Box from 'components/ThisBox';
 import Avatar from 'components/ThisAvatar';
 import Typography from 'components/ThisTypography';
@@ -19,7 +19,7 @@ import background from 'assets/images/tigers_ai/tigersTeamCar_9.webp';
 import team2 from 'assets/images/tigers_ai/tigersTeamCar_6.webp';
 
 function QA() {
-  const Author = ({image, name, email}) => (
+  const Author = ({ image, name, email }) => (
     <Box display="flex" alignItems="center" lineHeight={1}>
       <Avatar src={image} name={name} size="sm" />
       <Box ml={2} lineHeight={1}>
@@ -32,11 +32,11 @@ function QA() {
   );
 
   const columns = [
-    {Header: 'Author', accessor: 'author', width: '45%', align: 'left'},
-    {Header: 'Username', accessor: 'user_name', align: 'left'},
-    {Header: 'Credit', accessor: 'credit', align: 'center'},
-    {Header: 'Role', accessor: 'role', align: 'center'},
-    {Header: 'Action', accessor: 'action', align: 'center'},
+    { Header: 'Author', accessor: 'author', width: '45%', align: 'left' },
+    { Header: 'Username', accessor: 'user_name', align: 'left' },
+    { Header: 'Credit', accessor: 'credit', align: 'center' },
+    { Header: 'Role', accessor: 'role', align: 'center' },
+    { Header: 'Action', accessor: 'action', align: 'center' },
   ];
 
   const rows = [
@@ -112,12 +112,12 @@ function QA() {
       sx={{
         backgroundColor: '#000',
         backgroundimage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}

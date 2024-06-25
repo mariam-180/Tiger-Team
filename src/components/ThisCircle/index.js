@@ -1,9 +1,9 @@
 import React from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import PropTypes from 'prop-types';
 
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faArrowRight} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
 const spinRight = keyframes`
 from {
@@ -42,7 +42,7 @@ const Title = styled.h6`
   }
 `;
 
-const Checkbox = styled.input.attrs({type: 'checkbox'})`
+const Checkbox = styled.input.attrs({ type: 'checkbox' })`
   position: absolute;
   left: -9999px;
 `;
@@ -89,7 +89,7 @@ const CheckboxLabel = styled.label`
   }
 `;
 
-const LoginSignupToggle = ({isChecked, handleToggle}) => {
+const LoginSignupToggle = ({ isChecked, handleToggle }) => {
   return (
     <Container>
       <Title>

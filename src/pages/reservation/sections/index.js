@@ -12,15 +12,15 @@ import Typography from '@mui/material/Typography';
 
 import TransparentBox from 'components/ThisTransparentBox';
 
-const StyledContainer = styled(Box)(({theme, background}) => ({
-  'position': 'relative',
-  'width': '100%',
-  'minHeight': '100vh',
-  'overflow': 'hidden',
-  'display': 'flex',
-  'flexDirection': 'column',
-  'alignItems': 'center',
-  'justifyContent': 'flex-start',
+const StyledContainer = styled(Box)(({ theme, background }) => ({
+  position: 'relative',
+  width: '100%',
+  minHeight: '100vh',
+  overflow: 'hidden',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'flex-start',
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -34,8 +34,7 @@ const StyledContainer = styled(Box)(({theme, background}) => ({
   },
 }));
 
-
-const GridContainer = styled(Grid)(({theme}) => ({
+const GridContainer = styled(Grid)(({ theme }) => ({
   width: '100%',
   padding: theme.spacing(2),
   zIndex: 1,
@@ -44,16 +43,16 @@ const GridContainer = styled(Grid)(({theme}) => ({
   marginTop: theme.spacing(4),
 }));
 
-function Reservation({handleCardClick, branches, background}) {
+function Reservation({ handleCardClick, branches, background }) {
   return (
     <StyledContainer background={background}>
       <TransparentBox>
-        <Typography variant="h4" component="h1" sx={{color: 'lightgray'}}>
+        <Typography variant="h4" component="h1" sx={{ color: 'lightgray' }}>
           Explore our awesome branches and choose your favorite!
         </Typography>
         <Typography
           variant="body2"
-          sx={{color: 'lightgray', marginTop: '0.5rem'}}
+          sx={{ color: 'lightgray', marginTop: '0.5rem' }}
         >
           Each branch has something unique and exciting to offer. Find out more
           below!
@@ -68,19 +67,19 @@ function Reservation({handleCardClick, branches, background}) {
             md={4}
             key={index}
             onClick={() => handleCardClick(branch)}
-            sx={{margin: '1rem'}}
+            sx={{ margin: '1rem' }}
           >
             <Card
               sx={{
-                'cursor': 'pointer',
-                'transition': 'transform 0.3s ease-in-out',
+                cursor: 'pointer',
+                transition: 'transform 0.3s ease-in-out',
                 '&:hover': {
                   transform: 'scale(1.05)',
                   boxShadow: 3,
                 },
-                'width': '100%',
-                'height': '310px',
-                'backgroundColor': '#A9A9A9',
+                width: '100%',
+                height: '310px',
+                backgroundColor: '#A9A9A9',
               }}
             >
               <CardMedia
@@ -89,9 +88,9 @@ function Reservation({handleCardClick, branches, background}) {
                 width="100%"
                 image={branch.image}
                 alt={branch.name}
-                sx={{width: '100%'}}
+                sx={{ width: '100%' }}
               />
-              <CardContent sx={{textAlign: 'center'}}>
+              <CardContent sx={{ textAlign: 'center' }}>
                 <Typography gutterBottom variant="h5" component="div">
                   {branch.name}
                 </Typography>

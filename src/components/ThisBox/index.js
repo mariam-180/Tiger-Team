@@ -1,35 +1,35 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import BoxRoot from 'components/ThisBox/BoxRoot';
 
 const Box = forwardRef(
-    (
-        {
-          variant,
-          bgColor,
-          color,
-          opacity,
-          borderRadius,
-          shadow,
-          coloredShadow,
-          ...rest
-        },
-        ref,
-    ) => (
-      <BoxRoot
-        {...rest}
-        ref={ref}
-        ownerState={{
-          variant,
-          bgColor,
-          color,
-          opacity,
-          borderRadius,
-          shadow,
-          coloredShadow,
-        }}
-      />
-    ),
+  (
+    {
+      variant,
+      bgColor,
+      color,
+      opacity,
+      borderRadius,
+      shadow,
+      coloredShadow,
+      ...rest
+    },
+    ref,
+  ) => (
+    <BoxRoot
+      {...rest}
+      ref={ref}
+      ownerState={{
+        variant,
+        bgColor,
+        color,
+        opacity,
+        borderRadius,
+        shadow,
+        coloredShadow,
+      }}
+    />
+  ),
 );
 
 // Setting default values for the props of Box

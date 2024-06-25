@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import formulaVideo from 'assets/videos/formula.mp4';
 
@@ -10,7 +10,7 @@ import BackgroundContainer from 'components/ThisBackgroundContainer';
 import CountdownClock from 'examples/countDown';
 import WelcomingEventPage from 'examples/heroSection';
 
-const CountdownContainerItem = styled('div')(({theme}) => ({
+const CountdownContainerItem = styled('div')(({ theme }) => ({
   position: 'absolute',
   top: 90,
   left: 0,

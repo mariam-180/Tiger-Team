@@ -1,8 +1,8 @@
 import Box from '@mui/material/Box';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
-export default styled(Box)(({theme, ownerState}) => {
-  const {palette, functions, borders, boxShadows} = theme;
+export default styled(Box)(({ theme, ownerState }) => {
+  const { palette, functions, borders, boxShadows } = theme;
   const {
     variant,
     bgColor,
@@ -13,10 +13,10 @@ export default styled(Box)(({theme, ownerState}) => {
     coloredShadow,
   } = ownerState;
 
-  const {gradients, grey, white} = palette;
-  const {linearGradientV1} = functions;
-  const {borderRadius: radius} = borders;
-  const {colored} = boxShadows;
+  const { gradients, grey, white } = palette;
+  const { linearGradientV1 } = functions;
+  const { borderRadius: radius } = borders;
+  const { colored } = boxShadows;
 
   const greyColors = {
     'grey-100': grey[100],
@@ -75,13 +75,13 @@ export default styled(Box)(({theme, ownerState}) => {
   let backgroundValue = bgColor;
 
   if (variant === 'gradient') {
-    backgroundValue = validGradients.find((el) => el === bgColor) ?
-      linearGradientV1(gradients[bgColor].main, gradients[bgColor].state) :
-      white.main;
+    backgroundValue = validGradients.find((el) => el === bgColor)
+      ? linearGradientV1(gradients[bgColor].main, gradients[bgColor].state)
+      : white.main;
   } else if (validColors.find((el) => el === bgColor)) {
-    backgroundValue = palette[bgColor] ?
-      palette[bgColor].main :
-      greyColors[bgColor];
+    backgroundValue = palette[bgColor]
+      ? palette[bgColor].main
+      : greyColors[bgColor];
   } else {
     backgroundValue = bgColor;
   }

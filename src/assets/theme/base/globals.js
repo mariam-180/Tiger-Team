@@ -1,9 +1,9 @@
 import colors from 'assets/theme/base/colors';
 
-const {info, dark} = colors;
+const { info, dark } = colors;
 
 export default {
-  'html': {
+  html: {
     scrollBehavior: 'smooth',
   },
   '*, *::before, *::after': {

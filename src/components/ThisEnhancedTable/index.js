@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Card} from '@mui/material';
+import { Card } from '@mui/material';
 import Box from 'components/ThisBox';
 import Typography from 'components/ThisTypography';
 import DataTable from 'examples/Tables/DataTable';
@@ -17,7 +17,7 @@ const DynamicTable = ({
   noEndBorder,
 }) => {
   return (
-    <Card sx={{overflow: 'hidden'}}>
+    <Card sx={{ overflow: 'hidden' }}>
       <Box
         mx={2}
         py={2}
@@ -35,7 +35,7 @@ const DynamicTable = ({
       </Box>
       <Box pt={3}>
         <DataTable
-          table={{columns, rows}}
+          table={{ columns, rows }}
           isSorted={isSorted}
           pagination={pagination}
           entriesPerPage={entriesPerPage}
@@ -51,21 +51,21 @@ const DynamicTable = ({
 DynamicTable.propTypes = {
   title: PropTypes.string.isRequired,
   columns: PropTypes.arrayOf(
-      PropTypes.shape({
-        Header: PropTypes.string.isRequired,
-        accessor: PropTypes.string.isRequired,
-        width: PropTypes.string,
-        align: PropTypes.string,
-      }),
+    PropTypes.shape({
+      Header: PropTypes.string.isRequired,
+      accessor: PropTypes.string.isRequired,
+      width: PropTypes.string,
+      align: PropTypes.string,
+    }),
   ).isRequired,
   rows: PropTypes.arrayOf(
-      PropTypes.shape({
-        author: PropTypes.node,
-        user_name: PropTypes.node,
-        credit: PropTypes.node,
-        role: PropTypes.node,
-        action: PropTypes.node,
-      }),
+    PropTypes.shape({
+      author: PropTypes.node,
+      user_name: PropTypes.node,
+      credit: PropTypes.node,
+      role: PropTypes.node,
+      action: PropTypes.node,
+    }),
   ).isRequired,
   isSorted: PropTypes.bool,
   pagination: PropTypes.shape({
@@ -94,10 +94,10 @@ DynamicTable.propTypes = {
 };
 
 DynamicTable.defaultProps = {
-  entriesPerPage: {defaultValue: 10, entries: [5, 10, 15, 20, 25]},
+  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
-  pagination: {variant: 'gradient', color: 'info'},
+  pagination: { variant: 'gradient', color: 'info' },
   isSorted: true,
   noEndBorder: false,
 };

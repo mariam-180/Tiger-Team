@@ -1,15 +1,13 @@
 import React from 'react';
 
-
 import PropTypes from 'prop-types';
 
 import Box from 'components/ThisBox';
 
-
-function DashboardLayout({children}) {
+function DashboardLayout({ children }) {
   return (
     <Box
-      sx={({breakpoints, transitions, functions: {pxToRem}}) => ({
+      sx={({ breakpoints, transitions, functions: { pxToRem } }) => ({
         p: 3,
         position: 'relative',
         [breakpoints.up('xl')]: {

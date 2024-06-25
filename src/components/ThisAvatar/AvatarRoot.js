@@ -1,18 +1,18 @@
 import Avatar from '@mui/material/Avatar';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
-export default styled(Avatar)(({theme, ownerState}) => {
-  const {palette, functions, typography, boxShadows} = theme;
-  const {shadow, bgColor, size} = ownerState;
+export default styled(Avatar)(({ theme, ownerState }) => {
+  const { palette, functions, typography, boxShadows } = theme;
+  const { shadow, bgColor, size } = ownerState;
 
-  const {gradients, transparent, white} = palette;
-  const {pxToRem, linearGradient} = functions;
-  const {size: fontSize, fontWeightRegular} = typography;
+  const { gradients, transparent, white } = palette;
+  const { pxToRem, linearGradient } = functions;
+  const { size: fontSize, fontWeightRegular } = typography;
 
   const backgroundValue =
-    bgColor === 'transparent' ?
-      transparent.main :
-      linearGradient(gradients[bgColor].main, gradients[bgColor].state);
+    bgColor === 'transparent'
+      ? transparent.main
+      : linearGradient(gradients[bgColor].main, gradients[bgColor].state);
 
   let sizeValue;
 

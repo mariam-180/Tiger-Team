@@ -1,23 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Grid, Box, Typography, useTheme} from '@mui/material';
+import { Grid, Box, Typography, useTheme } from '@mui/material';
 import styled from '@emotion/styled';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faDesktopAlt} from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDesktopAlt } from '@fortawesome/free-solid-svg-icons';
 
-const RoomLayout = styled(Box)(({theme}) => ({
-  'position': 'relative',
-  'width': '100%',
-  'maxWidth': '650px',
-  'height': '100%',
-  'minHeight': '300px',
-  'margin': 'auto',
-  'padding': theme.spacing(2),
-  'borderRadius': '20px 3px 3px 20px',
-  'backgroundColor': 'rgba(0, 0, 255, 0.2)',
-  'border': '4px solid #d3d3d3',
-  'borderRight': 'none',
-  'transform': 'rotate(90deg)',
+const RoomLayout = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  width: '100%',
+  maxWidth: '650px',
+  height: '100%',
+  minHeight: '300px',
+  margin: 'auto',
+  padding: theme.spacing(2),
+  borderRadius: '20px 3px 3px 20px',
+  backgroundColor: 'rgba(0, 0, 255, 0.2)',
+  border: '4px solid #d3d3d3',
+  borderRight: 'none',
+  transform: 'rotate(90deg)',
   '&::before, &::after': {
     content: '""',
     position: 'absolute',
@@ -39,7 +39,7 @@ const RoomLayout = styled(Box)(({theme}) => ({
   },
 }));
 
-const Entry = styled(Box)(({theme}) => ({
+const Entry = styled(Box)(({ theme }) => ({
   position: 'absolute',
   right: '-10%',
   bottom: '50px',
@@ -50,7 +50,7 @@ const Entry = styled(Box)(({theme}) => ({
   fontSize: '12px',
 }));
 
-const CheckInDesk = styled(Box)(({theme}) => ({
+const CheckInDesk = styled(Box)(({ theme }) => ({
   position: 'absolute',
   alignItems: 'center',
   width: '180px',
@@ -65,7 +65,7 @@ const CheckInDesk = styled(Box)(({theme}) => ({
   transform: 'rotate(-90deg)',
 }));
 
-const EquipmentBox = styled(Box)(({theme, isavailable, sx}) => ({
+const EquipmentBox = styled(Box)(({ theme, isavailable, sx }) => ({
   width: '90px',
   display: 'flex',
   alignItems: 'center',
@@ -85,22 +85,22 @@ const EquipmentBox = styled(Box)(({theme, isavailable, sx}) => ({
   ...sx,
 }));
 
-const StyledTypography = styled(Typography)(({theme, sx}) => ({
+const StyledTypography = styled(Typography)(({ theme, sx }) => ({
   fontSize: 'clamp(12px, 2vw, 18px)',
   ...sx,
 }));
 
-const SnokardoRoom = ({pcs, handlePcClick}) => {
+const SnokardoRoom = ({ pcs, handlePcClick }) => {
   const theme = useTheme();
   return (
     <>
       <Box
         position="absolute"
         sx={{
-          flexDirection: {xs: 'row', md: 'column'},
-          justifyContent: {xs: 'space-between', md: 'center'},
-          marginBottom: {xs: theme.spacing(5), md: '0'},
-          left: {xs: '23%', md: '10%', lg: '20%'},
+          flexDirection: { xs: 'row', md: 'column' },
+          justifyContent: { xs: 'space-between', md: 'center' },
+          marginBottom: { xs: theme.spacing(5), md: '0' },
+          left: { xs: '23%', md: '10%', lg: '20%' },
           top: {
             xs: '15%',
             md: '20%',

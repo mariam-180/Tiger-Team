@@ -1,4 +1,4 @@
-import {roleHierarchy} from 'roleBasedPrivateRoute';
+import { roleHierarchy } from 'roleBasedPrivateRoute';
 
 const filterRoutesByRole = (routes, userRole) => {
   return routes.filter((route) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'components/ThisCore/Image';
-import {FillerSection} from 'components/ThisCore/FillerSection';
+import { FillerSection } from 'components/ThisCore/FillerSection';
 
 import img from 'assets/images/backGround/img-spaceport.jpeg';
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import {
   Box,
@@ -10,19 +10,19 @@ import {
   Typography,
   ListItemText,
 } from '@mui/material';
-import {DatePicker, TimePicker} from '@mui/x-date-pickers';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {StyledButton} from 'components/ThisStyledButton';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { StyledButton } from 'components/ThisStyledButton';
 import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
-import {useIsMobile} from 'utils/hooks';
+import { useIsMobile } from 'utils/hooks';
 
 function CustomDatePicker() {
   const [date, setDate] = useState(dayjs());
   const roundToNearestFive = (minutes) => Math.ceil(minutes / 5) * 5;
   const currentRoundedTime = dayjs()
-      .minute(roundToNearestFive(dayjs().minute()))
-      .second(0);
+    .minute(roundToNearestFive(dayjs().minute()))
+    .second(0);
 
   const [startTime, setStartTime] = useState(currentRoundedTime);
   const [duration, setDuration] = useState(10);
@@ -39,10 +39,10 @@ function CustomDatePicker() {
   };
 
   const durations = [
-    {value: 15, label: '15 mins', endsLabel: 'ends at'},
-    {value: 30, label: '30 mins', endsLabel: 'ends at'},
-    {value: 60, label: '1 hour', endsLabel: 'ends at'},
-    {value: 90, label: '1h 30m', endsLabel: 'ends at'},
+    { value: 15, label: '15 mins', endsLabel: 'ends at' },
+    { value: 30, label: '30 mins', endsLabel: 'ends at' },
+    { value: 60, label: '1 hour', endsLabel: 'ends at' },
+    { value: 90, label: '1h 30m', endsLabel: 'ends at' },
   ];
 
   const checkAvailability = () => {
@@ -83,7 +83,7 @@ function CustomDatePicker() {
           <Typography
             variant="h5"
             component="div"
-            sx={{marginBottom: theme.spacing(2)}}
+            sx={{ marginBottom: theme.spacing(2) }}
           >
             Book a seat
           </Typography>
@@ -121,7 +121,7 @@ function CustomDatePicker() {
                         backgroundColor: '#2E3438',
                         color: 'white',
                       },
-                      'color': 'black',
+                      color: 'black',
                     },
                     '& .MuiDialogActions-root': {
                       backgroundColor: 'white',
@@ -132,7 +132,7 @@ function CustomDatePicker() {
                   },
                 },
               }}
-              sx={{flex: 1, minWidth: '150px'}}
+              sx={{ flex: 1, minWidth: '150px' }}
             />
             <TimePicker
               label="Start Time"
@@ -161,7 +161,7 @@ function CustomDatePicker() {
                         backgroundColor: '#2E3438',
                         color: 'white',
                       },
-                      'color': 'black',
+                      color: 'black',
                     },
                     '& .MuiDialogActions-root': {
                       backgroundColor: 'white',
@@ -172,7 +172,7 @@ function CustomDatePicker() {
                   },
                 },
               }}
-              sx={{flex: 1, minWidth: '150px'}}
+              sx={{ flex: 1, minWidth: '150px' }}
             />
             <FormControl
               fullWidth
@@ -192,7 +192,7 @@ function CustomDatePicker() {
                 }
                 IconComponent={() => (
                   <SlowMotionVideoIcon
-                    style={{color: 'darkRed', marginRight: '10px '}}
+                    style={{ color: 'darkRed', marginRight: '10px ' }}
                   />
                 )}
                 MenuProps={{

@@ -1,11 +1,11 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 
 import ThisAvatarRoot from 'components/ThisAvatar/AvatarRoot';
 
-const ThisAvatar = forwardRef(({bgColor, size, shadow, ...rest}, ref) => (
-  <ThisAvatarRoot ref={ref} ownerState={{shadow, bgColor, size}} {...rest} />
+const ThisAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
+  <ThisAvatarRoot ref={ref} ownerState={{ shadow, bgColor, size }} {...rest} />
 ));
 
 ThisAvatar.displayName = 'ThisAvatar';

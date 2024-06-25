@@ -1,20 +1,20 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import ButtonRoot from 'components/ThisButton/ButtonRoot';
 
 const Button = forwardRef(
-    ({color, variant, size, circular, iconOnly, children, ...rest}, ref) => (
-      <ButtonRoot
-        {...rest}
-        ref={ref}
-        color="primary"
-        variant={variant === 'gradient' ? 'contained' : variant}
-        size={size}
-        ownerState={{color, variant, size, circular, iconOnly}}
-      >
-        {children}
-      </ButtonRoot>
-    ),
+  ({ color, variant, size, circular, iconOnly, children, ...rest }, ref) => (
+    <ButtonRoot
+      {...rest}
+      ref={ref}
+      color="primary"
+      variant={variant === 'gradient' ? 'contained' : variant}
+      size={size}
+      ownerState={{ color, variant, size, circular, iconOnly }}
+    >
+      {children}
+    </ButtonRoot>
+  ),
 );
 
 Button.displayName = 'Button';

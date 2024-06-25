@@ -1,27 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types'; // Import PropTypes
-import {Box, styled, Typography} from '@mui/material';
+import { Box, styled, Typography } from '@mui/material';
 
 import logoIMG from 'assets/images/logos/logo.png';
 
 const ContainerBase = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'sx',
-})(({theme, background, secondbackground, layouttype, sx}) => ({
-  'position': 'relative',
-  'textAlign': 'center',
-  'width': '100%',
-  'minHeight': '100vh',
-  'display': 'flex',
-  'flexDirection': 'column',
-  'alignItems': 'center',
-  'justifyContent': 'center',
-  'paddingTop': theme.spacing(4),
-  'paddingBottom': theme.spacing(4),
-  'overflow': 'hidden',
-  'backgroundSize': 'cover',
-  'backgroundPosition': 'center',
-  'backgroundAttachment': 'fixed',
-  'backgroundImage': `url(${background})`,
+})(({ theme, background, secondbackground, layouttype, sx }) => ({
+  position: 'relative',
+  textAlign: 'center',
+  width: '100%',
+  minHeight: '100vh',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  paddingTop: theme.spacing(4),
+  paddingBottom: theme.spacing(4),
+  overflow: 'hidden',
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  backgroundImage: `url(${background})`,
   '&::before': {
     content: '""',
     position: 'absolute',
@@ -80,34 +80,34 @@ const ContainerBase = styled(Box, {
 }));
 
 function layoutStyles(layouttype, theme) {
-  return layouttype === 'row' ?
-    {
-      [theme.breakpoints.down('sm')]: {
-        'gap': theme.spacing(1),
-        '& .item': {
-          flexBasis: '100%',
+  return layouttype === 'row'
+    ? {
+        [theme.breakpoints.down('sm')]: {
+          gap: theme.spacing(1),
+          '& .item': {
+            flexBasis: '100%',
+          },
         },
-      },
-      [theme.breakpoints.between('sm', 'md')]: {
-        'gap': theme.spacing(6),
-        '& .item': {
-          flexBasis: 'calc(50% - 16px)',
+        [theme.breakpoints.between('sm', 'md')]: {
+          gap: theme.spacing(6),
+          '& .item': {
+            flexBasis: 'calc(50% - 16px)',
+          },
         },
-      },
-      [theme.breakpoints.up('md')]: {
-        'gap': theme.spacing(8),
-        '& .item': {
-          flexBasis: 'calc(33.33% - 16px)',
+        [theme.breakpoints.up('md')]: {
+          gap: theme.spacing(8),
+          '& .item': {
+            flexBasis: 'calc(33.33% - 16px)',
+          },
         },
-      },
-      [theme.breakpoints.up('lg')]: {
-        'gap': theme.spacing(12),
-        '& .item': {
-          flexBasis: 'calc(33.33% - 16px)',
+        [theme.breakpoints.up('lg')]: {
+          gap: theme.spacing(12),
+          '& .item': {
+            flexBasis: 'calc(33.33% - 16px)',
+          },
         },
-      },
-    } :
-    {};
+      }
+    : {};
 }
 
 export default function StyledContainer({
@@ -117,13 +117,13 @@ export default function StyledContainer({
   layouttype,
   sx,
   titleText,
-  noLogo=false,
+  noLogo = false,
 }) {
-  const backgroundtype = background ?
-    background.endsWith('.mp4') ?
-      'video' :
-      'image' :
-    'image';
+  const backgroundtype = background
+    ? background.endsWith('.mp4')
+      ? 'video'
+      : 'image'
+    : 'image';
 
   return (
     <ContainerBase
@@ -134,9 +134,9 @@ export default function StyledContainer({
       }
       sx={sx}
       style={
-        backgroundtype === 'image' ?
-          {backgroundImage: `url(${background})`} :
-          {}
+        backgroundtype === 'image'
+          ? { backgroundImage: `url(${background})` }
+          : {}
       }
     >
       {backgroundtype === 'video' && (
@@ -162,7 +162,7 @@ export default function StyledContainer({
             boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
           }}
         >
-          <Typography variant="h1" fontWeight="bold" sx={{color: '#FFFFFF'}}>
+          <Typography variant="h1" fontWeight="bold" sx={{ color: '#FFFFFF' }}>
             {titleText}
           </Typography>
         </Box>

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useContext} from 'react';
-import {ScrollableAreaContext} from 'components/ThisInteractive/ScrollableArea';
+import { useContext } from 'react';
+import { ScrollableAreaContext } from 'components/ThisInteractive/ScrollableArea';
 import Easing from 'utils/Easing';
 
 export const ControlSkew = ({

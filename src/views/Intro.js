@@ -1,5 +1,5 @@
 import React from 'react';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import StyledTypography from 'components/ThisTypography';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 
@@ -7,7 +7,7 @@ import TigersTeam from 'assets/videos/TigersTeam.mp4';
 
 import BackgroundContainer from 'components/ThisBackgroundContainer';
 
-const StyledCard = styled('div')(({theme}) => ({
+const StyledCard = styled('div')(({ theme }) => ({
   backdropFilter: 'blur(5px) brightness(80%)',
   borderRadius: theme.shape.borderRadius,
   padding: theme.spacing(4),
@@ -62,13 +62,13 @@ const Header = () => {
               textTransform: 'uppercase',
             }}
           >
-          Tigers Team
+            Tigers Team
           </StyledTypography>
           <StyledTypography
             variant="body1"
             color="white"
             sx={{
-              mt: {xs: 0.5, sm: 0},
+              mt: { xs: 0.5, sm: 0 },
               fontSize: {
                 xs: '1.5rem',
                 sm: '1.9rem',
@@ -80,13 +80,13 @@ const Header = () => {
               lineHeight: 'normal',
             }}
           >
-          A Decade of Excellence in Drift Simulations
+            A Decade of Excellence in Drift Simulations
           </StyledTypography>
           <StyledTypography
             variant="body1"
             color="white"
             sx={{
-              mt: {xs: 1, sm: 1.5},
+              mt: { xs: 1, sm: 1.5 },
               fontSize: {
                 xs: '1rem',
                 sm: '1.3rem',
@@ -97,7 +97,7 @@ const Header = () => {
               lineHeight: 'normal',
             }}
           >
-          Leading drift gaming innovation since 2012. Proudly based in Jordan.
+            Leading drift gaming innovation since 2012. Proudly based in Jordan.
           </StyledTypography>
         </StyledCard>
       </BackgroundContainer>

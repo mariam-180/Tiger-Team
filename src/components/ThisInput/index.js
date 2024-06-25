@@ -1,11 +1,11 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 
 import InputRoot from 'components/ThisInput/InputRoot';
 
-const Input = forwardRef(({error, success, disabled, ...rest}, ref) => (
-  <InputRoot {...rest} ref={ref} ownerState={{error, success, disabled}} />
+const Input = forwardRef(({ error, success, disabled, ...rest }, ref) => (
+  <InputRoot {...rest} ref={ref} ownerState={{ error, success, disabled }} />
 ));
 
 Input.displayName = 'Input';

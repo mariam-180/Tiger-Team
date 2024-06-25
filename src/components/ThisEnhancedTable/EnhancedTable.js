@@ -24,7 +24,7 @@ import {
 import FilterListIcon from '@mui/icons-material/FilterList';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import {visuallyHidden} from '@mui/utils';
+import { visuallyHidden } from '@mui/utils';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -33,9 +33,9 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc' ?
-    (a, b) => descendingComparator(a, b, orderBy) :
-    (a, b) => -descendingComparator(a, b, orderBy);
+  return order === 'desc'
+    ? (a, b) => descendingComparator(a, b, orderBy)
+    : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function stableSort(array, comparator) {
@@ -70,7 +70,7 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{'aria-label': 'select all records'}}
+            inputProps={{ 'aria-label': 'select all records' }}
           />
         </TableCell>
         {headers.map((header) => (
@@ -111,25 +111,25 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const {tableName, numSelected, onDelete} = props;
+  const { tableName, numSelected, onDelete } = props;
 
   return (
     <Toolbar
       sx={{
-        pl: {sm: 2},
-        pr: {xs: 1, sm: 1},
+        pl: { sm: 2 },
+        pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
           bgcolor: (theme) =>
             alpha(
-                theme.palette.primary.main,
-                theme.palette.action.activatedOpacity,
+              theme.palette.primary.main,
+              theme.palette.action.activatedOpacity,
             ),
         }),
       }}
     >
       {numSelected > 0 ? (
         <Typography
-          sx={{flex: '1 1 100%'}}
+          sx={{ flex: '1 1 100%' }}
           color="inherit"
           variant="subtitle1"
           component="div"
@@ -138,7 +138,7 @@ function EnhancedTableToolbar(props) {
         </Typography>
       ) : (
         <Typography
-          sx={{flex: '1 1 100%'}}
+          sx={{ flex: '1 1 100%' }}
           variant="h6"
           id="tableTitle"
           component="div"
@@ -213,8 +213,8 @@ export default function EnhancedTable({
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
       newSelected = newSelected.concat(
-          selected.slice(0, selectedIndex),
-          selected.slice(selectedIndex + 1),
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
       );
     }
     setSelected(newSelected);
@@ -235,16 +235,16 @@ export default function EnhancedTable({
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - records.length) : 0;
 
   const visibleRows = React.useMemo(
-      () =>
-        stableSort(records, getComparator(order, orderBy)).slice(
-            page * rowsPerPage,
-            page * rowsPerPage + rowsPerPage,
-        ),
-      [order, orderBy, page, rowsPerPage, records],
+    () =>
+      stableSort(records, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage,
+      ),
+    [order, orderBy, page, rowsPerPage, records],
   );
 
   return (
-    <Box sx={{width: '100%', overflowX: 'auto'}}>
+    <Box sx={{ width: '100%', overflowX: 'auto' }}>
       <Box
         sx={{
           display: 'flex',
@@ -285,7 +285,7 @@ export default function EnhancedTable({
           }}
         />
       </Box>
-      <Paper sx={{width: '100%', mb: 2, p: 2, backgroundColor: 'white'}}>
+      <Paper sx={{ width: '100%', mb: 2, p: 2, backgroundColor: 'white' }}>
         <EnhancedTableToolbar
           tableName={tableName}
           numSelected={selected.length}
@@ -293,7 +293,7 @@ export default function EnhancedTable({
         />
         <TableContainer>
           <Table
-            sx={{minWidth: 750}}
+            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={dense ? 'small' : 'medium'}
           >
@@ -320,13 +320,13 @@ export default function EnhancedTable({
                     tabIndex={-1}
                     key={row.id}
                     selected={isItemSelected}
-                    sx={{cursor: 'pointer'}}
+                    sx={{ cursor: 'pointer' }}
                   >
                     <TableCell padding="checkbox">
                       <Checkbox
                         color="primary"
                         checked={isItemSelected}
-                        inputProps={{'aria-labelledby': labelId}}
+                        inputProps={{ 'aria-labelledby': labelId }}
                       />
                     </TableCell>
                     {headers.map((header) => (
@@ -356,7 +356,7 @@ export default function EnhancedTable({
                 );
               })}
               {emptyRows > 0 && (
-                <TableRow style={{height: (dense ? 33 : 53) * emptyRows}}>
+                <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
                 </TableRow>
               )}
@@ -379,12 +379,12 @@ export default function EnhancedTable({
 
 EnhancedTable.propTypes = {
   headers: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.string.isRequired,
-        numeric: PropTypes.bool.isRequired,
-        disablePadding: PropTypes.bool.isRequired,
-        label: PropTypes.string.isRequired,
-      }),
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      numeric: PropTypes.bool.isRequired,
+      disablePadding: PropTypes.bool.isRequired,
+      label: PropTypes.string.isRequired,
+    }),
   ).isRequired,
   records: PropTypes.arrayOf(PropTypes.object).isRequired,
   onEdit: PropTypes.func.isRequired,

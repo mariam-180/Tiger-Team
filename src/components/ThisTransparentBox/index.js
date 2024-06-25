@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box} from '@mui/material';
-import {styled} from '@mui/system';
+import { Box } from '@mui/material';
+import { styled } from '@mui/system';
 
-const TransparentContainer = styled(Box)(({theme, sx, base}) => ({
+const TransparentContainer = styled(Box)(({ theme, sx, base }) => ({
   position: 'relative',
   zIndex: 1,
   width: '90%',
@@ -23,7 +23,7 @@ const TransparentContainer = styled(Box)(({theme, sx, base}) => ({
   ...sx,
 }));
 
-const TransparentBox = ({children, base, sx}) => {
+const TransparentBox = ({ children, base, sx }) => {
   return (
     <TransparentContainer base={base} sx={sx}>
       {children}

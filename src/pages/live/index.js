@@ -1,5 +1,5 @@
-import React, {useEffect, useRef} from 'react';
-import {Grid, Box} from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import { Grid, Box } from '@mui/material';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 
 import ParallaxBackground from 'examples/parallax';
@@ -24,9 +24,9 @@ function Live() {
   };
 
   useEffect(() => {
-    const player = playerRef.current ?
-      videojs(playerRef.current, videoJsOptions, () => {}) :
-      null;
+    const player = playerRef.current
+      ? videojs(playerRef.current, videoJsOptions, () => {})
+      : null;
 
     return () => {
       if (player) {
@@ -43,12 +43,12 @@ function Live() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -63,10 +63,10 @@ function Live() {
         justifyContent="center"
         alignItems="center"
         sx={{
-          '.video-js': {width: '100%', height: '100%'},
-          'position': 'relative',
-          'paddingTop': '56.25%',
-          'zIndex': 200,
+          '.video-js': { width: '100%', height: '100%' },
+          position: 'relative',
+          paddingTop: '56.25%',
+          zIndex: 200,
         }}
       >
         <div data-vjs-player>

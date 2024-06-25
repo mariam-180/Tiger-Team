@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import MuiLink from '@mui/material/Link';
 import ThisBox from 'components/ThisBox';
@@ -8,35 +8,35 @@ import ThisTypography from 'components/ThisTypography';
 // eslint-disable-next-line max-len
 import DefaultNavbarDropdown from 'examples/navbars/DefaultNavbar/DefaultNavbarDropdown';
 
-function DefaultNavbarMobile({routes, open}) {
+function DefaultNavbarMobile({ routes, open }) {
   const [collapse, setCollapse] = useState('');
 
   const handleSetCollapse = (name) =>
     collapse === name ? setCollapse(false) : setCollapse(name);
 
   const renderNavbarItems = routes.map(
-      ({
-        name,
-        icon,
-        collapse: routeCollapses,
-        href,
-        route,
-        collapse: navCollapse,
-      }) => (
-        <DefaultNavbarDropdown
-          key={name}
-          name={name}
-          icon={icon}
-          collapseStatus={name === collapse}
-          onClick={() => handleSetCollapse(name)}
-          href={href}
-          route={route}
-          collapse={Boolean(navCollapse)}
+    ({
+      name,
+      icon,
+      collapse: routeCollapses,
+      href,
+      route,
+      collapse: navCollapse,
+    }) => (
+      <DefaultNavbarDropdown
+        key={name}
+        name={name}
+        icon={icon}
+        collapseStatus={name === collapse}
+        onClick={() => handleSetCollapse(name)}
+        href={href}
+        route={route}
+        collapse={Boolean(navCollapse)}
+      >
+        <ThisBox
+          sx={{ height: '15rem', maxHeight: '15rem', overflowY: 'scroll' }}
         >
-          <ThisBox
-            sx={{height: '15rem', maxHeight: '15rem', overflowY: 'scroll'}}
-          >
-            {routeCollapses &&
+          {routeCollapses &&
             routeCollapses.map((item) => (
               <ThisBox key={item.name} px={2}>
                 {item.collapse ? (
@@ -68,12 +68,12 @@ function DefaultNavbarMobile({routes, open}) {
                         py={0.625}
                         px={2}
                         sx={({
-                          palette: {grey, dark},
-                          borders: {borderRadius},
+                          palette: { grey, dark },
+                          borders: { borderRadius },
                         }) => ({
-                          'borderRadius': borderRadius.md,
-                          'cursor': 'pointer',
-                          'transition': 'all 300ms linear',
+                          borderRadius: borderRadius.md,
+                          cursor: 'pointer',
+                          transition: 'all 300ms linear',
                           '&:hover': {
                             backgroundColor: grey[200],
                             color: dark.main,
@@ -94,17 +94,17 @@ function DefaultNavbarMobile({routes, open}) {
                     target={item.href ? '_blank' : ''}
                     rel={item.href ? 'noreferrer' : 'noreferrer'}
                     sx={({
-                      palette: {grey, dark},
-                      borders: {borderRadius},
+                      palette: { grey, dark },
+                      borders: { borderRadius },
                     }) => ({
-                      'borderRadius': borderRadius.md,
-                      'cursor': 'pointer',
-                      'transition': 'all 300ms linear',
-                      'py': 1,
-                      'px': 1.625,
+                      borderRadius: borderRadius.md,
+                      cursor: 'pointer',
+                      transition: 'all 300ms linear',
+                      py: 1,
+                      px: 1.625,
                       '&:hover': {
-                        'backgroundColor': grey[200],
-                        'color': dark.main,
+                        backgroundColor: grey[200],
+                        color: dark.main,
                         '& *': {
                           color: dark.main,
                         },
@@ -124,7 +124,7 @@ function DefaultNavbarMobile({routes, open}) {
                       variant="button"
                       color="text"
                       fontWeight="regular"
-                      sx={{transition: 'all 300ms linear'}}
+                      sx={{ transition: 'all 300ms linear' }}
                     >
                       {item.description}
                     </ThisTypography>
@@ -132,9 +132,9 @@ function DefaultNavbarMobile({routes, open}) {
                 )}
               </ThisBox>
             ))}
-          </ThisBox>
-        </DefaultNavbarDropdown>
-      ),
+        </ThisBox>
+      </DefaultNavbarDropdown>
+    ),
   );
 
   return (

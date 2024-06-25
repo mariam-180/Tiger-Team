@@ -1,10 +1,10 @@
-import React, {useState, useEffect} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {useAuth} from 'authContext';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import {Grid, Container} from '@mui/material';
-import {styled} from '@mui/material/styles';
+import { Grid, Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 import {
   SignInContainer,
@@ -21,7 +21,7 @@ import ThisContainer from 'components/ThisContainer';
 import LoginSignupToggle from 'components/ThisCircle';
 import VerificationPopup from '../VerificationPopup';
 
-import {validateForm} from 'utils/formValidation';
+import { validateForm } from 'utils/formValidation';
 
 import background from 'assets/images/backGround/BMW_M3.png';
 
@@ -71,7 +71,7 @@ function AuthPage() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
-  const {login} = useAuth();
+  const { login } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -149,7 +149,7 @@ function AuthPage() {
       password: password,
     };
 
-    const {email: validatedEmail, phone: validatedPhone} =
+    const { email: validatedEmail, phone: validatedPhone } =
       validateForm(signUpData);
 
     if (validatedEmail === 'Invalid') {
@@ -226,12 +226,12 @@ function AuthPage() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -318,7 +318,7 @@ function AuthPage() {
           onClose={handleCloseSnackbar}
           severity={snackbarSeverity}
           variant="standard"
-          sx={{width: '100%'}}
+          sx={{ width: '100%' }}
         >
           {snackbarMessage}
         </Alert>

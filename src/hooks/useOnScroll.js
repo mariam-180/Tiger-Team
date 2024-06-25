@@ -1,4 +1,4 @@
-import {useEffect, useRef} from 'react';
+import { useEffect, useRef } from 'react';
 
 export const useOnScroll = (onScroll = (scrollY = 0, winHeight = 0) => {}) => {
   const _onScroll = useRef(onScroll);

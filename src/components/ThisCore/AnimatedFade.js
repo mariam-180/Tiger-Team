@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Easing from 'utils/Easing';
 
@@ -20,10 +20,10 @@ export const AnimatedFade = ({
     const tick = () => {
       clearTimeout(timeout);
       const val = ease(
-          t * endOpacity + (1 - t) * startOpacity,
-          startOpacity,
-          endOpacity,
-          1,
+        t * endOpacity + (1 - t) * startOpacity,
+        startOpacity,
+        endOpacity,
+        1,
       );
       setOpacity(val);
       t += tΔ;
@@ -38,7 +38,7 @@ export const AnimatedFade = ({
     tick();
   }, [setOpacity, duration, frame, startOpacity, endOpacity, ease]);
 
-  return <div style={{opacity}}>{children}</div>;
+  return <div style={{ opacity }}>{children}</div>;
 };
 
 AnimatedFade.propTypes = {

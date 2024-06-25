@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {Typography, Box, Button} from '@mui/material';
-import {styled} from '@mui/material/styles';
+import { Typography, Box, Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import RegistrationFormDialog from 'examples/formSubmit';
 
 const FlexContainer = styled(Box)({
@@ -12,7 +12,7 @@ const FlexContainer = styled(Box)({
   margin: '0px -24px',
 });
 
-const Title = styled(Typography)(({theme}) => ({
+const Title = styled(Typography)(({ theme }) => ({
   color: '#FFFFFF',
   fontSize: '48px',
   margin: '90px 0px 24px',
@@ -25,7 +25,7 @@ const Title = styled(Typography)(({theme}) => ({
   },
 }));
 
-const Subtitle = styled(Typography)(({theme}) => ({
+const Subtitle = styled(Typography)(({ theme }) => ({
   color: '#FFFFFF',
   fontSize: '32px',
   margin: '0px 0px 24px',
@@ -38,7 +38,7 @@ const Subtitle = styled(Typography)(({theme}) => ({
   },
 }));
 
-const BodyText = styled(Typography)(({theme}) => ({
+const BodyText = styled(Typography)(({ theme }) => ({
   color: '#A5A5A5',
   fontFamily: '"Nunito", sans-serif',
   fontSize: '16px',
@@ -49,16 +49,16 @@ const BodyText = styled(Typography)(({theme}) => ({
   },
 }));
 // eslint-disable-next-line no-unused-vars
-const StyledRegisterButton = styled(Button)(({theme}) => ({
-  'background': 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
-  'color': '#ffffff',
-  'padding': theme.spacing(1.5, 4),
-  'fontSize': '1rem',
-  'fontWeight': 600,
-  'textTransform': 'none',
-  'boxShadow': '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  'borderRadius': '25px',
-  'transition': 'background 0.5s ease, box-shadow 0.5s ease',
+const StyledRegisterButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
+  color: '#ffffff',
+  padding: theme.spacing(1.5, 4),
+  fontSize: '1rem',
+  fontWeight: 600,
+  textTransform: 'none',
+  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  borderRadius: '25px',
+  transition: 'background 0.5s ease, box-shadow 0.5s ease',
   '&:hover': {
     background: 'linear-gradient(45deg, #333333 30%, #666666 90%)',
     boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
@@ -66,7 +66,7 @@ const StyledRegisterButton = styled(Button)(({theme}) => ({
 }));
 
 // eslint-disable-next-line no-unused-vars
-const ClosedRegistrationMessage = styled(Typography)(({theme}) => ({
+const ClosedRegistrationMessage = styled(Typography)(({ theme }) => ({
   color: '#A50000',
   width: '80%',
   fontFamily: '"Nunito", sans-serif',

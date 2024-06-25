@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
@@ -7,14 +7,14 @@ import Typography from 'components/ThisTypography';
 import Avatar from 'components/ThisAvatar';
 import breakpoints from 'assets/theme/base/breakpoints';
 
-function Header({children, fullName, avatarImg, backgroundImage}) {
+function Header({ children, fullName, avatarImg, backgroundImage }) {
   const [tabsOrientation, setTabsOrientation] = useState('horizontal');
 
   useEffect(() => {
     function handleTabsOrientation() {
-      return window.innerWidth < breakpoints.values.sm ?
-        setTabsOrientation('vertical') :
-        setTabsOrientation('horizontal');
+      return window.innerWidth < breakpoints.values.sm
+        ? setTabsOrientation('vertical')
+        : setTabsOrientation('horizontal');
     }
 
     window.addEventListener('resize', handleTabsOrientation);
@@ -34,12 +34,12 @@ function Header({children, fullName, avatarImg, backgroundImage}) {
         borderRadius="xl"
         sx={{
           backgroundImage: ({
-            functions: {rgba, linearGradient},
-            palette: {gradients},
+            functions: { rgba, linearGradient },
+            palette: { gradients },
           }) =>
             `${linearGradient(
-                rgba(gradients.black.main, 0.1),
-                rgba(gradients.error.main, 0.8),
+              rgba(gradients.black.main, 0.1),
+              rgba(gradients.error.main, 0.8),
             )}, url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: '50%',

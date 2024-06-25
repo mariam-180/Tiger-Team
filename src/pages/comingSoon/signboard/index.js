@@ -18,11 +18,12 @@ const Signboard = styled.div`
   text-align: center;
   font-size: 2rem;
   font-weight: bold;
-  color: #F00;
+  color: #f00;
   box-shadow: -25px 25px 18px rgba(200, 0, 0, 0.5);
   border-radius: 20px;
 
-  &:before, &:after {
+  &:before,
+  &:after {
     content: '';
     position: absolute;
     top: 50%;

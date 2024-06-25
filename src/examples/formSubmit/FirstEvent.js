@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Dialog,
   DialogActions,
@@ -8,20 +8,20 @@ import {
   TextField,
   Button,
 } from '@mui/material';
-import {makeStyles} from '@mui/styles';
-import {styled} from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
+import { styled } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
-const StyledRegisterButton = styled(Button)(({theme}) => ({
-  'background': 'linear-gradient(45deg, #000000 0%, #A50000 90%)',
-  'color': '#ffffff',
-  'padding': theme.spacing(1.5, 4),
-  'fontSize': '.9rem',
-  'fontWeight': 600,
-  'textTransform': 'none',
-  'boxShadow': '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  'borderRadius': '25px',
-  'transition': 'background 0.5s ease, box-shadow 0.5s ease',
+const StyledRegisterButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #000000 0%, #A50000 90%)',
+  color: '#ffffff',
+  padding: theme.spacing(1.5, 4),
+  fontSize: '.9rem',
+  fontWeight: 600,
+  textTransform: 'none',
+  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  borderRadius: '25px',
+  transition: 'background 0.5s ease, box-shadow 0.5s ease',
   '&:hover': {
     background: 'linear-gradient(45deg, #000000 0%, #A50000 90%)',
     boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
@@ -29,15 +29,15 @@ const StyledRegisterButton = styled(Button)(({theme}) => ({
 }));
 
 const StyledCancelButton = styled(Button)({
-  'color': '#A50000',
-  'border': '1px solid #A50000',
-  'backgroundColor': 'transparent',
-  'textTransform': 'none',
-  'fontWeight': 'bold',
-  'fontSize': '0.875rem',
-  'padding': '8px 24px',
-  'borderRadius': '25px',
-  'boxShadow': 'none',
+  color: '#A50000',
+  border: '1px solid #A50000',
+  backgroundColor: 'transparent',
+  textTransform: 'none',
+  fontWeight: 'bold',
+  fontSize: '0.875rem',
+  padding: '8px 24px',
+  borderRadius: '25px',
+  boxShadow: 'none',
   '&:hover': {
     color: '#000000',
     border: '1px solid #000000',
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
         color: '#A50000',
       },
     },
-    'marginBottom': theme.spacing(2),
+    marginBottom: theme.spacing(2),
   },
   paymentNote: {
     color: '#A50000',
@@ -87,7 +87,7 @@ const RegistrationFormDialog = ({
   });
 
   const handleInputChange = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
       [name]: value,
@@ -98,14 +98,14 @@ const RegistrationFormDialog = ({
     event.preventDefault();
     try {
       const response = await fetch(
-          process.env.REACT_APP_REGISTRATION_FORM_ENDPOINT,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData),
+        process.env.REACT_APP_REGISTRATION_FORM_ENDPOINT,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
+          body: JSON.stringify(formData),
+        },
       );
 
       if (response.ok) {

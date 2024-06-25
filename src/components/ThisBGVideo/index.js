@@ -1,15 +1,15 @@
 import React from 'react';
-import {Box, styled} from '@mui/material';
+import { Box, styled } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const StyledContainer = styled(Box)({
-  'position': 'relative',
-  'width': '100vw',
-  'height': '100vh',
-  'display': 'flex',
-  'justifyContent': 'center',
-  'alignItems': 'center',
-  'overflow': 'hidden',
+  position: 'relative',
+  width: '100vw',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  overflow: 'hidden',
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -51,9 +51,9 @@ const VideoBackgroundContainer = ({
         muted
         loop
         style={
-          registration ?
-            {objectFit: 'cover', width: '100%'} :
-            {objectFit: 'cover', width: '100%', height: '140%'}
+          registration
+            ? { objectFit: 'cover', width: '100%' }
+            : { objectFit: 'cover', width: '100%', height: '140%' }
         }
         controls={false}
       >

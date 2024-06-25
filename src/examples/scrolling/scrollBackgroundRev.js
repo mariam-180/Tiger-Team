@@ -1,7 +1,7 @@
 import React from 'react';
 
 import Image from 'components/ThisCore/Image';
-import {FillerSection} from 'components/ThisCore/FillerSection';
+import { FillerSection } from 'components/ThisCore/FillerSection';
 import imgForest from 'assets/images/backGround/img-forest.jpeg';
 import imgCamera from 'assets/images/backGround/img-camera.jpeg';
 

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Box, Typography} from '@mui/material';
-import {styled} from '@mui/material/styles';
+import { Box, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const MovingText = styled(Box)(({theme}) => ({
-  'display': 'flex',
-  'whiteSpace': 'nowrap',
-  'animation': 'marquee 20s linear infinite',
+const MovingText = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  whiteSpace: 'nowrap',
+  animation: 'marquee 20s linear infinite',
   '@keyframes marquee': {
     '0%': {
       transform: 'translateX(0)',
@@ -21,20 +21,20 @@ const MovingText = styled(Box)(({theme}) => ({
   },
 }));
 
-const CsMovingWrap = ({texts, map, backgroundimage}) => {
+const CsMovingWrap = ({ texts, map, backgroundimage }) => {
   const textPadding = 50 / texts.length;
 
   return (
     <Box
       sx={{
-        'overflow': 'hidden',
-        'width': '100vw',
-        'height': '17vh',
-        'background': `url(${backgroundimage}) no-repeat center center fixed`,
-        'backgroundSize': 'cover',
-        'display': 'flex',
-        'alignItems': 'center',
-        'padding': 2,
+        overflow: 'hidden',
+        width: '100vw',
+        height: '17vh',
+        background: `url(${backgroundimage}) no-repeat center center fixed`,
+        backgroundSize: 'cover',
+        display: 'flex',
+        alignItems: 'center',
+        padding: 2,
         '&:hover .moving-text': {
           animationPlayState: 'paused',
         },
@@ -48,7 +48,7 @@ const CsMovingWrap = ({texts, map, backgroundimage}) => {
             fontSize="clamp(3rem, 2.5vw, 4rem)"
             component="span"
             key={index}
-            sx={{paddingRight: `${textPadding}%`, minWidth: 'max-content'}}
+            sx={{ paddingRight: `${textPadding}%`, minWidth: 'max-content' }}
           >
             {map ? map(text) : text}
           </Typography>

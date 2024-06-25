@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link, useLocation} from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
 import Icon from '@mui/material/Icon';
 import ThisBox from 'components/ThisBox';
 import ThisTypography from 'components/ThisTypography';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 const ActiveTypography = styled(ThisTypography, {
   shouldForwardProp: (prop) => prop !== 'isactive',
-})(({theme}) => ({
+})(({ theme }) => ({
   textAlign: 'center',
   color: '#ffffff',
   transition: 'all 0.3s ease-in-out',
@@ -21,16 +21,16 @@ const ActiveTypography = styled(ThisTypography, {
 
 const ActiveBox = styled(ThisBox, {
   shouldForwardProp: (prop) => prop !== 'isactive',
-})(({theme}) => ({
-  'mx': theme.spacing(1),
-  'p': theme.spacing(1),
-  'alignItems': 'center',
-  'cursor': 'pointer',
-  'color': 'inherit',
-  'backgroundColor': 'transparent',
-  'boxShadow': 'none',
-  'borderRadius': '20px 20px 0 0',
-  'transition': 'all 0.3s',
+})(({ theme }) => ({
+  mx: theme.spacing(1),
+  p: theme.spacing(1),
+  alignItems: 'center',
+  cursor: 'pointer',
+  color: 'inherit',
+  backgroundColor: 'transparent',
+  boxShadow: 'none',
+  borderRadius: '20px 20px 0 0',
+  transition: 'all 0.3s',
   '&:hover': {
     backgroundColor: theme.palette.darkGold.main,
   },
@@ -72,7 +72,7 @@ function DefaultNavbarDropdown({
         p={1}
         display="flex"
         color={light ? 'white' : 'dark'}
-        sx={{cursor: 'pointer', userSelect: 'none'}}
+        sx={{ cursor: 'pointer', userSelect: 'none' }}
         isactive={isactive ? 1 : 0}
         {...(route && routeComponent)}
         {...(href && linkComponent)}
@@ -82,7 +82,7 @@ function DefaultNavbarDropdown({
             variant="body2"
             lineHeight={1}
             color="inherit"
-            sx={{'alignSelf': 'center', '& *': {verticalAlign: 'middle'}}}
+            sx={{ alignSelf: 'center', '& *': { verticalAlign: 'middle' } }}
           >
             {icon}
           </ThisTypography>
@@ -92,7 +92,7 @@ function DefaultNavbarDropdown({
           fontWeight="regular"
           textTransform="capitalize"
           color={light ? 'white' : 'dark'}
-          sx={{fontWeight: '100%', ml: {md: 1, lg: 3}, mr: 0.25}}
+          sx={{ fontWeight: '100%', ml: { md: 1, lg: 3 }, mr: 0.25 }}
           isactive={isactive ? 1 : 0}
         >
           {name}
@@ -102,7 +102,7 @@ function DefaultNavbarDropdown({
           color={light ? 'white' : 'dark'}
           ml="auto"
         >
-          <Icon sx={{fontWeight: 'normal', verticalAlign: 'middle'}}>
+          <Icon sx={{ fontWeight: 'normal', verticalAlign: 'middle' }}>
             {collapse && 'keyboard_arrow_down'}
           </Icon>
         </ThisTypography>

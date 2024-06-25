@@ -1,40 +1,40 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 import TypographyRoot from 'components/ThisTypography/TypographyRoot';
 
 const Typography = forwardRef(
-    (
-        {
-          color,
-          fontWeight,
-          textTransform,
-          verticalAlign,
-          textGradient,
-          opacity,
-          children,
-          shiny,
-          waving,
-          ...rest
-        },
-        ref,
-    ) => (
-      <TypographyRoot
-        {...rest}
-        ref={ref}
-        ownerState={{
-          color,
-          textTransform,
-          verticalAlign,
-          fontWeight,
-          opacity,
-          textGradient,
-          shiny,
-          waving,
-        }}
-      >
-        {children}
-      </TypographyRoot>
-    ),
+  (
+    {
+      color,
+      fontWeight,
+      textTransform,
+      verticalAlign,
+      textGradient,
+      opacity,
+      children,
+      shiny,
+      waving,
+      ...rest
+    },
+    ref,
+  ) => (
+    <TypographyRoot
+      {...rest}
+      ref={ref}
+      ownerState={{
+        color,
+        textTransform,
+        verticalAlign,
+        fontWeight,
+        opacity,
+        textGradient,
+        shiny,
+        waving,
+      }}
+    >
+      {children}
+    </TypographyRoot>
+  ),
 );
 
 // Setting default values for the props of Typography

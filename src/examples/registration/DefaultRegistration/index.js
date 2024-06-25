@@ -1,12 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
-import {useAuth} from 'authContext';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from 'authContext';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Icon from '@mui/material/Icon';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 import ThisBox from 'components/ThisBox';
-import {StyledButton} from 'components/ThisStyledButton';
+import { StyledButton } from 'components/ThisStyledButton';
 import {
   Container,
   ContainerWrapper,
@@ -25,7 +25,7 @@ import {
   Row,
 } from './Components';
 
-import {validateForm} from 'utils/formValidation';
+import { validateForm } from 'utils/formValidation';
 import VerificationPopup from '../VerificationPopup';
 
 import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
@@ -48,7 +48,7 @@ function Registration() {
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('info');
 
-  const {login} = useAuth();
+  const { login } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -120,7 +120,7 @@ function Registration() {
       password: password,
     };
 
-    const {email: validatedEmail, phone: validatedPhone} =
+    const { email: validatedEmail, phone: validatedPhone } =
       validateForm(signUpData);
 
     if (validatedEmail === 'Invalid') {
@@ -234,7 +234,7 @@ function Registration() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  style={{width: '100%', paddingRight: '2.5rem'}}
+                  style={{ width: '100%', paddingRight: '2.5rem' }}
                 />
                 <button
                   onClick={togglePasswordVisibility}
@@ -272,7 +272,7 @@ function Registration() {
                   placeholder="Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  style={{width: '100%', paddingRight: '2.5rem'}}
+                  style={{ width: '100%', paddingRight: '2.5rem' }}
                 />
                 <button
                   onClick={togglePasswordVisibility}
@@ -344,7 +344,7 @@ function Registration() {
             onClose={handleCloseSnackbar}
             severity={snackbarSeverity}
             variant="standard"
-            sx={{width: '100%'}}
+            sx={{ width: '100%' }}
           >
             {snackbarMessage}
           </Alert>

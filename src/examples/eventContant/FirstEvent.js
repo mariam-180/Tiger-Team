@@ -3,25 +3,25 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import backgroundImage from 'assets/images/backGround/championshipPrivew.jpeg';
 
-const StyledBox = styled(Box)(({theme}) => ({
+const StyledBox = styled(Box)(({ theme }) => ({
   boxSizing: 'border-box',
   [theme.breakpoints.up('md')]: {
     fontSize: '1.325rem',
   },
 }));
 
-const ParentContainer = styled(Box)(({theme}) => ({
-  'position': 'relative',
-  'background': `url(${backgroundImage}) no-repeat center center fixed`,
-  'backgroundSize': 'cover',
-  'backgroundPosition': 'center',
-  'backgroundAttachment': 'fixed',
-  'minHeight': '100vh',
-  'overflow': 'hidden',
+const ParentContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  background: `url(${backgroundImage}) no-repeat center center fixed`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  minHeight: '100vh',
+  overflow: 'hidden',
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -36,14 +36,14 @@ const ParentContainer = styled(Box)(({theme}) => ({
   },
 }));
 
-const StyledContainer = styled(Box)(({theme}) => ({
-  'position': 'relative',
-  'background': `url(${backgroundImage}) no-repeat center center fixed`,
-  'backgroundSize': 'cover',
-  'backgroundPosition': 'center',
-  'backgroundAttachment': 'fixed',
-  'minHeight': '100vh',
-  'overflow': 'hidden',
+const StyledContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  background: `url(${backgroundImage}) no-repeat center center fixed`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  minHeight: '100vh',
+  overflow: 'hidden',
   '&:before': {
     content: '""',
     position: 'absolute',
@@ -78,30 +78,30 @@ const EventSection = () => {
       >
         <StyledBox
           sx={{
-            'color': '#FFFFFF',
-            'fontSize': '1.125rem',
-            'background': 'transparent',
-            'filter': 'brightness(120%)',
-            'fontFamily': 'Nunito, Roboto, Helvetica, Arial, sans-serif',
-            'padding': {
+            color: '#FFFFFF',
+            fontSize: '1.125rem',
+            background: 'transparent',
+            filter: 'brightness(120%)',
+            fontFamily: 'Nunito, Roboto, Helvetica, Arial, sans-serif',
+            padding: {
               xs: '32px 20px',
               sm: '48px 40px',
               md: '64px 80px',
               lg: '64px 120px',
               xl: '64px 203px',
             },
-            'margin': 'auto',
-            'maxWidth': '1200px',
-            'mt': {sm: 0, md: 4, lg: 8},
-            'mb': {sm: 0, md: 4, lg: 8},
+            margin: 'auto',
+            maxWidth: '1200px',
+            mt: { sm: 0, md: 4, lg: 8 },
+            mb: { sm: 0, md: 4, lg: 8 },
             '& .MuiTypography-h5': {
               color: '#D7F301',
             },
             '& .MuiListItem-root': {
-              'display': 'block',
-              'color': '#FFFFFF',
-              'margin': '8px 0px',
-              'padding': '0px 8px',
+              display: 'block',
+              color: '#FFFFFF',
+              margin: '8px 0px',
+              padding: '0px 8px',
               '&::before': {
                 content: '"•"',
                 color: '#FFFFFF',
@@ -134,7 +134,7 @@ const EventSection = () => {
           <Typography variant="h5" component="h2">
             REGISTRATION
           </Typography>
-          <List sx={{width: '100%'}}>
+          <List sx={{ width: '100%' }}>
             <ListItem>
               Registration is exclusively online through the official website
               and opens one month before the championship.
@@ -160,7 +160,7 @@ const EventSection = () => {
           <Typography variant="h5" component="h2">
             RACE FORMAT
           </Typography>
-          <List sx={{width: '100%'}}>
+          <List sx={{ width: '100%' }}>
             <ListItem>
               First Round: Begins with a Qualifying step, where each participant
               gets two runs to select their best for evaluation. The top 32
@@ -184,7 +184,7 @@ const EventSection = () => {
           <Typography variant="h5" component="h2">
             PRIZES
           </Typography>
-          <List sx={{width: '100%'}}>
+          <List sx={{ width: '100%' }}>
             <ListItem>1st Place: 400 JD</ListItem>
             <ListItem>2nd Place: 200 JD</ListItem>
             <ListItem>3rd Place: 100 JD</ListItem>

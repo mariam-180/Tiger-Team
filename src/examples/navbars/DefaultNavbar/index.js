@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import routes from 'routes';
-import {useAuth} from 'authContext';
+import { useAuth } from 'authContext';
 import filterRoutesByRole from 'utils/FilterRoutesByRole';
 
 import StyledBox from 'components/ThisBox';
@@ -17,14 +17,14 @@ function NavBar() {
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener('scroll', handleScroll, {passive: true});
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [lastScrollY]);
 
-  const {userRole} = useAuth();
+  const { userRole } = useAuth();
 
   const filteredRoutes = filterRoutesByRole(routes, userRole);
 

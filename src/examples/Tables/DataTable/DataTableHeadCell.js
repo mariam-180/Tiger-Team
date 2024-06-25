@@ -6,14 +6,14 @@ import Icon from '@mui/material/Icon';
 
 import Box from 'components/ThisBox';
 
-function DataTableHeadCell({width, children, sorted, align, ...rest}) {
+function DataTableHeadCell({ width, children, sorted, align, ...rest }) {
   return (
     <Box
       component="th"
       width={width}
       py={1.5}
       px={3}
-      sx={({palette: {light}, borders: {borderWidth}}) => ({
+      sx={({ palette: { light }, borders: { borderWidth } }) => ({
         borderBottom: `${borderWidth[1]} solid ${light.main}`,
       })}
     >
@@ -23,7 +23,7 @@ function DataTableHeadCell({width, children, sorted, align, ...rest}) {
         textAlign={align}
         color="text.primary"
         opacity={0.7}
-        sx={({typography: {size, fontWeightBold}}) => ({
+        sx={({ typography: { size, fontWeightBold } }) => ({
           fontSize: size.xxs,
           fontWeight: fontWeightBold,
           textTransform: 'uppercase',
@@ -38,7 +38,7 @@ function DataTableHeadCell({width, children, sorted, align, ...rest}) {
             top={0}
             right={align !== 'right' ? '16px' : 0}
             left={align === 'right' ? '-5px' : 'unset'}
-            sx={({typography: {size}}) => ({
+            sx={({ typography: { size } }) => ({
               fontSize: size.lg,
             })}
           >

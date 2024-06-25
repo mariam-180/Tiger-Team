@@ -1,42 +1,42 @@
-import React, {forwardRef} from 'react';
+import React, { forwardRef } from 'react';
 
 import PropTypes from 'prop-types';
 
 import BadgeRoot from 'components/ThisBadge/BadgeRoot';
 
 const Badge = forwardRef(
-    (
-        {
-          color,
-          variant,
-          size,
-          circular,
-          indicator,
-          border,
-          container,
-          children,
-          ...rest
-        },
-        ref,
-    ) => (
-      <BadgeRoot
-        {...rest}
-        ownerState={{
-          color,
-          variant,
-          size,
-          circular,
-          indicator,
-          border,
-          container,
-          children,
-        }}
-        ref={ref}
-        color="default"
-      >
-        {children}
-      </BadgeRoot>
-    ),
+  (
+    {
+      color,
+      variant,
+      size,
+      circular,
+      indicator,
+      border,
+      container,
+      children,
+      ...rest
+    },
+    ref,
+  ) => (
+    <BadgeRoot
+      {...rest}
+      ownerState={{
+        color,
+        variant,
+        size,
+        circular,
+        indicator,
+        border,
+        container,
+        children,
+      }}
+      ref={ref}
+      color="default"
+    >
+      {children}
+    </BadgeRoot>
+  ),
 );
 
 Badge.displayName = 'Badge';

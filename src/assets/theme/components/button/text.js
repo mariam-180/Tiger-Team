@@ -3,16 +3,16 @@ import typography from 'assets/theme/base/typography';
 
 import pxToRem from 'assets/theme/functions/pxToRem';
 
-const {text, info, secondary, transparent} = colors;
-const {size} = typography;
+const { text, info, secondary, transparent } = colors;
+const { size } = typography;
 
 export default {
   base: {
-    'backgroundColor': transparent.main,
-    'minHeight': pxToRem(40),
-    'color': text.main,
-    'boxShadow': 'none',
-    'padding': `${pxToRem(10)} ${pxToRem(24)}`,
+    backgroundColor: transparent.main,
+    minHeight: pxToRem(40),
+    color: text.main,
+    boxShadow: 'none',
+    padding: `${pxToRem(10)} ${pxToRem(24)}`,
 
     '&:hover': {
       backgroundColor: transparent.main,
@@ -38,9 +38,9 @@ export default {
   },
 
   small: {
-    'minHeight': pxToRem(32),
-    'padding': `${pxToRem(6)} ${pxToRem(16)}`,
-    'fontSize': size.xs,
+    minHeight: pxToRem(32),
+    padding: `${pxToRem(6)} ${pxToRem(16)}`,
+    fontSize: size.xs,
 
     '& .material-icon, .material-icons-round, svg': {
       fontSize: `${pxToRem(12)} !important`,
@@ -48,9 +48,9 @@ export default {
   },
 
   large: {
-    'minHeight': pxToRem(47),
-    'padding': `${pxToRem(12)} ${pxToRem(28)}`,
-    'fontSize': size.sm,
+    minHeight: pxToRem(47),
+    padding: `${pxToRem(12)} ${pxToRem(28)}`,
+    fontSize: size.sm,
 
     '& .material-icon, .material-icons-round, svg': {
       fontSize: `${pxToRem(22)} !important`,
@@ -58,7 +58,7 @@ export default {
   },
 
   primary: {
-    'color': info.main,
+    color: info.main,
 
     '&:hover': {
       color: info.main,
@@ -71,7 +71,7 @@ export default {
   },
 
   secondary: {
-    'color': secondary.main,
+    color: secondary.main,
 
     '&:hover': {
       color: secondary.main,

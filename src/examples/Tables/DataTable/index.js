@@ -1,4 +1,4 @@
-import React, {useMemo, useEffect, useState} from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -26,7 +26,7 @@ import DataTableHeadCell from 'examples/Tables/DataTable/DataTableHeadCell';
 import DataTableBodyCell from 'examples/Tables/DataTable/DataTableBodyCell';
 
 const flattenRowData = (row) => {
-  const flattenedData = {...row};
+  const flattenedData = { ...row };
   if (row.author) {
     flattenedData.email = row.author.props.email || '';
     flattenedData.name = row.author.props.name || '';
@@ -52,25 +52,25 @@ function DataTable({
   isSorted,
   noEndBorder,
 }) {
-  const defaultValue = entriesPerPage.defaultValue ?
-    entriesPerPage.defaultValue :
-    10;
-  const entries = entriesPerPage.entries ?
-    entriesPerPage.entries.map((el) => el.toString()) :
-    ['5', '10', '15', '20', '25'];
+  const defaultValue = entriesPerPage.defaultValue
+    ? entriesPerPage.defaultValue
+    : 10;
+  const entries = entriesPerPage.entries
+    ? entriesPerPage.entries.map((el) => el.toString())
+    : ['5', '10', '15', '20', '25'];
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
 
   const tableInstance = useTable(
-      {
-        columns,
-        data,
-        initialState: {pageIndex: 0},
-        globalFilter: filterRows,
-      },
-      useGlobalFilter,
-      useSortBy,
-      usePagination,
+    {
+      columns,
+      data,
+      initialState: { pageIndex: 0 },
+      globalFilter: filterRows,
+    },
+    useGlobalFilter,
+    useSortBy,
+    usePagination,
   );
 
   const {
@@ -88,7 +88,7 @@ function DataTable({
     previousPage,
     setPageSize,
     setGlobalFilter,
-    state: {pageIndex, pageSize, globalFilter},
+    state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
   useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
@@ -106,14 +106,14 @@ function DataTable({
     </Pagination>
   ));
 
-  const handleInputPagination = ({target: {value}}) =>
-    value > pageOptions.length || value < 0 ?
-      gotoPage(0) :
-      gotoPage(Number(value));
+  const handleInputPagination = ({ target: { value } }) =>
+    value > pageOptions.length || value < 0
+      ? gotoPage(0)
+      : gotoPage(Number(value));
 
   const customizedPageOptions = pageOptions.map((option) => option + 1);
 
-  const handleInputPaginationValue = ({target: value}) =>
+  const handleInputPaginationValue = ({ target: value }) =>
     gotoPage(Number(value.value - 1));
 
   const [search, setSearch] = useState(globalFilter);
@@ -150,7 +150,7 @@ function DataTable({
   }
 
   return (
-    <TableContainer sx={{boxShadow: 'none'}}>
+    <TableContainer sx={{ boxShadow: 'none' }}>
       {entriesPerPage || canSearch ? (
         <Box
           display="flex"
@@ -168,7 +168,7 @@ function DataTable({
                   setEntriesPerPage(parseInt(newValue, 10));
                 }}
                 size="small"
-                sx={{width: '5rem'}}
+                sx={{ width: '5rem' }}
                 renderInput={(params) => <Input {...params} />}
               />
               <Typography variant="caption" color="secondary">
@@ -183,7 +183,7 @@ function DataTable({
                 value={search}
                 size="small"
                 fullWidth
-                onChange={({currentTarget}) => {
+                onChange={({ currentTarget }) => {
                   setSearch(search);
                   onSearchChange(currentTarget.value);
                 }}
@@ -200,7 +200,7 @@ function DataTable({
                 <DataTableHeadCell
                   key={idx}
                   {...column.getHeaderProps(
-                      isSorted && column.getSortByToggleProps(),
+                    isSorted && column.getSortByToggleProps(),
                   )}
                   width={column.width ? column.width : 'auto'}
                   align={column.align ? column.align : 'left'}
@@ -235,13 +235,13 @@ function DataTable({
 
       <Box
         display="flex"
-        flexDirection={{xs: 'column', sm: 'row'}}
+        flexDirection={{ xs: 'column', sm: 'row' }}
         justifyContent="space-between"
-        alignItems={{xs: 'flex-start', sm: 'center'}}
+        alignItems={{ xs: 'flex-start', sm: 'center' }}
         p={!showTotalEntries && pageOptions.length === 1 ? 0 : 3}
       >
         {showTotalEntries && (
-          <Box mb={{xs: 3, sm: 0}}>
+          <Box mb={{ xs: 3, sm: 0 }}>
             <Typography variant="button" color="secondary" fontWeight="regular">
               Showing {entriesStart} to {entriesEnd} of {rows.length} entries
             </Typography>
@@ -254,7 +254,7 @@ function DataTable({
           >
             {canPreviousPage && (
               <Pagination item onClick={() => previousPage()}>
-                <Icon sx={{fontWeight: 'bold'}}>chevron_left</Icon>
+                <Icon sx={{ fontWeight: 'bold' }}>chevron_left</Icon>
               </Pagination>
             )}
             {renderPagination.length > 6 ? (
@@ -274,7 +274,7 @@ function DataTable({
             )}
             {canNextPage && (
               <Pagination item onClick={() => nextPage()}>
-                <Icon sx={{fontWeight: 'bold'}}>chevron_right</Icon>
+                <Icon sx={{ fontWeight: 'bold' }}>chevron_right</Icon>
               </Pagination>
             )}
           </Pagination>
@@ -285,10 +285,10 @@ function DataTable({
 }
 
 DataTable.defaultProps = {
-  entriesPerPage: {defaultValue: 10, entries: [5, 10, 15, 20, 25]},
+  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
-  pagination: {variant: 'gradient', color: 'info'},
+  pagination: { variant: 'gradient', color: 'info' },
   isSorted: true,
   noEndBorder: false,
 };

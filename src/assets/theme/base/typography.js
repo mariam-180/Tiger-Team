@@ -2,7 +2,7 @@ import colors from 'assets/theme/base/colors';
 
 import pxToRem from 'assets/theme/functions/pxToRem';
 
-const {dark} = colors;
+const { dark } = colors;
 
 const baseProperties = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -162,12 +162,12 @@ const typography = {
   },
 
   size: {
-    'xxs': baseProperties.fontSizeXXS,
-    'xs': baseProperties.fontSizeXS,
-    'sm': baseProperties.fontSizeSM,
-    'md': baseProperties.fontSizeMD,
-    'lg': baseProperties.fontSizeLG,
-    'xl': baseProperties.fontSizeXL,
+    xxs: baseProperties.fontSizeXXS,
+    xs: baseProperties.fontSizeXS,
+    sm: baseProperties.fontSizeSM,
+    md: baseProperties.fontSizeMD,
+    lg: baseProperties.fontSizeLG,
+    xl: baseProperties.fontSizeXL,
     '2xl': baseProperties.fontSize2XL,
     '3xl': baseProperties.fontSize3XL,
   },

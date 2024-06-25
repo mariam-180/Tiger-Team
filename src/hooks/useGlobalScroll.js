@@ -1,11 +1,11 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const GlobalScrollContext = React.createContext(undefined);
 const GlobalWinHeightContext = React.createContext(undefined);
 const GlobalDocHeightContext = React.createContext(undefined);
 
-export const GlobalScrollProvider = ({children}) => {
+export const GlobalScrollProvider = ({ children }) => {
   const [scrollY, setScrollY] = useState(0);
   const [winHeight, setWinHeight] = useState(0);
   const [docHeight, setDocHeight] = useState(0);
@@ -87,7 +87,7 @@ export const useGlobalScroll = () => {
     docHeight === undefined
   ) {
     throw new Error(
-        'useGlobalScroll must be used inside a GlobalScrollProvider',
+      'useGlobalScroll must be used inside a GlobalScrollProvider',
     );
   }
 

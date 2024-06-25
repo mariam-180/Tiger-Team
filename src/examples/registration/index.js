@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 const DefaultRegistration = React.lazy(() => import('./DefaultRegistration'));
 const MobileRegistration = React.lazy(() => import('./MobileRegistration'));

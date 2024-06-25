@@ -1,6 +1,6 @@
 import React from 'react';
-import {Grid} from '@mui/material';
-import {useNavigate} from 'react-router-dom';
+import { Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 import highWay from 'assets/images/backGround/HighWayRoad.webp';
 import StyledContainer from 'components/ThisContainer';
@@ -81,12 +81,12 @@ function Home() {
       sx={{
         backgroundColor: '#060708',
         backgroundimage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}

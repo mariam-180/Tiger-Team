@@ -1,5 +1,5 @@
-import React, {useRef, useState, useEffect} from 'react';
-import {makeStyles} from '@mui/styles';
+import React, { useRef, useState, useEffect } from 'react';
+import { makeStyles } from '@mui/styles';
 import io from 'socket.io-client';
 
 const useStyles = makeStyles({
@@ -17,9 +17,9 @@ const useStyles = makeStyles({
     transition: 'margin-bottom 0.3s ease',
   },
   passwordInput: {
-    'padding': '10px',
-    'fontSize': '16px',
-    'transition':
+    padding: '10px',
+    fontSize: '16px',
+    transition:
       'background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease',
     '&:focus': {
       outline: 'none',
@@ -28,35 +28,35 @@ const useStyles = makeStyles({
     },
   },
   authenticateButton: {
-    'padding': '10px 20px',
-    'fontSize': '16px',
-    'backgroundColor': '#007bff',
-    'color': 'white',
-    'border': 'none',
-    'borderRadius': '5px',
-    'cursor': 'pointer',
-    'transition': 'background-color 0.3s ease',
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#007bff',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
     '&:hover': {
       backgroundColor: '#0056b3',
     },
   },
   streamButton: {
-    'position': 'absolute',
-    'top': '10px',
-    'right': '10px',
-    'margin': '10px',
-    'padding': '10px 20px',
-    'fontSize': '16px',
-    'backgroundColor': '#28a745',
-    'color': 'white',
-    'border': 'none',
-    'borderRadius': '5px',
-    'cursor': 'pointer',
-    'transition': 'background-color 0.3s ease',
+    position: 'absolute',
+    top: '10px',
+    right: '10px',
+    margin: '10px',
+    padding: '10px 20px',
+    fontSize: '16px',
+    backgroundColor: '#28a745',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
     '&:hover': {
       backgroundColor: '#218838',
     },
-    'zIndex': 1,
+    zIndex: 1,
   },
   videoContainer: {
     position: 'relative',
@@ -120,8 +120,8 @@ const StreamPage = () => {
 
         const peerConnection = new RTCPeerConnection();
         stream
-            .getTracks()
-            .forEach((track) => peerConnection.addTrack(track, stream));
+          .getTracks()
+          .forEach((track) => peerConnection.addTrack(track, stream));
 
         peerConnection.onicecandidate = (event) => {
           if (event.candidate) {
@@ -149,7 +149,7 @@ const StreamPage = () => {
       } catch (error) {
         console.error('Error accessing camera or microphone:', error);
         alert(
-            'Failed to access camera or microphone. ' +
+          'Failed to access camera or microphone. ' +
             'Please check your permissions.',
         );
       }

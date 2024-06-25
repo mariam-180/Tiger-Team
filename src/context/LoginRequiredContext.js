@@ -1,9 +1,9 @@
-import React, {createContext, useState, useContext} from 'react';
+import React, { createContext, useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 
 const LoginRequiredContext = createContext();
 
-export const LoginRequiredProvider = ({children}) => {
+export const LoginRequiredProvider = ({ children }) => {
   const [loginRequired, setLoginRequired] = useState(false);
 
   const showLoginRequired = () => {
@@ -16,7 +16,7 @@ export const LoginRequiredProvider = ({children}) => {
 
   return (
     <LoginRequiredContext.Provider
-      value={{loginRequired, showLoginRequired, hideLoginRequired}}
+      value={{ loginRequired, showLoginRequired, hideLoginRequired }}
     >
       {children}
     </LoginRequiredContext.Provider>

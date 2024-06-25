@@ -1,4 +1,4 @@
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
 const REACT_APP_CHECK_TOKEN_ENDPOINT =
@@ -36,12 +36,12 @@ const checkTokenStatus = async () => {
 
   if (!accessToken || isTokenExpired(tokenName)) {
     clearAccessToken(tokenName);
-    return {tokenValid: false, userRole: null};
+    return { tokenValid: false, userRole: null };
   }
 
   try {
     const response = await axios.get(REACT_APP_CHECK_TOKEN_ENDPOINT, {
-      headers: {Authorization: `Bearer ${accessToken}`},
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
     const data = {
       tokenValid: response.data.token_valid,
@@ -51,7 +51,7 @@ const checkTokenStatus = async () => {
   } catch (error) {
     console.error('Token validation failed:', error);
     clearAccessToken(tokenName);
-    return {tokenValid: false, userRole: null};
+    return { tokenValid: false, userRole: null };
   }
 };
 
@@ -63,7 +63,7 @@ const getRole = async (tokenName) => {
 
   try {
     const response = await axios.get(REACT_APP_CHECK_TOKEN_ENDPOINT, {
-      headers: {Authorization: `Bearer ${accessToken}`},
+      headers: { Authorization: `Bearer ${accessToken}` },
     });
     const data = {
       tokenValid: response.data.token_valid,

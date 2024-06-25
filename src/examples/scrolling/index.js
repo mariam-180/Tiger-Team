@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {GlobalScrollProvider} from 'hooks/useGlobalScroll';
-import {GlobalMouseMoveProvider} from 'hooks/useGlobalMouseMove';
+import { GlobalScrollProvider } from 'hooks/useGlobalScroll';
+import { GlobalMouseMoveProvider } from 'hooks/useGlobalMouseMove';
 
-import {ExampleScrollText} from 'examples/scrolling/scrollText';
+import { ExampleScrollText } from 'examples/scrolling/scrollText';
 
-function Wrapper({children}) {
+function Wrapper({ children }) {
   return (
     <GlobalScrollProvider>
       <GlobalMouseMoveProvider>{children}</GlobalMouseMoveProvider>

@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import {useRect} from 'react-use-rect';
+import { useRect } from 'react-use-rect';
 
-const SlideText = ({source}) => {
+const SlideText = ({ source }) => {
   const [currentItemIndex, setCurrentItemIndex] = useState(0);
   const [rect, setRect] = useState(null);
   const [rectRef] = useRect(setRect);
@@ -26,7 +26,7 @@ const SlideText = ({source}) => {
         transition: 'all 0.5s ease-in-out',
       }}
     >
-      <span style={{visibility: 'hidden'}}>{source[currentItemIndex]}</span>
+      <span style={{ visibility: 'hidden' }}>{source[currentItemIndex]}</span>
       {source.map((text, index) => (
         <span
           key={index}
@@ -52,9 +52,7 @@ SlideText.propTypes = {
   length: PropTypes.number.isRequired,
 };
 
-
 export default SlideText;
-
 
 // ************* / Usage:
 

@@ -1,9 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const GlobalMouseCoordsContext = React.createContext(undefined);
 
-export const GlobalMouseMoveProvider = ({children}) => {
+export const GlobalMouseMoveProvider = ({ children }) => {
   const [mouseCoords, setMouseCoords] = useState([0, 0]);
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export const useGlobalMouseMove = () => {
 
   if (mouseCoords === undefined) {
     throw new Error(
-        'useGlobalMouseMove must be used inside a GlobalMouseMoveProvider',
+      'useGlobalMouseMove must be used inside a GlobalMouseMoveProvider',
     );
   }
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useContext} from 'react';
-import {useGlobalMouseMove} from 'hooks/useGlobalMouseMove';
+import { useContext } from 'react';
+import { useGlobalMouseMove } from 'hooks/useGlobalMouseMove';
 import Easing from 'utils/Easing';
-import {ScrollableAreaContext} from 'components/ThisInteractive/ScrollableArea';
+import { ScrollableAreaContext } from 'components/ThisInteractive/ScrollableArea';
 
 export const ControlTranslate = ({
   children,

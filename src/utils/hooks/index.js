@@ -1,4 +1,4 @@
-import {useMediaQuery} from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 
 const useIsMobile = () => {
   const isMobile = useMediaQuery('(max-width:600px)');
@@ -10,4 +10,4 @@ const useMediumScreen = () => {
   return isMedium;
 };
 
-export {useIsMobile, useMediumScreen};
+export { useIsMobile, useMediumScreen };

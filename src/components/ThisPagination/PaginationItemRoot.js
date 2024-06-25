@@ -1,15 +1,15 @@
-import {styled} from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 
 import Button from 'components/ThisButton';
 
-export default styled(Button)(({theme, ownerState}) => {
-  const {borders, functions, typography, palette} = theme;
-  const {variant, paginationSize, active} = ownerState;
+export default styled(Button)(({ theme, ownerState }) => {
+  const { borders, functions, typography, palette } = theme;
+  const { variant, paginationSize, active } = ownerState;
 
-  const {borderColor} = borders;
-  const {pxToRem} = functions;
-  const {fontWeightRegular, size: fontSize} = typography;
-  const {light} = palette;
+  const { borderColor } = borders;
+  const { pxToRem } = functions;
+  const { fontWeightRegular, size: fontSize } = typography;
+  const { light } = palette;
 
   let sizeValue = pxToRem(36);
 
@@ -21,14 +21,14 @@ export default styled(Button)(({theme, ownerState}) => {
 
   return {
     borderColor,
-    'margin': `0 ${pxToRem(2)}`,
-    'pointerEvents': active ? 'none' : 'auto',
-    'fontWeight': fontWeightRegular,
-    'fontSize': fontSize.sm,
-    'width': sizeValue,
-    'minWidth': sizeValue,
-    'height': sizeValue,
-    'minHeight': sizeValue,
+    margin: `0 ${pxToRem(2)}`,
+    pointerEvents: active ? 'none' : 'auto',
+    fontWeight: fontWeightRegular,
+    fontSize: fontSize.sm,
+    width: sizeValue,
+    minWidth: sizeValue,
+    height: sizeValue,
+    minHeight: sizeValue,
 
     '&:hover, &:focus, &:active': {
       transform: 'none',

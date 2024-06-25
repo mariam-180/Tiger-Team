@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Grid, Snackbar, Alert} from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Snackbar, Alert } from '@mui/material';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Banner from 'examples/bannerContainer';
@@ -22,12 +22,12 @@ function Champion() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -35,38 +35,38 @@ function Champion() {
       <DefaultNavbar />
       {eventClosed && <ComingSoon />}
       {!eventClosed && (
-        <Banner
-          setSnackbarOpen={setSnackbarOpen}
-          setSnackbarMessage={setSnackbarMessage}
-          setSnackbarSeverity={setSnackbarSeverity}
-        />
-      ) && (
-        <Snackbar
-          open={snackbarOpen}
-          autoHideDuration={6000}
-          onClose={() => setSnackbarOpen(false)}
-          anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-          sx={{
-            '& .MuiSnackbar-root': {
-              bottom: 0,
-              left: 0,
-              right: 0,
-            },
-            '& .MuiPaper-root': {
-              width: '100%',
-              maxWidth: '100%',
-            },
-          }}
-        >
-          <Alert
+          <Banner
+            setSnackbarOpen={setSnackbarOpen}
+            setSnackbarMessage={setSnackbarMessage}
+            setSnackbarSeverity={setSnackbarSeverity}
+          />
+        ) && (
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
             onClose={() => setSnackbarOpen(false)}
-            severity={snackbarSeverity}
-            sx={{width: '100%'}}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            sx={{
+              '& .MuiSnackbar-root': {
+                bottom: 0,
+                left: 0,
+                right: 0,
+              },
+              '& .MuiPaper-root': {
+                width: '100%',
+                maxWidth: '100%',
+              },
+            }}
           >
-            {snackbarMessage}
-          </Alert>
-        </Snackbar>
-      ) && <Contant /> && <Footer />}
+            <Alert
+              onClose={() => setSnackbarOpen(false)}
+              severity={snackbarSeverity}
+              sx={{ width: '100%' }}
+            >
+              {snackbarMessage}
+            </Alert>
+          </Snackbar>
+        ) && <Contant /> && <Footer />}
     </Grid>
   );
 }

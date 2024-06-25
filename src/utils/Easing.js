@@ -1,37 +1,37 @@
 const Easing = {};
 
 Easing.linear = function easeLinear(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return amountOfChange * (elapsed /= duration) + initialValue;
 };
 
 Easing.easeInQuad = function easeInQuad(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return amountOfChange * (elapsed /= duration) * elapsed + initialValue;
 };
 
 Easing.easeOutQuad = function easeOutQuad(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return -amountOfChange * (elapsed /= duration) * (elapsed - 2) + initialValue;
 };
 
 Easing.easeInOutQuad = function easeInOutQuad(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (amountOfChange / 2) * elapsed * elapsed + initialValue;
@@ -40,10 +40,10 @@ Easing.easeInOutQuad = function easeInOutQuad(
 };
 
 Easing.easeInCubic = function easeInCubic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange * (elapsed /= duration) * elapsed * elapsed + initialValue
@@ -51,10 +51,10 @@ Easing.easeInCubic = function easeInCubic(
 };
 
 Easing.easeOutCubic = function easeOutCubic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange *
@@ -64,10 +64,10 @@ Easing.easeOutCubic = function easeOutCubic(
 };
 
 Easing.easeInOutCubic = function easeInOutCubic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (amountOfChange / 2) * elapsed * elapsed * elapsed + initialValue;
@@ -79,10 +79,10 @@ Easing.easeInOutCubic = function easeInOutCubic(
 };
 
 Easing.easeInQuart = function easeInQuart(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange * (elapsed /= duration) * elapsed * elapsed * elapsed +
@@ -91,10 +91,10 @@ Easing.easeInQuart = function easeInQuart(
 };
 
 Easing.easeOutQuart = function easeOutQuart(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     -amountOfChange *
@@ -104,10 +104,10 @@ Easing.easeOutQuart = function easeOutQuart(
 };
 
 Easing.easeInOutQuart = function easeInOutQuart(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (
@@ -122,10 +122,10 @@ Easing.easeInOutQuart = function easeInOutQuart(
 };
 
 Easing.easeInQuint = function easeInQuint(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange *
@@ -139,10 +139,10 @@ Easing.easeInQuint = function easeInQuint(
 };
 
 Easing.easeOutQuint = function easeOutQuint(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange *
@@ -157,10 +157,10 @@ Easing.easeOutQuint = function easeOutQuint(
 };
 
 Easing.easeInOutQuint = function easeInOutQuint(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (
@@ -176,10 +176,10 @@ Easing.easeInOutQuint = function easeInOutQuint(
 };
 
 Easing.easeInSine = function easeInSine(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     -amountOfChange * Math.cos((elapsed / duration) * (Math.PI / 2)) +
@@ -189,10 +189,10 @@ Easing.easeInSine = function easeInSine(
 };
 
 Easing.easeOutSine = function easeOutSine(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange * Math.sin((elapsed / duration) * (Math.PI / 2)) +
@@ -201,10 +201,10 @@ Easing.easeOutSine = function easeOutSine(
 };
 
 Easing.easeInOutSine = function easeInOutSine(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     (-amountOfChange / 2) * (Math.cos((Math.PI * elapsed) / duration) - 1) +
@@ -213,34 +213,34 @@ Easing.easeInOutSine = function easeInOutSine(
 };
 
 Easing.easeInExpo = function easeInExpo(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
-  return elapsed === 0 ?
-    initialValue :
-    amountOfChange * Math.pow(2, 10 * (elapsed / duration - 1)) +
+  return elapsed === 0
+    ? initialValue
+    : amountOfChange * Math.pow(2, 10 * (elapsed / duration - 1)) +
         initialValue;
 };
 
 Easing.easeOutExpo = function easeOutExpo(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
-  return elapsed === duration ?
-    initialValue + amountOfChange :
-    amountOfChange * (-Math.pow(2, (-10 * elapsed) / duration) + 1) +
+  return elapsed === duration
+    ? initialValue + amountOfChange
+    : amountOfChange * (-Math.pow(2, (-10 * elapsed) / duration) + 1) +
         initialValue;
 };
 
 Easing.easeInOutExpo = function easeInOutExpo(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if (elapsed === 0) {
     return initialValue;
@@ -259,10 +259,10 @@ Easing.easeInOutExpo = function easeInOutExpo(
 };
 
 Easing.easeInCirc = function easeInCirc(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     -amountOfChange * (Math.sqrt(1 - (elapsed /= duration) * elapsed) - 1) +
@@ -271,10 +271,10 @@ Easing.easeInCirc = function easeInCirc(
 };
 
 Easing.easeOutCirc = function easeOutCirc(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange *
@@ -284,10 +284,10 @@ Easing.easeOutCirc = function easeOutCirc(
 };
 
 Easing.easeInOutCirc = function easeInOutCirc(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (
@@ -302,10 +302,10 @@ Easing.easeInOutCirc = function easeInOutCirc(
 };
 
 Easing.easeInElastic = function easeInElastic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   let s = 1.70158;
   let p = 0;
@@ -335,10 +335,10 @@ Easing.easeInElastic = function easeInElastic(
 };
 
 Easing.easeOutElastic = function easeOutElastic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   let s = 1.70158;
   let p = 0;
@@ -368,10 +368,10 @@ Easing.easeOutElastic = function easeOutElastic(
 };
 
 Easing.easeInOutElastic = function easeInOutElastic(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   let s = 1.70158;
   let p = 0;
@@ -411,11 +411,11 @@ Easing.easeInOutElastic = function easeInOutElastic(
 };
 
 Easing.easeInBack = function easeInBack(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
-    s = 1.70158,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
+  s = 1.70158,
 ) {
   return (
     amountOfChange * (elapsed /= duration) * elapsed * ((s + 1) * elapsed - s) +
@@ -424,11 +424,11 @@ Easing.easeInBack = function easeInBack(
 };
 
 Easing.easeOutBack = function easeOutBack(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
-    s = 1.70158,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
+  s = 1.70158,
 ) {
   return (
     amountOfChange *
@@ -439,11 +439,11 @@ Easing.easeOutBack = function easeOutBack(
 };
 
 Easing.easeInOutBack = function easeInOutBack(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
-    s = 1.70158,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
+  s = 1.70158,
 ) {
   if ((elapsed /= duration / 2) < 1) {
     return (
@@ -460,10 +460,10 @@ Easing.easeInOutBack = function easeInOutBack(
 };
 
 Easing.easeInBounce = function easeInBounce(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   return (
     amountOfChange -
@@ -473,10 +473,10 @@ Easing.easeInBounce = function easeInBounce(
 };
 
 Easing.easeOutBounce = function easeOutBounce(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if ((elapsed /= duration) < 1 / 2.75) {
     return amountOfChange * (7.5625 * elapsed * elapsed) + initialValue;
@@ -500,10 +500,10 @@ Easing.easeOutBounce = function easeOutBounce(
 };
 
 Easing.easeInOutBounce = function easeInOutBounce(
-    elapsed = 0,
-    initialValue = 0,
-    amountOfChange = 0,
-    duration = 0,
+  elapsed = 0,
+  initialValue = 0,
+  amountOfChange = 0,
+  duration = 0,
 ) {
   if (elapsed < duration / 2) {
     return (

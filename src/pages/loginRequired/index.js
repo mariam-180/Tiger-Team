@@ -1,9 +1,9 @@
 import React from 'react';
-import {Typography, Grid} from '@mui/material';
-import {useLocation, useNavigate} from 'react-router-dom';
+import { Typography, Grid } from '@mui/material';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ParentContainer from 'components/ThisContainer/filtered';
 import TransparentBox from 'components/ThisTransparentBox';
-import {StyledButton} from 'components/ThisStyledButton';
+import { StyledButton } from 'components/ThisStyledButton';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
 import AnimatedItem from 'utils/animatedItem';
@@ -22,12 +22,12 @@ const LoginRequiredPage = () => {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -56,21 +56,21 @@ const LoginRequiredPage = () => {
           <Typography
             variant="h2"
             component="h1"
-            sx={{color: '#6666FF', fontWeight: 'bold', mb: 2}}
+            sx={{ color: '#6666FF', fontWeight: 'bold', mb: 2 }}
           >
             Please login to continue
           </Typography>
           <Typography
             variant="h6"
             component="p"
-            sx={{color: 'lightgray', mb: 4}}
+            sx={{ color: 'lightgray', mb: 4 }}
           >
             This feature requires you to be logged in.
           </Typography>
           <StyledButton
             sx={{
-              'background': '#FF3B3F',
-              'color': 'white',
+              background: '#FF3B3F',
+              color: 'white',
               '&:hover': {
                 backgroundColor: '#FF1F22',
               },
@@ -83,9 +83,9 @@ const LoginRequiredPage = () => {
           </StyledButton>
           <StyledButton
             sx={{
-              'background': '#222222',
-              'color': 'white',
-              'marginLeft': '20px',
+              background: '#222222',
+              color: 'white',
+              marginLeft: '20px',
               '&:hover': {
                 backgroundColor: '#000000',
               },

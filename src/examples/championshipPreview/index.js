@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {Box, Button, Typography} from '@mui/material';
-import {styled} from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom';
+import React, { useState } from 'react';
+import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line max-len
 import championshipPreviewImage from 'assets/images/backGround/championship.webp';
@@ -11,19 +11,19 @@ import ComingSoon from 'pages/comingSoon/signboard';
 
 import AnimatedTypingText from 'utils/Typing';
 
-const PreviewContainer = styled(Box)(({theme}) => ({
-  'position': 'relative',
-  'background': `url(${championshipPreviewImage}) no-repeat center center`,
-  'backgroundSize': 'cover',
-  'backgroundPosition': 'center',
-  'backgroundAttachment': 'fixed',
-  'minHeight': '100vh',
-  'display': 'flex',
-  'justifyContent': 'center',
-  'alignItems': 'center',
-  'flexDirection': 'column',
-  'color': '#FFFFFF',
-  'padding': theme.spacing(4),
+const PreviewContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  background: `url(${championshipPreviewImage}) no-repeat center center`,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundAttachment: 'fixed',
+  minHeight: '100vh',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  flexDirection: 'column',
+  color: '#FFFFFF',
+  padding: theme.spacing(4),
   [theme.breakpoints.down('sm')]: {
     backgroundAttachment: 'scroll',
   },
@@ -80,17 +80,17 @@ const PreviewContainer = styled(Box)(({theme}) => ({
   },
 }));
 
-const StyledButton = styled(Button)(({theme}) => ({
-  'background': 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
-  'color': '#ffffff',
-  'padding': theme.spacing(1.5, 4),
-  'margin': theme.spacing(3),
-  'fontSize': '1rem',
-  'fontWeight': 600,
-  'textTransform': 'none',
-  'boxShadow': '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  'borderRadius': '25px',
-  'transition': 'background 0.5s ease, box-shadow 0.5s ease',
+const StyledButton = styled(Button)(({ theme }) => ({
+  background: 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
+  color: '#ffffff',
+  padding: theme.spacing(1.5, 4),
+  margin: theme.spacing(3),
+  fontSize: '1rem',
+  fontWeight: 600,
+  textTransform: 'none',
+  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+  borderRadius: '25px',
+  transition: 'background 0.5s ease, box-shadow 0.5s ease',
   '&:hover': {
     background: 'linear-gradient(45deg, #333333 30%, #666666 90%)',
     boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
@@ -111,45 +111,45 @@ const ChampionshipPreview = () => {
     <PreviewContainer>
       {eventClosed && <ComingSoon />}
       {!eventClosed && (
-        <AnimatedTypingText
-          sx={{
-            color: 'gold',
-            variant: 'h2',
-            component: 'h2',
-            fontSize: '2rem',
-            fontWeight: 'bold',
-            zIndex: 2,
-          }}
-          strings={['Get Ready for the Big Race!']}
-          backSpeed={25}
-          smartBackspace={true}
-        ></AnimatedTypingText>
-      ) && (
-        <Typography
-          color="#ffffff"
-          variant="h4"
-          sx={{
-            mt: 2,
-            mb: 2,
-            maxWidth: '600px',
-            textAlign: 'center',
-            zIndex: 1,
-          }}
-        >
+          <AnimatedTypingText
+            sx={{
+              color: 'gold',
+              variant: 'h2',
+              component: 'h2',
+              fontSize: '2rem',
+              fontWeight: 'bold',
+              zIndex: 2,
+            }}
+            strings={['Get Ready for the Big Race!']}
+            backSpeed={25}
+            smartBackspace={true}
+          ></AnimatedTypingText>
+        ) && (
+          <Typography
+            color="#ffffff"
+            variant="h4"
+            sx={{
+              mt: 2,
+              mb: 2,
+              maxWidth: '600px',
+              textAlign: 'center',
+              zIndex: 1,
+            }}
+          >
             Get set for an amazing car race event on March 1st, 2024! It&apos;s
             a fun day where drivers show off their amazing driving skills in
             exciting races. It&apos;s perfect for anyone who loves cars and
             racing. Don&apos;t miss it!
-        </Typography>
-      ) && (
-        <StyledButton
-          variant="contained"
-          size="large"
-          onClick={handleNavigate}
-        >
+          </Typography>
+        ) && (
+          <StyledButton
+            variant="contained"
+            size="large"
+            onClick={handleNavigate}
+          >
             Discover More
-        </StyledButton>
-      )}
+          </StyledButton>
+        )}
     </PreviewContainer>
   );
 };

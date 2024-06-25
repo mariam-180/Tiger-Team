@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from '@mui/material';
+import { Grid } from '@mui/material';
 
 import Registration from 'examples/registration';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
@@ -15,12 +15,12 @@ function RegistrationPage() {
       sx={{
         backgroundColor: '#060708',
         backgroundimage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}

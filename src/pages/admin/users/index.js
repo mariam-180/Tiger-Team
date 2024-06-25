@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
-import React, {useEffect, useState} from 'react';
-import {useAuth} from 'authContext';
+import React, { useEffect, useState } from 'react';
+import { useAuth } from 'authContext';
 import axios from 'axios';
 import {
   Grid,
@@ -17,7 +17,7 @@ import Avatar from 'components/ThisAvatar';
 import Typography from 'components/ThisTypography';
 import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
-import {useSnackbar} from 'context/SnackbarContext';
+import { useSnackbar } from 'context/SnackbarContext';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
@@ -37,22 +37,22 @@ const roleOptions = Object.entries(roleHierarchy).map(([key]) => ({
 }));
 
 const userColumns = [
-  {Header: 'Author', accessor: 'author', width: '45%', align: 'left'},
-  {Header: 'Username', accessor: 'user_name', align: 'left'},
-  {Header: 'Credit', accessor: 'credit', align: 'center'},
-  {Header: 'Role', accessor: 'role', align: 'center'},
-  {Header: 'Action', accessor: 'action', align: 'center'},
+  { Header: 'Author', accessor: 'author', width: '45%', align: 'left' },
+  { Header: 'Username', accessor: 'user_name', align: 'left' },
+  { Header: 'Credit', accessor: 'credit', align: 'center' },
+  { Header: 'Role', accessor: 'role', align: 'center' },
+  { Header: 'Action', accessor: 'action', align: 'center' },
 ];
 
 function AdminUsers() {
-  const {accessToken} = useAuth();
-  const {showSnackbar} = useSnackbar();
+  const { accessToken } = useAuth();
+  const { showSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const Author = ({image, name, email}) => (
+  const Author = ({ image, name, email }) => (
     <Box display="flex" alignItems="center" lineHeight={1}>
       <Avatar src={image} name={name} size="sm" />
       <Box ml={2} lineHeight={1}>
@@ -68,7 +68,7 @@ function AdminUsers() {
     try {
       const [usersResponse] = await Promise.all([
         axios.get(process.env.REACT_APP_USERS_ENDPOINT, {
-          headers: {Authorization: `Bearer ${accessToken}`},
+          headers: { Authorization: `Bearer ${accessToken}` },
         }),
       ]);
       setUsers(usersResponse.data);
@@ -82,7 +82,7 @@ function AdminUsers() {
   const updateUser = async (id, data) => {
     try {
       await axios.patch(`${process.env.REACT_APP_USERS_ENDPOINT}${id}`, data, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('User updated successfully', 'success');
@@ -95,7 +95,7 @@ function AdminUsers() {
   const deleteUser = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_USERS_ENDPOINT}${id}`, {
-        headers: {Authorization: `Bearer ${accessToken}`},
+        headers: { Authorization: `Bearer ${accessToken}` },
       });
       fetchData();
       showSnackbar('User deleted successfully', 'success');
@@ -138,13 +138,13 @@ function AdminUsers() {
       <Box display="flex" justifyContent="center">
         <Button
           onClick={() => handleEditUser(user.id)}
-          sx={{color: '#00008B', opacity: '0.9'}}
+          sx={{ color: '#00008B', opacity: '0.9' }}
         >
           Edit
         </Button>
         <Button
           onClick={() => deleteUser(user.id)}
-          sx={{color: '#8B0000', opacity: '0.9'}}
+          sx={{ color: '#8B0000', opacity: '0.9' }}
         >
           Delete
         </Button>
@@ -160,12 +160,12 @@ function AdminUsers() {
       sx={{
         backgroundColor: '#060708',
         backgroundImage: ({
-          functions: {linearGradient, rgba},
-          palette: {gradients},
+          functions: { linearGradient, rgba },
+          palette: { gradients },
         }) =>
           `${linearGradient(
-              rgba(gradients.dark.main, 0.01),
-              rgba(gradients.dark.state, 0.01),
+            rgba(gradients.dark.main, 0.01),
+            rgba(gradients.dark.state, 0.01),
           )}`,
         overflow: 'hidden',
       }}
@@ -216,7 +216,7 @@ function AdminUsers() {
             label="First Name"
             value={selectedUser?.first_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, first_name: e.target.value})
+              setSelectedUser({ ...selectedUser, first_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -228,7 +228,7 @@ function AdminUsers() {
             label="Last Name"
             value={selectedUser?.last_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, last_name: e.target.value})
+              setSelectedUser({ ...selectedUser, last_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -239,7 +239,7 @@ function AdminUsers() {
             label="Email"
             value={selectedUser?.email || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, email: e.target.value})
+              setSelectedUser({ ...selectedUser, email: e.target.value })
             }
             fullWidth
             sx={{
@@ -250,7 +250,7 @@ function AdminUsers() {
             label="Phone Number"
             value={selectedUser?.phone_number || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, phone_number: e.target.value})
+              setSelectedUser({ ...selectedUser, phone_number: e.target.value })
             }
             fullWidth
             sx={{
@@ -261,7 +261,7 @@ function AdminUsers() {
             label="Username"
             value={selectedUser?.user_name || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, user_name: e.target.value})
+              setSelectedUser({ ...selectedUser, user_name: e.target.value })
             }
             fullWidth
             sx={{
@@ -273,7 +273,7 @@ function AdminUsers() {
             type="number"
             value={selectedUser?.credit || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, credit: e.target.value})
+              setSelectedUser({ ...selectedUser, credit: e.target.value })
             }
             fullWidth
             sx={{
@@ -285,7 +285,7 @@ function AdminUsers() {
             label="Role"
             value={selectedUser?.role || ''}
             onChange={(e) =>
-              setSelectedUser({...selectedUser, role: e.target.value})
+              setSelectedUser({ ...selectedUser, role: e.target.value })
             }
             fullWidth
             sx={{

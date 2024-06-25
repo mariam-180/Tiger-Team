@@ -1,7 +1,7 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Typed from 'typed.js';
-import {Typography} from '@mui/material';
+import { Typography } from '@mui/material';
 
 const AnimatedTypingText = ({
   strings,

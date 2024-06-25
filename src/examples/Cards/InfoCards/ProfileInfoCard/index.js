@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import PropTypes from 'prop-types';
 
@@ -14,18 +14,18 @@ import Typography from 'components/ThisTypography';
 import colors from 'assets/theme/base/colors';
 import typography from 'assets/theme/base/typography';
 
-function ProfileInfoCard({title, description, info, social, action, shadow}) {
+function ProfileInfoCard({ title, description, info, social, action, shadow }) {
   const labels = [];
   const values = [];
-  const {socialMediaColors} = colors;
-  const {size} = typography;
+  const { socialMediaColors } = colors;
+  const { size } = typography;
 
   Object.keys(info).forEach((el) => {
     if (el.match(/[A-Z\s]+/)) {
       const uppercaseLetter = Array.from(el).find((i) => i.match(/[A-Z]+/));
       const newElement = el.replace(
-          uppercaseLetter,
-          ` ${uppercaseLetter.toLowerCase()}`,
+        uppercaseLetter,
+        ` ${uppercaseLetter.toLowerCase()}`,
       );
 
       labels.push(newElement);
@@ -47,7 +47,7 @@ function ProfileInfoCard({title, description, info, social, action, shadow}) {
     </Box>
   ));
 
-  const renderSocial = social.map(({link, icon, color}) => (
+  const renderSocial = social.map(({ link, icon, color }) => (
     <Box
       key={color}
       component="a"
@@ -65,7 +65,7 @@ function ProfileInfoCard({title, description, info, social, action, shadow}) {
   ));
 
   return (
-    <Card sx={{height: '100%', boxShadow: !shadow && 'none'}}>
+    <Card sx={{ height: '100%', boxShadow: !shadow && 'none' }}>
       <Box
         display="flex"
         justifyContent="space-between"

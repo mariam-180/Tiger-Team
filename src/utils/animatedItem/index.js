@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {useInView} from 'react-intersection-observer';
-import {makeStyles} from '@mui/styles';
+import { useInView } from 'react-intersection-observer';
+import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     opacity: 0,
     // transform: 'translatey(20px)',
-    transition: ({delay}) =>
+    transition: ({ delay }) =>
       `opacity 1.8s ease-out ${delay}s, transform 1.2s ease-out ${delay}s`,
   },
   visible: {
@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AnimatedItem = ({children, delay = 0}) => {
-  const classes = useStyles({delay});
-  const {ref, inView} = useInView({
+const AnimatedItem = ({ children, delay = 0 }) => {
+  const classes = useStyles({ delay });
+  const { ref, inView } = useInView({
     triggerOnce: true,
     threshold: 0.1,
   });

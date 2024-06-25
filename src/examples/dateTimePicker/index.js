@@ -11,12 +11,12 @@ import {
   Typography,
   ListItemText,
 } from '@mui/material';
-import {DatePicker, TimePicker} from '@mui/x-date-pickers';
-import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
-import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
-import {StyledButton} from 'components/ThisStyledButton';
+import { DatePicker, TimePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { StyledButton } from 'components/ThisStyledButton';
 import SlowMotionVideoIcon from '@mui/icons-material/SlowMotionVideo';
-import {useIsMobile} from 'utils/hooks';
+import { useIsMobile } from 'utils/hooks';
 
 function CustomDatePicker({
   branch,
@@ -31,8 +31,8 @@ function CustomDatePicker({
 }) {
   const roundToNearestFive = (minutes) => Math.ceil(minutes / 5) * 5;
   const currentRoundedTime = dayjs()
-      .minute(roundToNearestFive(dayjs().minute()))
-      .second(0);
+    .minute(roundToNearestFive(dayjs().minute()))
+    .second(0);
 
   const theme = useTheme();
   const isMobile = useIsMobile();
@@ -42,9 +42,7 @@ function CustomDatePicker({
   const handleChange = (event) => {
     setDuration(event.target.value);
     let total;
-    if (
-      branch.name === 'Al-Kilo Circle'
-    ) {
+    if (branch.name === 'Al-Kilo Circle') {
       total = branch.total_price[event.target.value];
     } else {
       total = (event.target.value / 60) * branch.price;
@@ -57,9 +55,9 @@ function CustomDatePicker({
   };
 
   const durations = [
-    {value: 30, label: '30 mins', endsLabel: 'ends at'},
-    {value: 60, label: '1 hour', endsLabel: 'ends at'},
-    {value: 90, label: '1h 30m', endsLabel: 'ends at'},
+    { value: 30, label: '30 mins', endsLabel: 'ends at' },
+    { value: 60, label: '1 hour', endsLabel: 'ends at' },
+    { value: 90, label: '1h 30m', endsLabel: 'ends at' },
   ];
 
   return (
@@ -81,7 +79,7 @@ function CustomDatePicker({
         <Typography
           variant="h5"
           component="div"
-          sx={{marginBottom: theme.spacing(2), color: '#590202'}}
+          sx={{ marginBottom: theme.spacing(2), color: '#590202' }}
         >
           Book a seat
         </Typography>
@@ -119,7 +117,7 @@ function CustomDatePicker({
                       backgroundColor: '#2E3438',
                       color: 'white',
                     },
-                    'color': 'black',
+                    color: 'black',
                   },
                   '& .MuiDialogActions-root': {
                     backgroundColor: 'white',
@@ -130,7 +128,7 @@ function CustomDatePicker({
                 },
               },
             }}
-            sx={{flex: 1, minWidth: '150px'}}
+            sx={{ flex: 1, minWidth: '150px' }}
           />
           <TimePicker
             label="Start Time"
@@ -159,7 +157,7 @@ function CustomDatePicker({
                       backgroundColor: '#2E3438',
                       color: 'white',
                     },
-                    'color': 'black',
+                    color: 'black',
                   },
                   '& .MuiDialogActions-root': {
                     backgroundColor: 'white',
@@ -170,7 +168,7 @@ function CustomDatePicker({
                 },
               },
             }}
-            sx={{flex: 1, minWidth: '150px'}}
+            sx={{ flex: 1, minWidth: '150px' }}
           />
           <FormControl
             fullWidth
@@ -190,7 +188,7 @@ function CustomDatePicker({
               }
               IconComponent={() => (
                 <SlowMotionVideoIcon
-                  style={{color: 'darkRed', marginRight: '10px '}}
+                  style={{ color: 'darkRed', marginRight: '10px ' }}
                 />
               )}
               MenuProps={{
@@ -225,7 +223,7 @@ function CustomDatePicker({
                       color={
                         duration === option.value ? '#fff' : 'textSecondary'
                       }
-                      style={{width: '150px', textAlign: 'right'}}
+                      style={{ width: '150px', textAlign: 'right' }}
                     >
                       {`${option.endsLabel} ${formatEndTime(option.value)}`}
                     </Typography>

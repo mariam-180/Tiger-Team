@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export const FillerSection = ({fillAmount = 100}) => {
+export const FillerSection = ({ fillAmount = 100 }) => {
   return (
     <div className={`container py-5 scroll-fill-${fillAmount} d-flex center`}>
       <div>

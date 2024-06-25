@@ -13,6 +13,7 @@
     "@mui/material": "^5.15.11",
     "@mui/styles": "^5.15.11",
     "@mui/x-date-pickers": "^7.2.0",
+    "ajv": "^8.16.0",
     "axios": "^1.7.2",
     "chroma-js": "^2.4.2",
     "dayjs": "^1.11.10",
@@ -42,7 +43,11 @@
     "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/*.{js,jsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,json,css,md}'",
+    "format:check": "prettier --check 'src/**/*.{js,jsx,json,css,md}'"
   },
   "eslintConfig": {
     "extends": [

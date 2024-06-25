@@ -1,4 +1,4 @@
-import React, {forwardRef, createContext, useContext, useMemo} from 'react';
+import React, { forwardRef, createContext, useContext, useMemo } from 'react';
 
 import PropTypes from 'prop-types';
 
@@ -9,18 +9,18 @@ import PaginationItemRoot from 'components/ThisPagination/PaginationItemRoot';
 const Context = createContext();
 
 const Pagination = forwardRef(
-    ({item, variant, color, size, active, children, ...rest}, ref) => {
-      const context = useContext(Context);
-      const paginationSize = context ? context.size : null;
+  ({ item, variant, color, size, active, children, ...rest }, ref) => {
+    const context = useContext(Context);
+    const paginationSize = context ? context.size : null;
 
-      const value = useMemo(
-          () => ({variant, color, size}),
-          [variant, color, size],
-      );
+    const value = useMemo(
+      () => ({ variant, color, size }),
+      [variant, color, size],
+    );
 
-      return (
-        <Context.Provider value={value}>
-          {item ? (
+    return (
+      <Context.Provider value={value}>
+        {item ? (
           <PaginationItemRoot
             {...rest}
             ref={ref}
@@ -28,7 +28,7 @@ const Pagination = forwardRef(
             color={active ? context.color : 'secondary'}
             iconOnly
             circular
-            ownerState={{variant, active, paginationSize}}
+            ownerState={{ variant, active, paginationSize }}
           >
             {children}
           </PaginationItemRoot>
@@ -37,14 +37,14 @@ const Pagination = forwardRef(
             display="flex"
             justifyContent="flex-end"
             alignItems="center"
-            sx={{listStyle: 'none'}}
+            sx={{ listStyle: 'none' }}
           >
             {children}
           </Box>
         )}
-        </Context.Provider>
-      );
-    },
+      </Context.Provider>
+    );
+  },
 );
 
 Pagination.displayName = 'Pagination';

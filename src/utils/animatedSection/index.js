@@ -93,7 +93,7 @@ const animations = {
   spin: batch(Sticky(), Fade(), Spin(1)),
 };
 
-const AnimatedSection = ({children, animation, shake}) => {
+const AnimatedSection = ({ children, animation, shake }) => {
   let combinedAnimation;
   if (typeof animation === 'string' && animations[animation]) {
     combinedAnimation = animations[animation];
@@ -106,12 +106,12 @@ const AnimatedSection = ({children, animation, shake}) => {
       <Animator
         animation={combinedAnimation}
         style={{
-          'position': 'relative',
-          'width': '100%',
-          'height': '100%',
-          'justifyContent': 'center',
-          'alignItems': 'center',
-          'minHeight': '100vh',
+          position: 'relative',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '100vh',
         }}
       >
         {children}

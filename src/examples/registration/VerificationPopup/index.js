@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from '@mui/material';
 
-import {StyledButton} from 'components/ThisStyledButton';
+import { StyledButton } from 'components/ThisStyledButton';
 
-const VerificationPopup = ({open, onClose}) => {
+const VerificationPopup = ({ open, onClose }) => {
   return (
     <Dialog open={open} onClose={onClose}>
       <DialogTitle>Verify Account</DialogTitle>

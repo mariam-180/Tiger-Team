@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Box, Typography, useTheme} from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const CountdownClock = ({targetDate}) => {
+const CountdownClock = ({ targetDate }) => {
   const theme = useTheme();
   const styles = {
     clockContainer: {
@@ -11,19 +11,19 @@ const CountdownClock = ({targetDate}) => {
       position: 'absolute',
       left: theme.spacing(5),
       [theme.breakpoints.down('sm')]: {
-        'width': '230px',
+        width: '230px',
         '& .MuiTypography-h1': {
           fontSize: '2.0rem',
         },
       },
       [theme.breakpoints.up('md')]: {
-        'width': '280px',
+        width: '280px',
         '& .MuiTypography-h1': {
           fontSize: '3.0rem',
         },
       },
       [theme.breakpoints.up('lg')]: {
-        'width': '380px',
+        width: '380px',
         '& .MuiTypography-h1': {
           fontSize: '3.9rem',
         },
@@ -82,7 +82,7 @@ const CountdownClock = ({targetDate}) => {
     const targetDateObject = new Date(formattedDate);
     if (isNaN(targetDateObject)) {
       console.error('Invalid target date');
-      return {days: 0, hours: 0, minutes: 0, seconds: 0};
+      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
     }
 
     const difference = +targetDateObject - +new Date();
@@ -137,6 +137,5 @@ const CountdownClock = ({targetDate}) => {
 CountdownClock.propTypes = {
   targetDate: PropTypes.string.isRequired,
 };
-
 
 export default CountdownClock;

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Plx from 'react-plx';
 
 // eslint-disable-next-line max-len
@@ -65,7 +65,7 @@ export default function ParallaxComponent() {
         }}
       >
         <img
-          style={{width: '100%', height: '100vh'}}
+          style={{ width: '100%', height: '100vh' }}
           src={bg}
           alt="foreground"
         />
@@ -99,7 +99,7 @@ export default function ParallaxComponent() {
         }}
       >
         <img
-          style={{width: '100%', height: '100vh'}}
+          style={{ width: '100%', height: '100vh' }}
           src={background}
           alt="background"
         />
@@ -140,7 +140,7 @@ export default function ParallaxComponent() {
         >
           Scroll Down
           <br />
-          <KeyboardDoubleArrowDownIcon sx={{fontSize: 60, color: '#000'}} />
+          <KeyboardDoubleArrowDownIcon sx={{ fontSize: 60, color: '#000' }} />
         </div>
 
         <style jsx="true">

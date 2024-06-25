@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from 'react';
 
 const defaultRect = () => ({
   top: undefined,
@@ -8,7 +8,7 @@ const defaultRect = () => ({
   width: undefined,
   height: undefined,
 });
-export const useRect = (nodeRef = {current: null}) => {
+export const useRect = (nodeRef = { current: null }) => {
   const [initialized, setInitialized] = useState(false);
   const [rect, setRect] = useState(defaultRect());
 

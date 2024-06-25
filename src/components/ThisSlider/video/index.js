@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {gsap} from 'gsap';
+import React, { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 
 import racingVideo from 'assets/videos/racing.mp4';
 import driftingVideo from 'assets/videos/drifting.mp4';
@@ -14,19 +14,19 @@ import rallyImage from 'assets/images/backGround/rally.jpeg';
 import ResponsiveVideo from 'components/ThisVideo';
 import RotatingRing from 'examples/sliders';
 
-import {Box, Paper, IconButton} from '@mui/material';
+import { Box, Paper, IconButton } from '@mui/material';
 import FlipToBackIcon from '@mui/icons-material/FlipToBack';
 import FlipToFrontIcon from '@mui/icons-material/FlipToFront';
 
 const videos = [
-  {title: 'GT racing', url: racingVideo, thumbnail: racingImage},
-  {title: 'Drifting', url: driftingVideo, thumbnail: driftingImage},
-  {title: 'Formula', url: formulaVideo, thumbnail: formulaImage},
-  {title: 'Rally', url: rallyVideo, thumbnail: rallyImage},
-  {title: 'GT racing', url: racingVideo, thumbnail: racingImage},
-  {title: 'Drifting', url: driftingVideo, thumbnail: driftingImage},
-  {title: 'Formula', url: formulaVideo, thumbnail: formulaImage},
-  {title: 'Rally', url: rallyVideo, thumbnail: rallyImage},
+  { title: 'GT racing', url: racingVideo, thumbnail: racingImage },
+  { title: 'Drifting', url: driftingVideo, thumbnail: driftingImage },
+  { title: 'Formula', url: formulaVideo, thumbnail: formulaImage },
+  { title: 'Rally', url: rallyVideo, thumbnail: rallyImage },
+  { title: 'GT racing', url: racingVideo, thumbnail: racingImage },
+  { title: 'Drifting', url: driftingVideo, thumbnail: driftingImage },
+  { title: 'Formula', url: formulaVideo, thumbnail: formulaImage },
+  { title: 'Rally', url: rallyVideo, thumbnail: rallyImage },
 ];
 
 const VideoSlider = () => {
@@ -95,7 +95,7 @@ const VideoSlider = () => {
       </IconButton>
 
       <Box
-        sx={{position: 'absolute', top: 0, width: '100%', zIndex: 2}}
+        sx={{ position: 'absolute', top: 0, width: '100%', zIndex: 2 }}
         ref={ringRef}
       >
         <RotatingRing
@@ -115,9 +115,9 @@ const VideoSlider = () => {
           background: '#000',
           overflow: 'hidden',
           transition: 'filter 0.5s ease',
-          filter: showRing ?
-            'blur(6px) brightness(20%)' :
-            'blur(0px) brightness(100%)',
+          filter: showRing
+            ? 'blur(6px) brightness(20%)'
+            : 'blur(0px) brightness(100%)',
         }}
       >
         <ResponsiveVideo

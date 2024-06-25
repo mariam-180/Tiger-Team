@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import 'assets/css/Image.css';
 
@@ -36,8 +36,8 @@ const Image = ({
 
     if (imgHeight < boxHeight) {
       console.warn(
-          // eslint-disable-next-line max-len
-          `Parallax effect doesn't work if image is smaller than the bounding box. imgHeight=${imgHeight}, boxHeight=${boxHeight}`,
+        // eslint-disable-next-line max-len
+        `Parallax effect doesn't work if image is smaller than the bounding box. imgHeight=${imgHeight}, boxHeight=${boxHeight}`,
       );
       return;
     }
@@ -68,11 +68,11 @@ const Image = ({
   }, []);
 
   return (
-    <div ref={box} className="image-box" style={{height: height || 'auto'}}>
+    <div ref={box} className="image-box" style={{ height: height || 'auto' }}>
       {fixed ? (
         <div
           className="image-bg dark-overlay"
-          style={{backgroundImage: `url(${src})`, height: height || 'auto'}}
+          style={{ backgroundImage: `url(${src})`, height: height || 'auto' }}
         />
       ) : (
         <img
@@ -80,7 +80,7 @@ const Image = ({
           className="image-behind"
           src={src}
           alt={alt}
-          style={{transform: `translateY(${ΔY}px)`}}
+          style={{ transform: `translateY(${ΔY}px)` }}
         />
       )}
       {children && <div className="image-content">{children}</div>}
