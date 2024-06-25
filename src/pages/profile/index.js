@@ -45,15 +45,6 @@ function Profile() {
 
       const userData = userResponse.data;
 
-      const reservationsResponse = await axios.get(
-        `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.user_name}`,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
-      );
-
-      const reservationsData = reservationsResponse.data;
-
       setProfileData({
         firstName: userData.first_name,
         lastName: userData.last_name,
@@ -63,7 +54,25 @@ function Profile() {
         credit: `${userData.credit} JOD`,
       });
 
-      setReservations(reservationsData);
+      try {
+        const reservationsResponse = await axios.get(
+          `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.user_name}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+
+        const reservationsData = reservationsResponse.data;
+
+        if (!reservationsData || reservationsData.length === 0) {
+          throw new Error('No reservations found');
+        }
+
+        setReservations(reservationsData);
+      } catch (error) {
+        console.error('Error fetching reservations:', error);
+        setReservations([]);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
