@@ -9,7 +9,7 @@ import AdminUsers from 'layouts/pages/admin/users';
 import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
 import Profile from 'layouts/pages/profile';
-import QA from 'layouts/pages/qa';
+// import QA from 'layouts/pages/qa';
 // import Live from 'layouts/pages/live';
 
 const routes = [
@@ -80,12 +80,12 @@ const routes = [
   //   ),
   //   requiredRole: 'SUPER_USER',
   // },
-  {
-    name: 'QA',
-    route: '/QA',
-    component: <QA />,
-    requiredRole: null,
-  },
+  // {
+  //   name: 'QA',
+  //   route: '/QA',
+  //   component: <QA />,
+  //   requiredRole: null,
+  // },
   // {
   //   name: 'QA',
   //   route: '/QA',

@@ -10,6 +10,7 @@ import ProfileInfoCard from 'examples/Cards/InfoCards/ProfileInfoCard';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import ParentContainer from 'components/ThisContainer/filtered';
+import DynamicTable from 'components/ThisEnhancedTable';
 import Header from 'pages/profile/components/Header';
 
 import { useAuth } from 'authContext';
@@ -22,6 +23,7 @@ import AnimatedItem from 'utils/animatedItem';
 
 function Profile() {
   const { accessToken } = useAuth();
+  const [reservations, setReservations] = useState([]);
 
   const [profileData, setProfileData] = useState({
     firstName: '',
@@ -34,25 +36,60 @@ function Profile() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
+      const userResponse = await axios.get(
         process.env.REACT_APP_CURRENT_USER_ENDPOINT,
         {
           headers: { Authorization: `Bearer ${accessToken}` },
         },
       );
-      const data = response.data;
+
+      const userData = userResponse.data;
+
+      const reservationsResponse = await axios.get(
+        `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.user_name}`,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        },
+      );
+
+      const reservationsData = reservationsResponse.data;
+
       setProfileData({
-        firstName: data.first_name,
-        lastName: data.last_name,
-        userName: data.user_name,
-        mobileNumber: data.phone_number,
-        email: data.email,
-        credit: `${data.credit} JOD`,
+        firstName: userData.first_name,
+        lastName: userData.last_name,
+        userName: userData.user_name,
+        mobileNumber: userData.phone_number,
+        email: userData.email,
+        credit: `${userData.credit} JOD`,
       });
+
+      setReservations(reservationsData);
     } catch (error) {
-      console.error('Error fetching profile data:', error);
+      console.error('Error fetching data:', error);
     }
   };
+
+  const reservationColumns = [
+    { Header: 'Branch Name', accessor: 'branch_name', align: 'left' },
+    { Header: 'PC Number', accessor: 'pc_number', align: 'left' },
+    {
+      Header: 'Reservation Start',
+      accessor: 'reservation_start',
+      align: 'left',
+    },
+    { Header: 'Reservation End', accessor: 'reservation_end', align: 'left' },
+    { Header: 'Duration', accessor: 'duration', align: 'left' },
+    { Header: 'Total Cost', accessor: 'total_cost', align: 'left' },
+  ];
+
+  const reservationRows = reservations.map((reservation) => ({
+    branch_name: reservation.branch_name,
+    pc_number: reservation.pc_number,
+    reservation_start: reservation.reservation_start,
+    reservation_end: reservation.reservation_end,
+    duration: reservation.duration,
+    total_cost: reservation.total_cost,
+  }));
 
   useEffect(() => {
     fetchData();
@@ -120,6 +157,39 @@ function Profile() {
                     />
                     <Divider orientation="vertical" sx={{ mx: 0 }} />
                   </Grid>
+                  <Box
+                    sx={{
+                      maxWidth: {
+                        xs: '70vw',
+                        sm: '75vw',
+                        md: '80vw',
+                        xl: '90vw',
+                      },
+                      marginTop: {
+                        xs: '30px',
+                        sm: '30px',
+                        md: '30px',
+                        xl: '10px',
+                      },
+                      marginLeft: {
+                        md: '0',
+                        xl: '20px',
+                      },
+                    }}
+                  >
+                    <AnimatedItem>
+                      <DynamicTable
+                        title="Reservations"
+                        columns={reservationColumns}
+                        rows={reservationRows}
+                        isSorted={false}
+                        canSearch={false}
+                        entriesPerPage={false}
+                        showTotalEntries={false}
+                        noEndBorder
+                      />
+                    </AnimatedItem>
+                  </Box>
                 </Grid>
               </Box>
             </Header>
