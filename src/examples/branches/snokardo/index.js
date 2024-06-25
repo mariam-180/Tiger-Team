@@ -157,7 +157,7 @@ const SnokardoRoom = ({ pcs, handlePcClick }) => {
           spacing={2}
           direction="row"
         >
-          <Grid item xs={3}>
+          <Grid item xs={2.4}>
             <EquipmentBox
               isavailable={pcs[0].is_available}
               onClick={() =>
@@ -169,7 +169,7 @@ const SnokardoRoom = ({ pcs, handlePcClick }) => {
               <StyledTypography>PC 1</StyledTypography>
             </EquipmentBox>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2.4}>
             <EquipmentBox
               isavailable={pcs[1].is_available}
               onClick={() =>
@@ -181,7 +181,7 @@ const SnokardoRoom = ({ pcs, handlePcClick }) => {
               <StyledTypography>PC 2</StyledTypography>
             </EquipmentBox>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2.4}>
             <EquipmentBox
               isavailable={pcs[2].is_available}
               onClick={() =>
@@ -193,7 +193,7 @@ const SnokardoRoom = ({ pcs, handlePcClick }) => {
               <StyledTypography>PC 3</StyledTypography>
             </EquipmentBox>
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={2.4}>
             <EquipmentBox
               isavailable={pcs[3].is_available}
               onClick={() =>
@@ -203,6 +203,18 @@ const SnokardoRoom = ({ pcs, handlePcClick }) => {
             >
               <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
               <StyledTypography>PC 4</StyledTypography>
+            </EquipmentBox>
+          </Grid>
+          <Grid item xs={2.4}>
+            <EquipmentBox
+              isavailable={pcs[4].is_available}
+              onClick={() =>
+                pcs[4].is_available === 'true' &&
+                handlePcClick(pcs[4].pc_number)
+              }
+            >
+              <FontAwesomeIcon icon={faDesktopAlt} size="1x" />
+              <StyledTypography>PC 5</StyledTypography>
             </EquipmentBox>
           </Grid>
           <Grid item xs={12}>

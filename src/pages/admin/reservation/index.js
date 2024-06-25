@@ -60,8 +60,8 @@ function AdminReservations() {
       if (!isEqual(reservations, fetchedReservations)) {
         setReservations(fetchedReservations);
         setFilteredReservations(applyFilter(fetchedReservations, filter));
-        showSnackbar('New record found!', 'success');
         if (!firstVisit) {
+          showSnackbar('New record found!', 'success');
           playSound(newRecordSound);
         }
       }
