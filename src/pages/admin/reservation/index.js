@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from 'authContext';
+import isEqual from 'lodash/isEqual';
 import axios from 'axios';
 import {
   Grid,
@@ -17,8 +18,12 @@ import { useSnackbar } from 'context/SnackbarContext';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import Footer from 'examples/footer';
+
 import AnimatedItem from 'utils/animatedItem';
+import { playSound } from 'utils/playSound';
+
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
+import newRecordSound from 'assets/sounds/epic-trap-intro.mp3';
 
 const reservationColumns = [
   { Header: 'Branch Name', accessor: 'branch_name', align: 'left' },
@@ -40,6 +45,8 @@ function AdminReservations() {
   const [editReservationDialogOpen, setEditReservationDialogOpen] =
     useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
+  const [firstVisit, setFirstVisit] = useState(true);
+
   const fetchData = async () => {
     try {
       const reservationsResponse = await axios.get(
@@ -49,11 +56,22 @@ function AdminReservations() {
         },
       );
       const fetchedReservations = reservationsResponse.data;
-      setReservations(fetchedReservations);
-      setFilteredReservations(applyFilter(fetchedReservations, filter));
+
+      if (!isEqual(reservations, fetchedReservations)) {
+        setReservations(fetchedReservations);
+        setFilteredReservations(applyFilter(fetchedReservations, filter));
+        showSnackbar('New record found!', 'success');
+        if (!firstVisit) {
+          playSound(newRecordSound);
+        }
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
       showSnackbar('Error fetching data. Please try again.', 'error');
+    } finally {
+      if (firstVisit) {
+        setFirstVisit(false);
+      }
     }
   };
 
