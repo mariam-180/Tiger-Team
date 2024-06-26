@@ -172,7 +172,7 @@ function Profile() {
                         xs: '70vw',
                         sm: '75vw',
                         md: '80vw',
-                        xl: '90vw',
+                        xl: '50vw',
                       },
                       marginTop: {
                         xs: '30px',

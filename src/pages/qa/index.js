@@ -11,6 +11,11 @@ import Typography from 'components/ThisTypography';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DynamicTable from 'components/ThisEnhancedTable';
 
+import {
+  LoginRequiredDialog,
+  ConfirmationDialog,
+} from 'examples/formSubmit/viaLogin';
+
 import NavBar from 'examples/navbars/DefaultNavbar';
 import ParentContainer from 'components/ThisContainer/filtered';
 import Footer from 'examples/footer';
@@ -123,7 +128,7 @@ function QA() {
       }}
     >
       <NavBar />
-      <ParentContainer
+      {/* <ParentContainer
         blur={2}
         brightness={20}
         backgroundImage={background}
@@ -154,7 +159,9 @@ function QA() {
             </Grid>
           </Box>
         </DashboardLayout>
-      </ParentContainer>
+      </ParentContainer> */}
+      <LoginRequiredDialog></LoginRequiredDialog>
+      {/* <ConfirmationDialog></ConfirmationDialog> */}
       <Footer />
     </Grid>
   );

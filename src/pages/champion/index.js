@@ -3,7 +3,7 @@ import { Grid, Snackbar, Alert } from '@mui/material';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Banner from 'examples/bannerContainer';
-import Contant from 'examples/eventContant';
+import Content from 'examples/eventContant';
 import Footer from 'examples/footer';
 import ComingSoon from 'pages/comingSoon';
 
@@ -11,8 +11,7 @@ function Champion() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  // eslint-disable-next-line no-unused-vars
-  const [eventClosed, setEventClosed] = useState('true');
+  const [eventClosed] = useState(false);
 
   return (
     <Grid
@@ -33,14 +32,15 @@ function Champion() {
       }}
     >
       <DefaultNavbar />
-      {eventClosed && <ComingSoon />}
-      {!eventClosed && (
+      {eventClosed ? (
+        <ComingSoon />
+      ) : (
+        <>
           <Banner
             setSnackbarOpen={setSnackbarOpen}
             setSnackbarMessage={setSnackbarMessage}
             setSnackbarSeverity={setSnackbarSeverity}
           />
-        ) && (
           <Snackbar
             open={snackbarOpen}
             autoHideDuration={6000}
@@ -66,7 +66,10 @@ function Champion() {
               {snackbarMessage}
             </Alert>
           </Snackbar>
-        ) && <Contant /> && <Footer />}
+          <Content />
+          <Footer />
+        </>
+      )}
     </Grid>
   );
 }

@@ -33,7 +33,7 @@ const Banner = ({
         }}
       >
         <CountdownContainerItem>
-          <CountdownClock targetDate="2024-03-1" />
+          <CountdownClock targetDate="2024-07-20" />
         </CountdownContainerItem>
         <WelcomingEventPage
           setSnackbarOpen={setSnackbarOpen}

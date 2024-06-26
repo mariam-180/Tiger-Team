@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from 'authContext';
-import isEqual from 'lodash/isEqual';
 import axios from 'axios';
 import {
   Grid,
@@ -11,6 +10,7 @@ import {
   Button,
   TextField,
   Box,
+  Typography,
 } from '@mui/material';
 import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
@@ -18,12 +18,12 @@ import { useSnackbar } from 'context/SnackbarContext';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import Footer from 'examples/footer';
-
 import AnimatedItem from 'utils/animatedItem';
-import { playSound } from 'utils/playSound';
+import { playSound, stopSound } from 'utils/playSound';
+import ConfettiUtil from 'utils/confettiUtil';
 
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
-import newRecordSound from 'assets/sounds/epic-trap-intro.mp3';
+import sound from 'assets/sounds/epic-trap-intro.mp3';
 
 const reservationColumns = [
   { Header: 'Branch Name', accessor: 'branch_name', align: 'left' },
@@ -45,32 +45,81 @@ function AdminReservations() {
   const [editReservationDialogOpen, setEditReservationDialogOpen] =
     useState(false);
   const [selectedReservation, setSelectedReservation] = useState(null);
-  const [firstVisit, setFirstVisit] = useState(true);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   const fetchData = async () => {
     try {
       const reservationsResponse = await axios.get(
         process.env.REACT_APP_RESERVATION_ENDPOINT,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
+        { headers: { Authorization: `Bearer ${accessToken}` } },
       );
       const fetchedReservations = reservationsResponse.data;
 
-      if (!isEqual(reservations, fetchedReservations)) {
+      const addedOrUpdated = fetchedReservations.some((newReservation) => {
+        const existingReservation = reservations.find(
+          (res) => res.id === newReservation.id,
+        );
+
+        return (
+          !existingReservation ||
+          Object.keys(newReservation).some(
+            (key) => newReservation[key] !== existingReservation[key],
+          )
+        );
+      });
+
+      const deleted = reservations.some(
+        (existingReservation) =>
+          !fetchedReservations.some(
+            (reservation) => reservation.id === existingReservation.id,
+          ),
+      );
+
+      if (addedOrUpdated || deleted) {
+        playSound(sound);
+        setShowConfetti(true);
+        setShowPopup(true);
         setReservations(fetchedReservations);
         setFilteredReservations(applyFilter(fetchedReservations, filter));
-        if (!firstVisit) {
-          showSnackbar('New record found!', 'success');
-          playSound(newRecordSound);
+
+        if (addedOrUpdated) {
+          fetchedReservations.forEach((newReservation) => {
+            const existingReservation = reservations.find(
+              (res) => res.id === newReservation.id,
+            );
+
+            if (!existingReservation) {
+              const { branch_name: branchName, user_name: userName } =
+                newReservation;
+              showSnackbar(
+                `New record found! Branch: ${branchName}, User: ${userName}`,
+                'success',
+              );
+            } else {
+              const updatedFields = Object.keys(newReservation).filter(
+                (key) => newReservation[key] !== existingReservation[key],
+              );
+              if (updatedFields.length > 0) {
+                const { branch_name: branchName, user_name: userName } =
+                  newReservation;
+                showSnackbar(
+                  `Record updated! Branch: ${branchName}, User: ${userName}`,
+                  'info',
+                );
+              }
+            }
+          });
+        }
+
+        if (deleted) {
+          showSnackbar('Record deleted!', 'info');
         }
       }
     } catch (error) {
       console.error('Error fetching data:', error);
-      showSnackbar('Error fetching data. Please try again.', 'error');
-    } finally {
-      if (firstVisit) {
-        setFirstVisit(false);
+      if (error.response) {
+        showSnackbar('Error fetching data. Please try again.', 'error');
       }
     }
   };
@@ -88,9 +137,7 @@ function AdminReservations() {
       await axios.patch(
         `${process.env.REACT_APP_RESERVATION_ENDPOINT}${id}`,
         data,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
+        { headers: { Authorization: `Bearer ${accessToken}` } },
       );
       fetchData();
       showSnackbar('Reservation updated successfully', 'success');
@@ -131,13 +178,22 @@ function AdminReservations() {
 
   useEffect(() => {
     fetchData();
-    const intervalId = setInterval(fetchData, 180000);
+    const intervalId = setInterval(fetchData, 120000);
     return () => clearInterval(intervalId);
   }, [accessToken, showSnackbar, filter]);
 
   useEffect(() => {
     setFilteredReservations(applyFilter(reservations, filter));
   }, [filter, reservations]);
+
+  useEffect(() => {
+    if (!showPopup && showConfetti) {
+      const timeoutId = setTimeout(() => {
+        setShowConfetti(false);
+      }, 6000);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [showPopup, showConfetti]);
 
   const alKiloCircleReservations = filteredReservations.filter(
     (reservation) => reservation.branch_name === 'Al-Kilo Circle',
@@ -278,6 +334,12 @@ function AdminReservations() {
               />
             </AnimatedItem>
           </Box>
+          {showConfetti && (
+            <ConfettiUtil
+              run={showConfetti}
+              onComplete={() => setShowConfetti(false)}
+            />
+          )}
         </DashboardLayout>
       </ParentContainer>
       <AnimatedItem>
@@ -382,6 +444,42 @@ function AdminReservations() {
           </Button>
         </DialogActions>
       </Dialog>
+      {showPopup && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backdropFilter: 'blur(5px)',
+            padding: '20px',
+            borderRadius: '8px',
+            boxShadow: '0 4px 8px rgba(0,0,0,0.2)',
+            zIndex: 9999,
+            color: '#fff',
+          }}
+        >
+          <Typography variant="h1" sx={{ marginBottom: 2, color: 'gold' }}>
+            Updates Acknowledgement
+          </Typography>
+          <Typography variant="body1" sx={{ marginBottom: 2 }}>
+            Updates have been applied successfully. Click
+            &quot;Acknowledged&quot; to close this message.
+          </Typography>
+          <Button
+            sx={{ color: '#00008B', opacity: '1', background: 'gold' }}
+            onClick={() => {
+              setShowPopup(false);
+              stopSound();
+              setShowConfetti(false);
+            }}
+            variant="contained"
+          >
+            Acknowledged
+          </Button>
+        </Box>
+      )}
     </Grid>
   );
 }

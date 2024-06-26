@@ -14,7 +14,7 @@ const ConfettiUtil = ({ run, onComplete }) => {
         if (onComplete) {
           onComplete();
         }
-      }, 2000);
+      }, 6000);
     }
   }, [run, onComplete]);
 

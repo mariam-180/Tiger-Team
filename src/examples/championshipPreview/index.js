@@ -100,8 +100,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 const ChampionshipPreview = () => {
   const navigate = useNavigate();
 
-  // eslint-disable-next-line no-unused-vars
-  const [eventClosed, setEventClosed] = useState('true');
+  const [eventClosed] = useState(false);
 
   const handleNavigate = () => {
     navigate('/championship');
