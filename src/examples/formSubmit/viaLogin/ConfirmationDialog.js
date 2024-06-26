@@ -49,7 +49,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiPaper-root': {
     backdropFilter: 'blur(20px)',
     WebkitBackdropFilter: 'blur(0px)',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2),
     borderRadius: '10px',
