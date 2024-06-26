@@ -11,10 +11,7 @@ import Typography from 'components/ThisTypography';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DynamicTable from 'components/ThisEnhancedTable';
 
-import {
-  LoginRequiredDialog,
-  ConfirmationDialog,
-} from 'examples/formSubmit/viaLogin';
+import ViaLogin from 'examples/formSubmit/viaLogin';
 
 import NavBar from 'examples/navbars/DefaultNavbar';
 import ParentContainer from 'components/ThisContainer/filtered';
@@ -160,7 +157,7 @@ function QA() {
           </Box>
         </DashboardLayout>
       </ParentContainer> */}
-      <LoginRequiredDialog></LoginRequiredDialog>
+      <ViaLogin></ViaLogin>
       {/* <ConfirmationDialog></ConfirmationDialog> */}
       <Footer />
     </Grid>

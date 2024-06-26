@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import RegistrationFormDialog from 'examples/formSubmit';
+// import RegistrationFormDialog from 'examples/formSubmit';
+import ViaLogin from 'examples/formSubmit/viaLogin';
 
 const FlexContainer = styled(Box)({
   display: 'flex',
@@ -111,6 +112,7 @@ const WelcomingEventPage = ({
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
+    setOpen(false);
     setOpen(true);
   };
 
@@ -156,13 +158,14 @@ const WelcomingEventPage = ({
       {/* <ClosedRegistrationMessage>
         Registration is now closed. See you at the event!
       </ClosedRegistrationMessage> */}
-      <RegistrationFormDialog
+      {/* <RegistrationFormDialog
         open={open}
         handleClose={handleClose}
         setSnackbarOpen={setSnackbarOpen}
         setSnackbarMessage={setSnackbarMessage}
         setSnackbarSeverity={setSnackbarSeverity}
-      />
+      /> */}
+      {open && <ViaLogin handleClose={handleClose} />}
     </FlexContainer>
   );
 };

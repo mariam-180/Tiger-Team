@@ -47,6 +47,7 @@ function AdminReservations() {
   const [selectedReservation, setSelectedReservation] = useState(null);
   const [showConfetti, setShowConfetti] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
+  const [firstVisit, setFirstVisit] = useState(true);
 
   const fetchData = async () => {
     try {
@@ -77,9 +78,11 @@ function AdminReservations() {
       );
 
       if (addedOrUpdated || deleted) {
-        playSound(sound);
-        setShowConfetti(true);
-        setShowPopup(true);
+        if (!firstVisit) {
+          playSound(sound);
+          setShowConfetti(true);
+          setShowPopup(true);
+        }
         setReservations(fetchedReservations);
         setFilteredReservations(applyFilter(fetchedReservations, filter));
 
@@ -92,10 +95,12 @@ function AdminReservations() {
             if (!existingReservation) {
               const { branch_name: branchName, user_name: userName } =
                 newReservation;
-              showSnackbar(
-                `New record found! Branch: ${branchName}, User: ${userName}`,
-                'success',
-              );
+              if (!firstVisit) {
+                showSnackbar(
+                  `New record found! Branch: ${branchName}, User: ${userName}`,
+                  'success',
+                );
+              }
             } else {
               const updatedFields = Object.keys(newReservation).filter(
                 (key) => newReservation[key] !== existingReservation[key],
@@ -103,17 +108,21 @@ function AdminReservations() {
               if (updatedFields.length > 0) {
                 const { branch_name: branchName, user_name: userName } =
                   newReservation;
-                showSnackbar(
-                  `Record updated! Branch: ${branchName}, User: ${userName}`,
-                  'info',
-                );
+                if (!firstVisit) {
+                  showSnackbar(
+                    `Record updated! Branch: ${branchName}, User: ${userName}`,
+                    'info',
+                  );
+                }
               }
             }
           });
         }
 
         if (deleted) {
-          showSnackbar('Record deleted!', 'info');
+          if (!firstVisit) {
+            showSnackbar('Record deleted!', 'info');
+          }
         }
       }
     } catch (error) {
@@ -177,8 +186,7 @@ function AdminReservations() {
   };
 
   useEffect(() => {
-    fetchData();
-    const intervalId = setInterval(fetchData, 120000);
+    const intervalId = setInterval(fetchData, 30000);
     return () => clearInterval(intervalId);
   }, [accessToken, showSnackbar, filter]);
 
@@ -187,13 +195,21 @@ function AdminReservations() {
   }, [filter, reservations]);
 
   useEffect(() => {
+    fetchData();
+  }, [accessToken]);
+
+  useEffect(() => {
     if (!showPopup && showConfetti) {
       const timeoutId = setTimeout(() => {
         setShowConfetti(false);
       }, 6000);
       return () => clearTimeout(timeoutId);
     }
-  }, [showPopup, showConfetti]);
+  }, [accessToken, showPopup, showConfetti]);
+
+  useEffect(() => {
+    setFirstVisit(false);
+  }, [firstVisit]);
 
   const alKiloCircleReservations = filteredReservations.filter(
     (reservation) => reservation.branch_name === 'Al-Kilo Circle',

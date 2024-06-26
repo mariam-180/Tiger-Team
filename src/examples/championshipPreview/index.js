@@ -110,6 +110,7 @@ const ChampionshipPreview = () => {
     <PreviewContainer>
       {eventClosed && <ComingSoon />}
       {!eventClosed && (
+        <>
           <AnimatedTypingText
             sx={{
               color: 'gold',
@@ -122,8 +123,7 @@ const ChampionshipPreview = () => {
             strings={['Get Ready for the Big Race!']}
             backSpeed={25}
             smartBackspace={true}
-          ></AnimatedTypingText>
-        ) && (
+          />
           <Typography
             color="#ffffff"
             variant="h4"
@@ -135,12 +135,11 @@ const ChampionshipPreview = () => {
               zIndex: 1,
             }}
           >
-            Get set for an amazing car race event on March 1st, 2024! It&apos;s
+            Get set for an amazing car race event on July 20th, 2024! It&apos;s
             a fun day where drivers show off their amazing driving skills in
             exciting races. It&apos;s perfect for anyone who loves cars and
             racing. Don&apos;t miss it!
           </Typography>
-        ) && (
           <StyledButton
             variant="contained"
             size="large"
@@ -148,7 +147,8 @@ const ChampionshipPreview = () => {
           >
             Discover More
           </StyledButton>
-        )}
+        </>
+      )}
     </PreviewContainer>
   );
 };
