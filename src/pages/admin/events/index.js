@@ -28,9 +28,29 @@ const registrationColumns = [
   { Header: 'Name', accessor: 'name', width: '45%', align: 'left' },
   { Header: 'Email', accessor: 'email', align: 'left' },
   { Header: 'Phone Number', accessor: 'phone_number', align: 'center' },
+  {
+    Header: 'Registration time',
+    accessor: 'registration_time',
+    align: 'left',
+  },
   { Header: 'Status', accessor: 'status', align: 'center' },
   { Header: 'Action', accessor: 'action', align: 'center' },
 ];
+
+function formatRegistrationTime(isoDateString) {
+  const date = new Date(isoDateString);
+  date.setHours(date.getHours() + 3);
+  return date.toLocaleString('en-US', {
+    weekday: 'short',
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+    timeZone: 'Asia/Amman',
+  });
+}
 
 function EventRegistrations() {
   const { accessToken } = useAuth();
@@ -143,6 +163,7 @@ function EventRegistrations() {
     ),
     email: registration.email,
     phone_number: registration.phone_number,
+    registration_time: formatRegistrationTime(registration.registration_time),
     status: registration.status,
     action: (
       <Box display="flex" justifyContent="center">
