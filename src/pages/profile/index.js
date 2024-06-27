@@ -57,7 +57,7 @@ function Profile() {
 
       try {
         const reservationsResponse = await axios.get(
-          `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.userName}`,
+          `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.user_name}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           },
