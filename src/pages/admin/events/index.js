@@ -22,6 +22,8 @@ import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
 import AnimatedItem from 'utils/animatedItem';
+import { formatTime } from 'utils/timeUtils';
+
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 
 const registrationColumns = [
@@ -36,21 +38,6 @@ const registrationColumns = [
   { Header: 'Status', accessor: 'status', align: 'center' },
   { Header: 'Action', accessor: 'action', align: 'center' },
 ];
-
-function formatRegistrationTime(isoDateString) {
-  const date = new Date(isoDateString);
-  date.setHours(date.getHours() + 3);
-  return date.toLocaleString('en-US', {
-    weekday: 'short',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
-    timeZone: 'Asia/Amman',
-  });
-}
 
 function EventRegistrations() {
   const { accessToken } = useAuth();
@@ -163,7 +150,7 @@ function EventRegistrations() {
     ),
     email: registration.email,
     phone_number: registration.phone_number,
-    registration_time: formatRegistrationTime(registration.registration_time),
+    registration_time: formatTime(registration.registration_time, true),
     status: registration.status,
     action: (
       <Box display="flex" justifyContent="center">

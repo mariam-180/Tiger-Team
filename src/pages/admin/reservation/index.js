@@ -22,6 +22,7 @@ import Footer from 'examples/footer';
 import AnimatedItem from 'utils/animatedItem';
 import { playSound, stopSound } from 'utils/playSound';
 import ConfettiUtil from 'utils/confettiUtil';
+import { formatTime } from 'utils/timeUtils';
 
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 import sound from 'assets/sounds/epic-trap-intro.mp3';
@@ -224,8 +225,8 @@ function AdminReservations() {
     branch_name: reservation.branch_name,
     pc_number: reservation.pc_number,
     user_name: reservation.user_name,
-    reservation_start: reservation.reservation_start,
-    reservation_end: reservation.reservation_end,
+    reservation_start: formatTime(reservation.reservation_start),
+    reservation_end: formatTime(reservation.reservation_end),
     duration: reservation.duration,
     total_cost: reservation.total_cost,
     action: (
@@ -250,8 +251,8 @@ function AdminReservations() {
     branch_name: reservation.branch_name,
     pc_number: reservation.pc_number,
     user_name: reservation.user_name,
-    reservation_start: reservation.reservation_start,
-    reservation_end: reservation.reservation_end,
+    reservation_start: formatTime(reservation.reservation_start),
+    reservation_end: formatTime(reservation.reservation_end),
     duration: reservation.duration,
     total_cost: reservation.total_cost,
     action: (

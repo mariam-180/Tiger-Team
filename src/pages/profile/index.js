@@ -20,6 +20,7 @@ import background from 'assets/images/tigers_ai/tigersTeamCar_7.webp';
 import avatarImg from 'assets/images/logos/logoGray.png';
 
 import AnimatedItem from 'utils/animatedItem';
+import { formatTime } from 'utils/timeUtils';
 
 function Profile() {
   const { accessToken } = useAuth();
@@ -120,26 +121,11 @@ function Profile() {
     { Header: 'Status', accessor: 'status', align: 'left' },
   ];
 
-  function formatRegistrationTime(isoDateString) {
-    const date = new Date(isoDateString);
-    date.setHours(date.getHours() + 3);
-    return date.toLocaleString('en-US', {
-      weekday: 'short',
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
-      second: 'numeric',
-      timeZone: 'Asia/Amman',
-    });
-  }
-
   const reservationRows = reservations.map((reservation) => ({
     branch_name: reservation.branch_name,
     pc_number: reservation.pc_number,
-    reservation_start: reservation.reservation_start,
-    reservation_end: reservation.reservation_end,
+    reservation_start: formatTime(reservation.reservation_start),
+    reservation_end: formatTime(reservation.reservation_end),
     duration: reservation.duration,
     total_cost: reservation.total_cost,
   }));
@@ -147,7 +133,7 @@ function Profile() {
   const eventRows = [
     {
       event_name: 'Tigers Team',
-      registration_time: formatRegistrationTime(events.registration_time),
+      registration_time: formatTime(events.registration_time, true),
       status: events.status,
     },
   ];
