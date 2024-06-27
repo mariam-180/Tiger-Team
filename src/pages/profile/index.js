@@ -24,6 +24,7 @@ import AnimatedItem from 'utils/animatedItem';
 function Profile() {
   const { accessToken } = useAuth();
   const [reservations, setReservations] = useState([]);
+  const [events, setEvents] = useState([]);
 
   const [profileData, setProfileData] = useState({
     firstName: '',
@@ -69,9 +70,22 @@ function Profile() {
         }
 
         setReservations(reservationsData);
+
+        const eventsResponse = await axios.get(
+          `${process.env.REACT_APP_REGISTRATION_BY_EMAIL_ENDPOINT}${userData.email}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+
+        const eventsData = eventsResponse.data;
+
+        if (!eventsData || eventsData.length === 0) {
+          throw new Error('No events found');
+        }
+        setEvents(eventsData);
       } catch (error) {
-        console.error('Error fetching reservations:', error);
-        setReservations([]);
+        console.error('Error fetching data:', error);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -91,6 +105,31 @@ function Profile() {
     { Header: 'Total Cost', accessor: 'total_cost', align: 'left' },
   ];
 
+  const eventColumns = [
+    { Header: 'Event Name', accessor: 'event_name', align: 'left' },
+    {
+      Header: 'Registration time',
+      accessor: 'registration_time',
+      align: 'left',
+    },
+    { Header: 'Status', accessor: 'status', align: 'left' },
+  ];
+
+  function formatRegistrationTime(isoDateString) {
+    const date = new Date(isoDateString);
+    date.setHours(date.getHours() + 3);
+    return date.toLocaleString('en-US', {
+      weekday: 'short',
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZone: 'Asia/Amman',
+    });
+  }
+
   const reservationRows = reservations.map((reservation) => ({
     branch_name: reservation.branch_name,
     pc_number: reservation.pc_number,
@@ -99,6 +138,14 @@ function Profile() {
     duration: reservation.duration,
     total_cost: reservation.total_cost,
   }));
+
+  const eventRows = [
+    {
+      event_name: 'Tigers Team',
+      registration_time: formatRegistrationTime(events.registration_time),
+      status: events.status,
+    },
+  ];
 
   useEffect(() => {
     fetchData();
@@ -184,6 +231,9 @@ function Profile() {
                         md: '0',
                         xl: '20px',
                       },
+                      display: 'flex',
+                      flexDirection: 'column',
+                      gap: '20px',
                     }}
                   >
                     <AnimatedItem>
@@ -191,6 +241,18 @@ function Profile() {
                         title="Reservations"
                         columns={reservationColumns}
                         rows={reservationRows}
+                        isSorted={false}
+                        canSearch={false}
+                        entriesPerPage={false}
+                        showTotalEntries={false}
+                        noEndBorder
+                      />
+                    </AnimatedItem>
+                    <AnimatedItem>
+                      <DynamicTable
+                        title="Events"
+                        columns={eventColumns}
+                        rows={eventRows}
                         isSorted={false}
                         canSearch={false}
                         entriesPerPage={false}

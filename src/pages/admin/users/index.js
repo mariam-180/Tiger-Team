@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import Avatar from 'components/ThisAvatar';
 import Typography from 'components/ThisTypography';
+import SimpleButton from 'components/ThisSimpleButton';
 import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
 import { useSnackbar } from 'context/SnackbarContext';
@@ -300,12 +301,12 @@ function AdminUsers() {
           </TextField>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUserDialogClose} color="primary">
+          <SimpleButton onClick={handleUserDialogClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleUserSave} color="primary">
+          </SimpleButton>
+          <SimpleButton onClick={handleUserSave} color="primary">
             Save
-          </Button>
+          </SimpleButton>
         </DialogActions>
       </Dialog>
     </Grid>

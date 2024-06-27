@@ -12,6 +12,7 @@ import {
   Box,
   Typography,
 } from '@mui/material';
+import SimpleButton from 'components/ThisSimpleButton';
 import DynamicTable from 'components/ThisEnhancedTable';
 import ParentContainer from 'components/ThisContainer/filtered';
 import { useSnackbar } from 'context/SnackbarContext';
@@ -452,12 +453,12 @@ function AdminReservations() {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleReservationDialogClose} color="primary">
+          <SimpleButton onClick={handleReservationDialogClose} color="primary">
             Cancel
-          </Button>
-          <Button onClick={handleReservationSave} color="primary">
+          </SimpleButton>
+          <SimpleButton onClick={handleReservationSave} color="primary">
             Save
-          </Button>
+          </SimpleButton>
         </DialogActions>
       </Dialog>
       {showPopup && (
@@ -483,7 +484,7 @@ function AdminReservations() {
             Updates have been applied successfully. Click
             &quot;Acknowledged&quot; to close this message.
           </Typography>
-          <Button
+          <SimpleButton
             sx={{ color: '#00008B', opacity: '1', background: 'gold' }}
             onClick={() => {
               setShowPopup(false);
@@ -493,7 +494,7 @@ function AdminReservations() {
             variant="contained"
           >
             Acknowledged
-          </Button>
+          </SimpleButton>
         </Box>
       )}
     </Grid>
