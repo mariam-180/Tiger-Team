@@ -57,7 +57,7 @@ function Profile() {
 
       try {
         const reservationsResponse = await axios.get(
-          `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.email}`,
+          `${process.env.REACT_APP_USER_RESERVATIONS_ENDPOINT}${userData.userName}`,
           {
             headers: { Authorization: `Bearer ${accessToken}` },
           },
@@ -70,7 +70,11 @@ function Profile() {
         }
 
         setReservations(reservationsData);
+      } catch (error) {
+        console.error('Error fetching reservations data:', error);
+      }
 
+      try {
         const eventsResponse = await axios.get(
           `${process.env.REACT_APP_REGISTRATION_BY_EMAIL_ENDPOINT}${userData.email}`,
           {
@@ -83,12 +87,13 @@ function Profile() {
         if (!eventsData || eventsData.length === 0) {
           throw new Error('No events found');
         }
+
         setEvents(eventsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching events data:', error);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error('Error fetching user data:', error);
     }
   };
 
