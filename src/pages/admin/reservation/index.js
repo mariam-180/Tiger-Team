@@ -11,6 +11,7 @@ import {
   TextField,
   Box,
   Typography,
+  Switch,
 } from '@mui/material';
 import SimpleButton from 'components/ThisSimpleButton';
 import DynamicTable from 'components/ThisEnhancedTable';
@@ -23,6 +24,7 @@ import AnimatedItem from 'utils/animatedItem';
 import { playSound, stopSound } from 'utils/playSound';
 import ConfettiUtil from 'utils/confettiUtil';
 import { formatTime } from 'utils/timeUtils';
+import filterByHistoryFlag from 'utils/reservations/filterUtils';
 
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 import sound from 'assets/sounds/epic-trap-intro.mp3';
@@ -50,12 +52,19 @@ function AdminReservations() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [firstVisit, setFirstVisit] = useState(true);
+  const [showSnoHistory, setShowSnoHistory] = useState(false);
+  const [showKloHistory, setShowKloHistory] = useState(false);
 
   const fetchData = async () => {
     try {
       const reservationsResponse = await axios.get(
         process.env.REACT_APP_RESERVATION_ENDPOINT,
-        { headers: { Authorization: `Bearer ${accessToken}` } },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            history: true,
+          },
+        },
       );
       const fetchedReservations = reservationsResponse.data;
 
@@ -150,11 +159,19 @@ function AdminReservations() {
         data,
         { headers: { Authorization: `Bearer ${accessToken}` } },
       );
+      data;
       fetchData();
       showSnackbar('Reservation updated successfully', 'success');
     } catch (error) {
       console.error('Error updating reservation:', error);
-      showSnackbar('Error updating reservation. Please try again.', 'error');
+      if (error.response && error.response.status === 409) {
+        showSnackbar(
+          `PC ${data.pc_number} is already reserved for this time`,
+          'warning',
+        );
+      } else {
+        showSnackbar('Error updating reservation. Please try again.', 'error');
+      }
     }
   };
 
@@ -185,6 +202,14 @@ function AdminReservations() {
   const handleReservationSave = () => {
     updateReservation(selectedReservation.id, selectedReservation);
     setEditReservationDialogOpen(false);
+  };
+
+  const toggleSnoShowHistory = () => {
+    setShowSnoHistory((prevShowHistory) => !prevShowHistory);
+  };
+
+  const toggleKloShowHistory = () => {
+    setShowKloHistory((prevShowHistory) => !prevShowHistory);
   };
 
   useEffect(() => {
@@ -273,6 +298,15 @@ function AdminReservations() {
     ),
   }));
 
+  const alKiloCircleFilteredRows = filterByHistoryFlag(
+    alKiloCircleRows,
+    showKloHistory,
+  );
+  const snokardoFilteredRows = filterByHistoryFlag(
+    snokardoRows,
+    showSnoHistory,
+  );
+
   return (
     <Grid
       container
@@ -315,10 +349,40 @@ function AdminReservations() {
             }}
           >
             <AnimatedItem>
+              <Box
+                display="flex"
+                alignItems="center"
+                marginBottom={2}
+                sx={{
+                  background: '#fff',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  maxWidth: 'fit-content',
+                  width: '100%',
+                }}
+              >
+                <Typography variant="body1" sx={{ marginRight: 2 }}>
+                  History
+                </Typography>
+                <Switch
+                  checked={showKloHistory}
+                  onChange={toggleKloShowHistory}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'toggle show history' }}
+                  sx={{
+                    '& .MuiSwitch-track': {
+                      backgroundColor: '#bdbdbd',
+                    },
+                    '& .MuiSwitch-thumb': {
+                      backgroundColor: '#3f51b5',
+                    },
+                  }}
+                />
+              </Box>
               <DynamicTable
                 title="Al-Kilo Circle Reservations"
                 columns={reservationColumns}
-                rows={alKiloCircleRows}
+                rows={alKiloCircleFilteredRows}
                 isSorted
                 canSearch
                 entriesPerPage
@@ -340,10 +404,40 @@ function AdminReservations() {
             }}
           >
             <AnimatedItem>
+              <Box
+                display="flex"
+                alignItems="center"
+                marginBottom={2}
+                sx={{
+                  background: '#fff',
+                  borderRadius: '8px',
+                  padding: '10px',
+                  maxWidth: 'fit-content',
+                  width: '100%',
+                }}
+              >
+                <Typography variant="body1" sx={{ marginRight: 2 }}>
+                  History
+                </Typography>
+                <Switch
+                  checked={showSnoHistory}
+                  onChange={toggleSnoShowHistory}
+                  color="primary"
+                  inputProps={{ 'aria-label': 'toggle show history' }}
+                  sx={{
+                    '& .MuiSwitch-track': {
+                      backgroundColor: '#bdbdbd',
+                    },
+                    '& .MuiSwitch-thumb': {
+                      backgroundColor: '#3f51b5',
+                    },
+                  }}
+                />
+              </Box>
               <DynamicTable
                 title="Snokardo Reservations"
                 columns={reservationColumns}
-                rows={snokardoRows}
+                rows={snokardoFilteredRows}
                 isSorted
                 canSearch
                 entriesPerPage

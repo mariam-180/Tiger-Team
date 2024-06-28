@@ -7,6 +7,7 @@ import Champion from 'layouts/pages/champion';
 import Registration from 'layouts/pages/registrationPage';
 import AdminUsers from 'layouts/pages/admin/users';
 import AdminEvents from 'layouts/pages/admin/events';
+import AdminReports from 'layouts/pages/admin/reports';
 import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
 import Profile from 'layouts/pages/profile';
@@ -80,6 +81,17 @@ const routes = [
           />
         ),
         requiredRole: 'EMPLOYEE_USER',
+      },
+      {
+        name: 'Reports',
+        route: '/admin/reports',
+        component: (
+          <RoleBasedPrivateRoute
+            element={<AdminReports />}
+            requiredRole="SUPER_USER"
+          />
+        ),
+        requiredRole: 'SUPER_USER',
       },
     ],
     requiredRole: 'EMPLOYEE_USER',
