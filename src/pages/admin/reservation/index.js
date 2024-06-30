@@ -57,6 +57,7 @@ function AdminReservations() {
 
   const fetchData = async () => {
     try {
+      setFirstVisit(false);
       const reservationsResponse = await axios.get(
         process.env.REACT_APP_RESERVATION_ENDPOINT,
         {
@@ -137,9 +138,16 @@ function AdminReservations() {
         }
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
-      if (error.response) {
+      if (error.response && error.response.status === 404) {
+        setReservations([]);
+        setFilteredReservations(applyFilter([], filter));
+        setFirstVisit(false);
+        showSnackbar('No reservations.', 'info');
+      } else {
         showSnackbar('Error fetching data. Please try again.', 'error');
+        setFirstVisit(false);
+      }
+      if (error.response) {
       }
     }
   };
@@ -163,12 +171,29 @@ function AdminReservations() {
           },
         },
       );
-      const fetchedReservations = reservationsResponse.data;
-      setReservations(fetchedReservations);
-      setFilteredReservations(applyFilter(fetchedReservations, filter));
+
+      if (reservationsResponse.data && reservationsResponse.data.length > 0) {
+        const fetchedReservations = reservationsResponse.data;
+        setReservations(fetchedReservations);
+        setFilteredReservations(applyFilter(fetchedReservations, filter));
+        setFirstVisit(false);
+        showSnackbar('Reservations fetched.', 'info');
+      } else {
+        setReservations([]);
+        setFilteredReservations([]);
+        setFirstVisit(false);
+        showSnackbar('No reservations found.', 'info');
+      }
     } catch (error) {
-      console.error('Error fetching reservations:', error);
-      showSnackbar('Error fetching reservations. Please try again.', 'error');
+      if (error.response && error.response.status === 404) {
+        setReservations([]);
+        setFilteredReservations(applyFilter([], filter));
+        setFirstVisit(false);
+        showSnackbar('No reservations.', 'info');
+      } else {
+        showSnackbar('Error fetching reservations. Please try again.', 'error');
+        setFirstVisit(false);
+      }
     }
   };
 
@@ -233,7 +258,7 @@ function AdminReservations() {
   };
 
   useEffect(() => {
-    const intervalId = setInterval(fetchData, 30000);
+    const intervalId = setInterval(fetchData, 6000);
     return () => clearInterval(intervalId);
   }, [accessToken, showSnackbar, filter]);
 
