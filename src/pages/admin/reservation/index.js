@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+
 import React, { useEffect, useState } from 'react';
 import { useAuth } from 'authContext';
 import axios from 'axios';
@@ -12,6 +14,7 @@ import {
   Box,
   Typography,
   Switch,
+  Checkbox,
 } from '@mui/material';
 import SimpleButton from 'components/ThisSimpleButton';
 import DynamicTable from 'components/ThisEnhancedTable';
@@ -29,17 +32,6 @@ import filterByHistoryFlag from 'utils/reservations/filterUtils';
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 import sound from 'assets/sounds/epic-trap-intro.mp3';
 
-const reservationColumns = [
-  { Header: 'Branch Name', accessor: 'branch_name', align: 'left' },
-  { Header: 'PC Number', accessor: 'pc_number', align: 'left' },
-  { Header: 'Username', accessor: 'user_name', align: 'left' },
-  { Header: 'Reservation Start', accessor: 'reservation_start', align: 'left' },
-  { Header: 'Reservation End', accessor: 'reservation_end', align: 'left' },
-  { Header: 'Duration', accessor: 'duration', align: 'left' },
-  { Header: 'Total Cost', accessor: 'total_cost', align: 'left' },
-  { Header: 'Action', accessor: 'action', align: 'center' },
-];
-
 function AdminReservations() {
   const { accessToken } = useAuth();
   const { showSnackbar } = useSnackbar();
@@ -54,6 +46,34 @@ function AdminReservations() {
   const [firstVisit, setFirstVisit] = useState(true);
   const [showSnoHistory, setShowSnoHistory] = useState(false);
   const [showKloHistory, setShowKloHistory] = useState(false);
+  const [showKloUnseen, setShowKloUnseen] = useState(false);
+  const [showSnoUnseen, setShowSnoUnseen] = useState(false);
+
+  const reservationColumns = [
+    {
+      Header: 'Acknowledged',
+      accessor: 'acknowledged',
+      Cell: ({ row }) => (
+        <Checkbox
+          value={row.original.acknowledged}
+          checked={row.original.acknowledged}
+          onChange={() => handleAcknowledgment(row.original.id)}
+        />
+      ),
+    },
+    { Header: 'Status', accessor: 'status', align: 'left' },
+    { Header: 'PC Number', accessor: 'pc_number', align: 'left' },
+    { Header: 'Username', accessor: 'user_name', align: 'left' },
+    {
+      Header: 'Reservation Start',
+      accessor: 'reservation_start',
+      align: 'left',
+    },
+    { Header: 'Reservation End', accessor: 'reservation_end', align: 'left' },
+    { Header: 'Duration', accessor: 'duration', align: 'left' },
+    { Header: 'Total Cost', accessor: 'total_cost', align: 'left' },
+    { Header: 'Action', accessor: 'action', align: 'center' },
+  ];
 
   const fetchData = async () => {
     try {
@@ -95,8 +115,34 @@ function AdminReservations() {
           setShowConfetti(true);
           setShowPopup(true);
         }
-        setReservations(fetchedReservations);
-        setFilteredReservations(applyFilter(fetchedReservations, filter));
+        const updatedReservations = fetchedReservations.map(
+          (newReservation) => {
+            const existingReservation = reservations.find(
+              (res) => res.id === newReservation.id,
+            );
+
+            if (!existingReservation) {
+              newReservation.status = 'NEW';
+              newReservation.acknowledged = false;
+            } else {
+              const updatedFields = Object.keys(newReservation).filter(
+                (key) => newReservation[key] !== existingReservation[key],
+              );
+
+              if (updatedFields.length > 0) {
+                newReservation.status = 'UPDATED';
+                newReservation.acknowledged = false;
+              } else {
+                newReservation.status = existingReservation.status;
+                newReservation.acknowledged = existingReservation.acknowledged;
+              }
+            }
+            return newReservation;
+          },
+        );
+
+        setReservations(updatedReservations);
+        setFilteredReservations(applyFilter(updatedReservations, filter));
 
         if (addedOrUpdated) {
           fetchedReservations.forEach((newReservation) => {
@@ -174,8 +220,15 @@ function AdminReservations() {
 
       if (reservationsResponse.data && reservationsResponse.data.length > 0) {
         const fetchedReservations = reservationsResponse.data;
-        setReservations(fetchedReservations);
-        setFilteredReservations(applyFilter(fetchedReservations, filter));
+        const updatedReservations = fetchedReservations.map(
+          (newReservation) => {
+            newReservation.status = 'NEW';
+            newReservation.acknowledged = false;
+            return newReservation;
+          },
+        );
+        setReservations(updatedReservations);
+        setFilteredReservations(applyFilter(updatedReservations, filter));
         setFirstVisit(false);
         showSnackbar('Reservations fetched.', 'info');
       } else {
@@ -233,6 +286,14 @@ function AdminReservations() {
     }
   };
 
+  const handleAcknowledgment = (id) => {
+    const updatedReservations = reservations.map((res) =>
+      res.id === id ? { ...res, acknowledged: !res.acknowledged } : res,
+    );
+    setReservations(updatedReservations);
+    setFilteredReservations(applyFilter(updatedReservations, filter));
+  };
+
   const handleEditReservation = (id) => {
     const reservation = reservations.find(
       (reservation) => reservation.id === id,
@@ -257,8 +318,16 @@ function AdminReservations() {
     setShowKloHistory((prevShowHistory) => !prevShowHistory);
   };
 
+  const toggleKloShowUnseen = () => {
+    setShowKloUnseen((prevShowHistory) => !prevShowHistory);
+  };
+
+  const toggleSnoShowUnseen = () => {
+    setShowSnoUnseen((prevShowHistory) => !prevShowHistory);
+  };
+
   useEffect(() => {
-    const intervalId = setInterval(fetchData, 6000);
+    const intervalId = setInterval(fetchData, 30000);
     return () => clearInterval(intervalId);
   }, [accessToken, showSnackbar, filter]);
 
@@ -296,7 +365,9 @@ function AdminReservations() {
   );
 
   const alKiloCircleRows = alKiloCircleReservations.map((reservation) => ({
-    branch_name: reservation.branch_name,
+    id: reservation.id,
+    status: reservation.status,
+    acknowledged: reservation.acknowledged,
     pc_number: reservation.pc_number,
     user_name: reservation.user_name,
     reservation_start: formatTime(reservation.reservation_start),
@@ -322,7 +393,9 @@ function AdminReservations() {
   }));
 
   const snokardoRows = snokardoReservations.map((reservation) => ({
-    branch_name: reservation.branch_name,
+    id: reservation.id,
+    status: reservation.status,
+    acknowledged: reservation.acknowledged,
     pc_number: reservation.pc_number,
     user_name: reservation.user_name,
     reservation_start: formatTime(reservation.reservation_start),
@@ -350,10 +423,12 @@ function AdminReservations() {
   const alKiloCircleFilteredRows = filterByHistoryFlag(
     alKiloCircleRows,
     showKloHistory,
+    showKloUnseen,
   );
   const snokardoFilteredRows = filterByHistoryFlag(
     snokardoRows,
     showSnoHistory,
+    showSnoUnseen,
   );
 
   return (
@@ -398,35 +473,68 @@ function AdminReservations() {
             }}
           >
             <AnimatedItem>
-              <Box
-                display="flex"
-                alignItems="center"
-                marginBottom={2}
-                sx={{
-                  background: '#fff',
-                  borderRadius: '8px',
-                  padding: '10px',
-                  maxWidth: 'fit-content',
-                  width: '100%',
-                }}
-              >
-                <Typography variant="body1" sx={{ marginRight: 2 }}>
-                  History
-                </Typography>
-                <Switch
-                  checked={showKloHistory}
-                  onChange={toggleKloShowHistory}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'toggle show history' }}
+              <Box display="flex" flexDirection="row">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginBottom={2}
                   sx={{
-                    '& .MuiSwitch-track': {
-                      backgroundColor: '#bdbdbd',
-                    },
-                    '& .MuiSwitch-thumb': {
-                      backgroundColor: '#3f51b5',
-                    },
+                    background: '#fff',
+                    borderRadius: '8px',
+                    marginRight: '20px',
+                    padding: '10px',
+                    maxWidth: 'fit-content',
+                    width: '100%',
                   }}
-                />
+                >
+                  <Typography variant="body1" sx={{ marginRight: 2 }}>
+                    History
+                  </Typography>
+                  <Switch
+                    checked={showKloHistory}
+                    onChange={toggleKloShowHistory}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'toggle show history' }}
+                    sx={{
+                      '& .MuiSwitch-track': {
+                        backgroundColor: '#bdbdbd',
+                      },
+                      '& .MuiSwitch-thumb': {
+                        backgroundColor: '#3f51b5',
+                      },
+                    }}
+                  />
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginBottom={2}
+                  sx={{
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    maxWidth: 'fit-content',
+                    width: '100%',
+                  }}
+                >
+                  <Typography variant="body1" sx={{ marginRight: 2 }}>
+                    Marked
+                  </Typography>
+                  <Switch
+                    checked={showKloUnseen}
+                    onChange={toggleKloShowUnseen}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'toggle show unseen' }}
+                    sx={{
+                      '& .MuiSwitch-track': {
+                        backgroundColor: '#bdbdbd',
+                      },
+                      '& .MuiSwitch-thumb': {
+                        backgroundColor: '#3f51b5',
+                      },
+                    }}
+                  />
+                </Box>
               </Box>
               <DynamicTable
                 title="Al-Kilo Circle Reservations"
@@ -453,35 +561,68 @@ function AdminReservations() {
             }}
           >
             <AnimatedItem>
-              <Box
-                display="flex"
-                alignItems="center"
-                marginBottom={2}
-                sx={{
-                  background: '#fff',
-                  borderRadius: '8px',
-                  padding: '10px',
-                  maxWidth: 'fit-content',
-                  width: '100%',
-                }}
-              >
-                <Typography variant="body1" sx={{ marginRight: 2 }}>
-                  History
-                </Typography>
-                <Switch
-                  checked={showSnoHistory}
-                  onChange={toggleSnoShowHistory}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'toggle show history' }}
+              <Box display="flex" flexDirection="row">
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginBottom={2}
                   sx={{
-                    '& .MuiSwitch-track': {
-                      backgroundColor: '#bdbdbd',
-                    },
-                    '& .MuiSwitch-thumb': {
-                      backgroundColor: '#3f51b5',
-                    },
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    marginRight: '20px',
+                    maxWidth: 'fit-content',
+                    width: '100%',
                   }}
-                />
+                >
+                  <Typography variant="body1" sx={{ marginRight: 2 }}>
+                    History
+                  </Typography>
+                  <Switch
+                    checked={showSnoHistory}
+                    onChange={toggleSnoShowHistory}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'toggle show history' }}
+                    sx={{
+                      '& .MuiSwitch-track': {
+                        backgroundColor: '#bdbdbd',
+                      },
+                      '& .MuiSwitch-thumb': {
+                        backgroundColor: '#3f51b5',
+                      },
+                    }}
+                  />
+                </Box>
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  marginBottom={2}
+                  sx={{
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                    maxWidth: 'fit-content',
+                    width: '100%',
+                  }}
+                >
+                  <Typography variant="body1" sx={{ marginRight: 2 }}>
+                    Marked
+                  </Typography>
+                  <Switch
+                    checked={showSnoUnseen}
+                    onChange={toggleSnoShowUnseen}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'toggle show unseen' }}
+                    sx={{
+                      '& .MuiSwitch-track': {
+                        backgroundColor: '#bdbdbd',
+                      },
+                      '& .MuiSwitch-thumb': {
+                        backgroundColor: '#3f51b5',
+                      },
+                    }}
+                  />
+                </Box>
               </Box>
               <DynamicTable
                 title="Snokardo Reservations"
