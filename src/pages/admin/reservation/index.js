@@ -152,6 +152,26 @@ function AdminReservations() {
     );
   };
 
+  const getReservation = async () => {
+    try {
+      const reservationsResponse = await axios.get(
+        process.env.REACT_APP_RESERVATION_ENDPOINT,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            history: true,
+          },
+        },
+      );
+      const fetchedReservations = reservationsResponse.data;
+      setReservations(fetchedReservations);
+      setFilteredReservations(applyFilter(fetchedReservations, filter));
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+      showSnackbar('Error fetching reservations. Please try again.', 'error');
+    }
+  };
+
   const updateReservation = async (id, data) => {
     try {
       await axios.patch(
@@ -222,7 +242,11 @@ function AdminReservations() {
   }, [filter, reservations]);
 
   useEffect(() => {
-    fetchData();
+    getReservation();
+    const timeoutId = setTimeout(() => {
+      fetchData();
+    }, 3000);
+    return () => clearTimeout(timeoutId);
   }, [accessToken]);
 
   useEffect(() => {
@@ -236,7 +260,7 @@ function AdminReservations() {
 
   useEffect(() => {
     setFirstVisit(false);
-  }, [firstVisit]);
+  }, []);
 
   const alKiloCircleReservations = filteredReservations.filter(
     (reservation) => reservation.branch_name === 'Al-Kilo Circle',
