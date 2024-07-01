@@ -11,9 +11,13 @@ npm run build
 echo "Navigating to the server directory and pulling the latest changes..."
 ssh root@139.59.174.109 'cd /var/www/html/TigersTeamReact && git pull'
 
+# Remove existing build directory on the server
+echo "Removing existing build directory on the server..."
+ssh root@139.59.174.109 'rm -rf /var/www/html/TigersTeamReact/build'
+
 # Copy the build files to the server
 echo "Copying build files to the server..."
-scp -r build/* root@139.59.174.109:/var/www/html/TigersTeamReact/
+scp -r build/ root@139.59.174.109:/var/www/html/TigersTeamReact/
 
 # Reload Nginx on the server
 echo "Reloading Nginx on the server..."
