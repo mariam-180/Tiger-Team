@@ -79,7 +79,7 @@ const activitiesColumns = [
 ];
 
 function AdminUsers() {
-  const { accessToken } = useAuth();
+  const { accessToken, userRole } = useAuth();
   const { showSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
   const [activities, setActivities] = useState([]);
@@ -219,7 +219,9 @@ function AdminUsers() {
 
   useEffect(() => {
     fetchData();
-    fetchReportsData();
+    if (roleHierarchy[userRole] === roleHierarchy['SUPER_USER']) {
+      fetchReportsData();
+    }
   }, []);
 
   const userRows = filteredUsers.map((user) => ({
@@ -329,182 +331,184 @@ function AdminUsers() {
               />
             </AnimatedItem>
           </Box>
-          <Box
-            sx={{
-              width: {
-                xs: '90vw',
-                sm: '92vw',
-                md: '94vw',
-                xl: '95.5vw',
-              },
-              marginBottom: '40px',
-              marginTop: '90px',
-            }}
-          >
+          {roleHierarchy[userRole] === roleHierarchy['SUPER_USER'] && (
             <Box
-              flexDirection="column"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              mb={3}
               sx={{
-                gap: 3,
-                padding: '20px',
-                backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                borderRadius: '12px',
-                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                width: {
+                  xs: '90vw',
+                  sm: '92vw',
+                  md: '94vw',
+                  xl: '95.5vw',
+                },
+                marginBottom: '40px',
+                marginTop: '90px',
               }}
             >
-              <TextField
-                label="Users"
-                select
-                name="userId"
-                value={filters.userId || ''}
-                onChange={handleFilterChange}
-                variant="outlined"
+              <Box
+                flexDirection="column"
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                mb={3}
                 sx={{
-                  '.MuiOutlinedInput-root': {
-                    background: '#fff',
-                    borderRadius: '8px',
-                    padding: '10px',
-                  },
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
+                  gap: 3,
+                  padding: '20px',
+                  backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                  borderRadius: '12px',
+                  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
                 }}
               >
-                <MenuItem value={null}>All</MenuItem>
-                {nonCustomerUsers.map((user) => (
-                  <MenuItem key={user.id} value={user.id}>
-                    {user.email}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                label="Action"
-                select
-                name="action"
-                value={filters.action || ''}
-                onChange={handleFilterChange}
-                variant="outlined"
-                sx={{
-                  '.MuiOutlinedInput-root': {
-                    background: '#fff',
+                <TextField
+                  label="Users"
+                  select
+                  name="userId"
+                  value={filters.userId || ''}
+                  onChange={handleFilterChange}
+                  variant="outlined"
+                  sx={{
+                    '.MuiOutlinedInput-root': {
+                      background: '#fff',
+                      borderRadius: '8px',
+                      padding: '10px',
+                    },
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                  }}
+                >
+                  <MenuItem value={null}>All</MenuItem>
+                  {nonCustomerUsers.map((user) => (
+                    <MenuItem key={user.id} value={user.id}>
+                      {user.email}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Action"
+                  select
+                  name="action"
+                  value={filters.action || ''}
+                  onChange={handleFilterChange}
+                  variant="outlined"
+                  sx={{
+                    '.MuiOutlinedInput-root': {
+                      background: '#fff',
+                      borderRadius: '8px',
+                      padding: '10px',
+                    },
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                  }}
+                >
+                  <MenuItem value={null}>All</MenuItem>
+                  {actions.map((action) => (
+                    <MenuItem key={action} value={action}>
+                      {action}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  label="Table"
+                  select
+                  name="tableName"
+                  value={filters.tableName || ''}
+                  onChange={handleFilterChange}
+                  variant="outlined"
+                  sx={{
+                    '.MuiOutlinedInput-root': {
+                      background: '#fff',
+                      borderRadius: '8px',
+                      padding: '10px',
+                    },
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                  }}
+                >
+                  <MenuItem value={null}>All</MenuItem>
+                  {tables.map((table) => (
+                    <MenuItem key={table} value={table}>
+                      {table}
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  label="From Date"
+                  type="date"
+                  name="startDate"
+                  value={filters.startDate || ''}
+                  onChange={handleFilterChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
+                  sx={{
+                    '.MuiOutlinedInput-root': {
+                      background: '#fff',
+                      borderRadius: '8px',
+                      padding: '10px',
+                    },
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                  }}
+                />
+                <TextField
+                  label="To Date"
+                  type="date"
+                  name="endDate"
+                  value={filters.endDate || ''}
+                  onChange={handleFilterChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  variant="outlined"
+                  sx={{
+                    '.MuiOutlinedInput-root': {
+                      background: '#fff',
+                      borderRadius: '8px',
+                      padding: '10px',
+                    },
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleApplyFilters}
+                  sx={{
+                    background: '#000',
+                    color: '#fff',
                     borderRadius: '8px',
-                    padding: '10px',
-                  },
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
-                }}
-              >
-                <MenuItem value={null}>All</MenuItem>
-                {actions.map((action) => (
-                  <MenuItem key={action} value={action}>
-                    {action}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                label="Table"
-                select
-                name="tableName"
-                value={filters.tableName || ''}
-                onChange={handleFilterChange}
-                variant="outlined"
-                sx={{
-                  '.MuiOutlinedInput-root': {
-                    background: '#fff',
-                    borderRadius: '8px',
-                    padding: '10px',
-                  },
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
-                }}
-              >
-                <MenuItem value={null}>All</MenuItem>
-                {tables.map((table) => (
-                  <MenuItem key={table} value={table}>
-                    {table}
-                  </MenuItem>
-                ))}
-              </TextField>
-              <TextField
-                label="From Date"
-                type="date"
-                name="startDate"
-                value={filters.startDate || ''}
-                onChange={handleFilterChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                sx={{
-                  '.MuiOutlinedInput-root': {
-                    background: '#fff',
-                    borderRadius: '8px',
-                    padding: '10px',
-                  },
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
-                }}
-              />
-              <TextField
-                label="To Date"
-                type="date"
-                name="endDate"
-                value={filters.endDate || ''}
-                onChange={handleFilterChange}
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                variant="outlined"
-                sx={{
-                  '.MuiOutlinedInput-root': {
-                    background: '#fff',
-                    borderRadius: '8px',
-                    padding: '10px',
-                  },
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
-                }}
-              />
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleApplyFilters}
-                sx={{
-                  background: '#000',
-                  color: '#fff',
-                  borderRadius: '8px',
-                  padding: '12px 20px',
-                  maxWidth: 'fit-content',
-                  minWidth: '320px',
-                  width: '100%',
-                  '&:hover': {
-                    background: '#333',
-                  },
-                }}
-              >
-                Find
-              </Button>
+                    padding: '12px 20px',
+                    maxWidth: 'fit-content',
+                    minWidth: '320px',
+                    width: '100%',
+                    '&:hover': {
+                      background: '#333',
+                    },
+                  }}
+                >
+                  Find
+                </Button>
+              </Box>
+              <AnimatedItem>
+                <DynamicTable
+                  title="Activities"
+                  columns={activitiesColumns}
+                  rows={activitiesRows}
+                  isSorted={true}
+                  canSearch={false}
+                  entriesPerPage={false}
+                  showTotalEntries={false}
+                  noEndBorder
+                />
+              </AnimatedItem>
             </Box>
-            <AnimatedItem>
-              <DynamicTable
-                title="Activities"
-                columns={activitiesColumns}
-                rows={activitiesRows}
-                isSorted={true}
-                canSearch={false}
-                entriesPerPage={false}
-                showTotalEntries={false}
-                noEndBorder
-              />
-            </AnimatedItem>
-          </Box>
+          )}
         </DashboardLayout>
       </ParentContainer>
       <AnimatedItem>
