@@ -5,7 +5,6 @@
 /.pnp
 .pnp.js
 
-server_scripts
 # testing
 /coverage
 
