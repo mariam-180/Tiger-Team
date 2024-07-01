@@ -13,6 +13,8 @@ import {
   Box,
   MenuItem,
 } from '@mui/material';
+import { styled } from '@mui/system';
+
 import Avatar from 'components/ThisAvatar';
 import Typography from 'components/ThisTypography';
 import SimpleButton from 'components/ThisSimpleButton';
@@ -23,6 +25,8 @@ import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
 import AnimatedItem from 'utils/animatedItem';
+import { formatTime } from 'utils/timeUtils';
+
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
 import avatarImg from 'assets/images/logos/logoBlack.png';
 
@@ -37,6 +41,27 @@ const roleOptions = Object.entries(roleHierarchy).map(([key]) => ({
   key,
 }));
 
+const StyledButton = styled(Button)({
+  backgroundColor: '#35465c',
+  color: '#fff',
+  '&:hover': {
+    backgroundColor: '#303f9f',
+  },
+  padding: '10px 20px',
+  borderRadius: '5px',
+});
+
+const StyledDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiPaper-root': {
+    backdropFilter: 'blur(20px)',
+    WebkitBackdropFilter: 'blur(0px)',
+    backgroundColor: 'rgba(255, 255, 255, 1)',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2),
+    borderRadius: '10px',
+  },
+}));
+
 const userColumns = [
   { Header: 'Author', accessor: 'author', width: '45%', align: 'left' },
   { Header: 'Username', accessor: 'user_name', align: 'left' },
@@ -45,13 +70,36 @@ const userColumns = [
   { Header: 'Action', accessor: 'action', align: 'center' },
 ];
 
+const activitiesColumns = [
+  { Header: 'Author', accessor: 'author', width: '35%', align: 'left' },
+  { Header: 'Table', accessor: 'table', align: 'left' },
+  { Header: 'Action', accessor: 'action', align: 'center' },
+  { Header: 'Time', accessor: 'time', align: 'center' },
+  { Header: 'Details', accessor: 'details', align: 'center' },
+];
+
 function AdminUsers() {
   const { accessToken } = useAuth();
   const { showSnackbar } = useSnackbar();
   const [users, setUsers] = useState([]);
-  const [filteredUsers, setFilteredUsers] = useState([]);
-  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [activities, setActivities] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [nonCustomerUsers, setNonCustomerUsers] = useState([]);
+  const [detailsDialogOpen, setDetailsDialogOpen] = useState(false);
+  const [editUserDialogOpen, setEditUserDialogOpen] = useState(false);
+  const [selectedActivityDetails, setSelectedActivityDetails] = useState(null);
+
+  const actions = ['UPDATE', 'DELETE', 'CREATE'];
+  const tables = ['Reservations', 'Users'];
+
+  const [filters, setFilters] = useState({
+    startDate: null,
+    endDate: null,
+    action: null,
+    tableName: null,
+    userId: null,
+  });
 
   const Author = ({ image, name, email }) => (
     <Box display="flex" alignItems="center" lineHeight={1}>
@@ -65,15 +113,49 @@ function AdminUsers() {
     </Box>
   );
 
+  const fetchReportsData = async () => {
+    try {
+      const response = await axios.get(
+        process.env.REACT_APP_ACTIVITIES_ENDPOINT,
+        {
+          headers: { Authorization: `Bearer ${accessToken}` },
+          params: {
+            start_date: filters.startDate
+              ? new Date(filters.startDate).getTime()
+              : null,
+            end_date: filters.endDate
+              ? new Date(filters.endDate).getTime()
+              : null,
+            action: filters.action,
+            table_name: filters.tableName,
+            user_id: filters.userId,
+          },
+        },
+      );
+      setActivities(response.data);
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        setActivities([]);
+      } else {
+        console.error('Error fetching reports:', error);
+        showSnackbar('Error fetching reports. Please try again.', 'error');
+      }
+    }
+  };
+
   const fetchData = async () => {
     try {
-      const [usersResponse] = await Promise.all([
+      const [usersResponse, nonCustomerUsersResponse] = await Promise.all([
         axios.get(process.env.REACT_APP_USERS_ENDPOINT, {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        }),
+        axios.get(process.env.REACT_APP_NON_CUSTOMER_USERS_ENDPOINT, {
           headers: { Authorization: `Bearer ${accessToken}` },
         }),
       ]);
       setUsers(usersResponse.data);
       setFilteredUsers(usersResponse.data);
+      setNonCustomerUsers(nonCustomerUsersResponse.data);
     } catch (error) {
       console.error('Error fetching data:', error);
       showSnackbar('Error fetching data. Please try again.', 'error');
@@ -117,10 +199,26 @@ function AdminUsers() {
     setEditUserDialogOpen(false);
   };
 
+  const handleViewDetails = (details) => {
+    setSelectedActivityDetails(details);
+    setDetailsDialogOpen(true);
+  };
+
   const handleUserDialogClose = () => setEditUserDialogOpen(false);
+
+  const handleApplyFilters = () => {
+    fetchReportsData();
+  };
+  const handleFilterChange = (e) => {
+    setFilters({
+      ...filters,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     fetchData();
+    fetchReportsData();
   }, []);
 
   const userRows = filteredUsers.map((user) => ({
@@ -148,6 +246,29 @@ function AdminUsers() {
           sx={{ color: '#8B0000', opacity: '0.9' }}
         >
           Delete
+        </Button>
+      </Box>
+    ),
+  }));
+
+  const activitiesRows = activities.map((activity) => ({
+    author: (
+      <Author
+        image={avatarImg}
+        name={`${activity.user.first_name} ${activity.user.last_name}`}
+        email={activity.user.email}
+      />
+    ),
+    table: activity.table_name,
+    action: activity.action,
+    time: formatTime(activity.timestamp, true),
+    details: (
+      <Box display="flex" justifyContent="center">
+        <Button
+          onClick={() => handleViewDetails(activity.details)}
+          sx={{ color: '#00008B', opacity: '0.9' }}
+        >
+          View Details
         </Button>
       </Box>
     ),
@@ -190,6 +311,8 @@ function AdminUsers() {
                 md: '94vw',
                 xl: '95.5vw',
               },
+              marginBottom: '40px',
+              marginTop: '90px',
             }}
           >
             <AnimatedItem>
@@ -200,6 +323,182 @@ function AdminUsers() {
                 isSorted={true}
                 canSearch={true}
                 entriesPerPage={true}
+                showTotalEntries={false}
+                noEndBorder
+              />
+            </AnimatedItem>
+          </Box>
+          <Box
+            sx={{
+              width: {
+                xs: '90vw',
+                sm: '92vw',
+                md: '94vw',
+                xl: '95.5vw',
+              },
+              marginBottom: '40px',
+              marginTop: '90px',
+            }}
+          >
+            <Box
+              flexDirection="column"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              mb={3}
+              sx={{
+                gap: 3,
+                padding: '20px',
+                backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                borderRadius: '12px',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+              }}
+            >
+              <TextField
+                label="Users"
+                select
+                name="userId"
+                value={filters.userId || ''}
+                onChange={handleFilterChange}
+                variant="outlined"
+                sx={{
+                  '.MuiOutlinedInput-root': {
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                  },
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                }}
+              >
+                <MenuItem value={null}>All</MenuItem>
+                {nonCustomerUsers.map((user) => (
+                  <MenuItem key={user.id} value={user.id}>
+                    {user.email}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Action"
+                select
+                name="action"
+                value={filters.action || ''}
+                onChange={handleFilterChange}
+                variant="outlined"
+                sx={{
+                  '.MuiOutlinedInput-root': {
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                  },
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                }}
+              >
+                <MenuItem value={null}>All</MenuItem>
+                {actions.map((action) => (
+                  <MenuItem key={action} value={action}>
+                    {action}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="Table"
+                select
+                name="tableName"
+                value={filters.tableName || ''}
+                onChange={handleFilterChange}
+                variant="outlined"
+                sx={{
+                  '.MuiOutlinedInput-root': {
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                  },
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                }}
+              >
+                <MenuItem value={null}>All</MenuItem>
+                {tables.map((table) => (
+                  <MenuItem key={table} value={table}>
+                    {table}
+                  </MenuItem>
+                ))}
+              </TextField>
+              <TextField
+                label="From Date"
+                type="date"
+                name="startDate"
+                value={filters.startDate || ''}
+                onChange={handleFilterChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                sx={{
+                  '.MuiOutlinedInput-root': {
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                  },
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                }}
+              />
+              <TextField
+                label="To Date"
+                type="date"
+                name="endDate"
+                value={filters.endDate || ''}
+                onChange={handleFilterChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                variant="outlined"
+                sx={{
+                  '.MuiOutlinedInput-root': {
+                    background: '#fff',
+                    borderRadius: '8px',
+                    padding: '10px',
+                  },
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleApplyFilters}
+                sx={{
+                  background: '#000',
+                  color: '#fff',
+                  borderRadius: '8px',
+                  padding: '12px 20px',
+                  maxWidth: 'fit-content',
+                  minWidth: '320px',
+                  width: '100%',
+                  '&:hover': {
+                    background: '#333',
+                  },
+                }}
+              >
+                Find
+              </Button>
+            </Box>
+            <AnimatedItem>
+              <DynamicTable
+                title="Activities"
+                columns={activitiesColumns}
+                rows={activitiesRows}
+                isSorted={true}
+                canSearch={false}
+                entriesPerPage={false}
                 showTotalEntries={false}
                 noEndBorder
               />
@@ -309,6 +608,30 @@ function AdminUsers() {
           </SimpleButton>
         </DialogActions>
       </Dialog>
+      <StyledDialog
+        open={detailsDialogOpen}
+        onClose={() => setDetailsDialogOpen(false)}
+      >
+        <DialogTitle>Activity Details</DialogTitle>
+        <DialogContent>
+          <Box>
+            {selectedActivityDetails &&
+              Object.entries(selectedActivityDetails).map(([key, value]) => (
+                <Typography key={key}>
+                  <strong>{key}:</strong> {JSON.stringify(value, null, 2)}
+                </Typography>
+              ))}
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <StyledButton
+            onClick={() => setDetailsDialogOpen(false)}
+            color="primary"
+          >
+            Close
+          </StyledButton>
+        </DialogActions>
+      </StyledDialog>
     </Grid>
   );
 }
