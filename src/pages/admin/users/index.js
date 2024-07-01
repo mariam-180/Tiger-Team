@@ -152,24 +152,14 @@ function AdminUsers() {
       ]);
       setUsers(usersResponse.data);
       setFilteredUsers(usersResponse.data);
+      const nonCustomerUsers = usersResponse.data.filter(
+        (user) => user.role !== 'END_USER',
+      );
+
+      setNonCustomerUsers(nonCustomerUsers);
     } catch (error) {
       console.error('Error fetching data:', error);
       showSnackbar('Error fetching data. Please try again.', 'error');
-    }
-    try {
-      const [nonCustomerUsersResponse] = await Promise.all([
-        axios.get(process.env.REACT_APP_NON_CUSTOMER_USERS_ENDPOINT, {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        }),
-      ]);
-      setNonCustomerUsers(nonCustomerUsersResponse.data);
-    } catch (error) {
-      if (error.response && error.response.status === 404) {
-        setNonCustomerUsers([]);
-      } else {
-        console.error('Error fetching data:', error);
-        showSnackbar('Error fetching data. Please try again.', 'error');
-      }
     }
   };
 
