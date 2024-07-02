@@ -11,6 +11,8 @@
 # production
 /build
 src/assets/videos
+media
+local_logs
 
 # misc
 .DS_Store
