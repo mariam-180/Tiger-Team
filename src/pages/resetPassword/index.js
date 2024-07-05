@@ -9,7 +9,7 @@ import ParentContainer from 'components/ThisContainer/filtered';
 
 import { useSnackbar } from 'context/SnackbarContext';
 
-import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
+import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_9.webp';
 
 const StyledButton = styled(Button)({
   backgroundColor: '#35465c',
