@@ -19,6 +19,8 @@ import {
 
 import ThisContainer from 'components/ThisContainer';
 import LoginSignupToggle from 'components/ThisCircle';
+import ForgotPasswordDialog from 'examples/forgotPasswordDialog';
+
 import VerificationPopup from '../VerificationPopup';
 
 import { validateForm } from 'utils/formValidation';
@@ -60,6 +62,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function AuthPage() {
   const [signIn, setSignIn] = useState(true);
+  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -97,6 +100,14 @@ function AuthPage() {
   const handleClosePopup = () => {
     setPopupOpen(false);
     navigate('/');
+  };
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
   };
 
   const handleSignInSubmit = async (e) => {
@@ -302,7 +313,9 @@ function AuthPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <Anchor href="#">Forgot your password?</Anchor>
+                <Anchor href="#" onClick={handleOpenDialog}>
+                  Forgot your password?
+                </Anchor>
                 <Button type="submit">Sign In</Button>
               </Form>
             </SignInContainer>
@@ -323,6 +336,7 @@ function AuthPage() {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <ForgotPasswordDialog open={open} onClose={handleCloseDialog} />
       <VerificationPopup open={popupOpen} onClose={handleClosePopup} />
     </Grid>
   );

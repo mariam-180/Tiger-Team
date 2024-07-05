@@ -5,8 +5,10 @@ import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import Icon from '@mui/material/Icon';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
+import ForgotPasswordDialog from 'examples/forgotPasswordDialog';
 import ThisBox from 'components/ThisBox';
 import { StyledButton } from 'components/ThisStyledButton';
+
 import {
   Container,
   ContainerWrapper,
@@ -36,6 +38,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Registration() {
   const [signIn, setSignIn] = useState(true);
+  const [open, setOpen] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -68,6 +71,14 @@ function Registration() {
   const handleClosePopup = () => {
     setPopupOpen(false);
     navigate('/');
+  };
+
+  const handleOpenDialog = () => {
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
   };
 
   const handleSignInSubmit = async (e) => {
@@ -292,7 +303,9 @@ function Registration() {
                   <Icon>{showPassword ? 'visibility_off' : 'visibility'}</Icon>
                 </button>
               </ThisBox>
-              <Anchor href="#">Forgot your password?</Anchor>
+              <Anchor href="#" onClick={handleOpenDialog}>
+                Forgot your password?
+              </Anchor>
               <StyledButton type="submit">Sign In</StyledButton>
             </Form>
           </SignInContainer>
@@ -349,6 +362,7 @@ function Registration() {
             {snackbarMessage}
           </Alert>
         </Snackbar>
+        <ForgotPasswordDialog open={open} onClose={handleCloseDialog} />
         <VerificationPopup open={popupOpen} onClose={handleClosePopup} />
       </VideoBackgroundContainer>
     </ContainerWrapper>

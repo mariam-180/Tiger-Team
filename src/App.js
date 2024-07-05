@@ -10,6 +10,7 @@ import { LoginRequiredProvider } from 'context/LoginRequiredContext';
 import Home from 'layouts/pages/home';
 import LoginRequired from 'layouts/pages/loginRequired';
 import Reservations from 'layouts/pages/reservations';
+import ResetPassword from 'layouts/pages/resetPassword';
 import routes from 'routes';
 
 function App() {
@@ -46,6 +47,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login-required" element={<LoginRequired />} />
               <Route path="/reservations/*" element={<Reservations />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
               {getRoutes(routes)}
             </Routes>
           </LoginRequiredProvider>

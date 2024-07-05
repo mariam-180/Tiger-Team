@@ -10,6 +10,7 @@ import Avatar from 'components/ThisAvatar';
 import Typography from 'components/ThisTypography';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DynamicTable from 'components/ThisEnhancedTable';
+import ForgotPasswordDialog from 'examples/forgotPasswordDialog';
 
 import ViaLogin from 'examples/formSubmit/viaLogin';
 
@@ -125,6 +126,7 @@ function QA() {
       }}
     >
       <NavBar />
+      <ForgotPasswordDialog open={true} onClose={{}} />
       {/* <ParentContainer
         blur={2}
         brightness={20}
@@ -157,7 +159,7 @@ function QA() {
           </Box>
         </DashboardLayout>
       </ParentContainer> */}
-      <ViaLogin></ViaLogin>
+      {/* <ViaLogin></ViaLogin> */}
       {/* <ConfirmationDialog></ConfirmationDialog> */}
       <Footer />
     </Grid>
