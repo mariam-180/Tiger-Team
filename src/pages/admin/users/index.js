@@ -65,6 +65,7 @@ const StyledDialog = styled(Dialog)(({ theme }) => ({
 const userColumns = [
   { Header: 'Author', accessor: 'author', width: '45%', align: 'left' },
   { Header: 'Username', accessor: 'user_name', align: 'left' },
+  { Header: 'Phone Number', accessor: 'phone_number', align: 'left' },
   { Header: 'Credit', accessor: 'credit', align: 'center' },
   { Header: 'Role', accessor: 'role', align: 'center' },
   { Header: 'Action', accessor: 'action', align: 'center' },
@@ -233,6 +234,7 @@ function AdminUsers() {
       />
     ),
     user_name: user.user_name,
+    phone_number: user.phone_number,
     credit: user.credit,
     role:
       roleOptions.find((role) => role.key === user.role)?.label || user.role,
