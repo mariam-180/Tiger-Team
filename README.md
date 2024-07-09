@@ -18,7 +18,7 @@ Welcome to the official code repository for Tigers Team Racing Simulator – you
 
 ## About The Project
 
-Tigers Team Racing Simulator offers a dynamic and engaging platform to racing game aficionados. Users can learn about upcoming championships, reserve PCs for gaming sessions, and browse gaming products.-
+Tigers Team Racing Simulator offers a dynamic and engaging platform to racing game aficionados. Users can learn about upcoming championships, reserve PCs for gaming sessions, and browse gaming products.
 
 ## Features
 
