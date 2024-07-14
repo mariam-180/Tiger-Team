@@ -12,7 +12,7 @@ import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
 import Profile from 'layouts/pages/profile';
 // import QA from 'layouts/pages/qa';
-// import Live from 'layouts/pages/live';
+import Live from 'layouts/pages/live';
 
 const routes = [
   {
@@ -96,14 +96,14 @@ const routes = [
     ],
     requiredRole: 'EMPLOYEE_USER',
   },
-  // {
-  //   name: 'QAPrivate',
-  //   route: '/QA/Private',
-  //   component: (
-  //     <RoleBasedPrivateRoute element={<QA />} requiredRole="SUPER_USER" />
-  //   ),
-  //   requiredRole: 'SUPER_USER',
-  // },
+  {
+    name: 'QAPrivate',
+    route: '/QA/Private',
+    component: (
+      <RoleBasedPrivateRoute element={<Live />} requiredRole="SUPER_USER" />
+    ),
+    requiredRole: 'SUPER_USER',
+  },
   // {
   //   name: 'QA',
   //   route: '/QA',

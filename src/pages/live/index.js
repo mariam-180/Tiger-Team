@@ -17,7 +17,7 @@ function Live() {
     muted: true,
     sources: [
       {
-        src: 'https://tigers-team.com/hls/obs_stream.m3u8',
+        src: 'https://tigers-team.com/hls/low/OBS_Stream.m3u8',
         type: 'application/x-mpegURL',
       },
     ],
