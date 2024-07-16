@@ -39,6 +39,12 @@ const routes = [
     component: <Reservations />,
   },
   {
+    name: 'Live',
+    route: '/Live',
+    component: <Live />,
+    requiredRole: null,
+  },
+  {
     name: 'Profile',
     route: '/profile',
     component: (
@@ -96,19 +102,13 @@ const routes = [
     ],
     requiredRole: 'EMPLOYEE_USER',
   },
-  {
-    name: 'QAPrivate',
-    route: '/QA/Private',
-    component: (
-      <RoleBasedPrivateRoute element={<Live />} requiredRole="SUPER_USER" />
-    ),
-    requiredRole: 'SUPER_USER',
-  },
   // {
-  //   name: 'QA',
-  //   route: '/QA',
-  //   component: <QA />,
-  //   requiredRole: null,
+  //   name: 'QAPrivate',
+  //   route: '/QA/Private',
+  //   component: (
+  //     <RoleBasedPrivateRoute element={<Live />} requiredRole="SUPER_USER" />
+  //   ),
+  //   requiredRole: 'SUPER_USER',
   // },
   // {
   //   name: 'QA',

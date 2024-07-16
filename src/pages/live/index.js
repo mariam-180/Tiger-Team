@@ -1,13 +1,15 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Grid, Box } from '@mui/material';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
-
+import Footer from 'examples/footer';
 import ParallaxBackground from 'examples/parallax';
 import videojs from 'video.js';
 import 'video.js/dist/video-js.css';
 
 function Live() {
   const playerRef = useRef(null);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const videoJsOptions = {
     autoplay: true,
     controls: true,
@@ -28,12 +30,21 @@ function Live() {
       ? videojs(playerRef.current, videoJsOptions, () => {})
       : null;
 
+    if (player) {
+      player.on('error', () => {
+        const error = player.error();
+        if (error && error.code === 4) {
+          setErrorMessage('No live streaming at this moment');
+        }
+      });
+    }
+
     return () => {
       if (player) {
         player.dispose();
       }
     };
-  });
+  }, [videoJsOptions]);
 
   return (
     <Grid
@@ -55,7 +66,16 @@ function Live() {
     >
       <DefaultNavbar />
       <ParallaxBackground />
-      <Box width="100%" height="150vh" />
+      <Box
+        width="100%"
+        sx={{
+          height: {
+            xs: '150vh',
+            sm: '150vh',
+            md: '100vh',
+          },
+        }}
+      />
       <Box
         width="100%"
         minHeight="100vh"
@@ -69,10 +89,26 @@ function Live() {
           zIndex: 200,
         }}
       >
-        <div data-vjs-player>
-          <video ref={playerRef} className="video-js vjs-big-play-centered" />
-        </div>
+        {errorMessage ? (
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="start"
+            width="100%"
+            height="50vh"
+            color="#fff"
+            fontSize="24px"
+          >
+            {errorMessage}
+          </Box>
+        ) : (
+          <div data-vjs-player>
+            <video ref={playerRef} className="video-js vjs-big-play-centered" />
+          </div>
+        )}
       </Box>
+      <Box width="100%" height="30vh" />
+      <Footer />
     </Grid>
   );
 }

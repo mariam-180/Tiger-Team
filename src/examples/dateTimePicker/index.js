@@ -58,6 +58,9 @@ function CustomDatePicker({
     { value: 30, label: '30 mins', endsLabel: 'ends at' },
     { value: 60, label: '1 hour', endsLabel: 'ends at' },
     { value: 90, label: '1h 30m', endsLabel: 'ends at' },
+    { value: 120, label: '2 hours', endsLabel: 'ends at' },
+    { value: 150, label: '2h 30m', endsLabel: 'ends at' },
+    { value: 180, label: '3 hours', endsLabel: 'ends at' },
   ];
 
   return (

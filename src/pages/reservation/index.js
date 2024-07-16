@@ -52,7 +52,7 @@ function Reservations() {
 
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showReservation, setShowReservation] = useState(true);
-  const [showBookingSummary, setshowBookingSummary] = useState(false);
+  const [showBookingSummary, setShowBookingSummary] = useState(false);
   const [showRoomSelector, setShowRoomSelector] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -117,7 +117,7 @@ function Reservations() {
       setTotalCost(totalCost);
       setShowDatePicker(showDatePicker);
       setShowRoomSelector(showRoomSelector);
-      setshowBookingSummary(showBookingSummary);
+      setShowBookingSummary(showBookingSummary);
       setShowReservation(showReservation);
       setPCS(PCs);
     }
@@ -150,31 +150,31 @@ function Reservations() {
         setShowReservation(true);
         setShowDatePicker(false);
         setShowRoomSelector(false);
-        setshowBookingSummary(false);
+        setShowBookingSummary(false);
         break;
       case '/reservations/date-picker':
         setShowReservation(false);
         setShowDatePicker(true);
         setShowRoomSelector(false);
-        setshowBookingSummary(false);
+        setShowBookingSummary(false);
         break;
       case '/reservations/room-selector':
         setShowReservation(false);
         setShowDatePicker(false);
         setShowRoomSelector(true);
-        setshowBookingSummary(false);
+        setShowBookingSummary(false);
         break;
       case '/reservations/booking-summary':
         setShowReservation(false);
         setShowDatePicker(false);
         setShowRoomSelector(false);
-        setshowBookingSummary(true);
+        setShowBookingSummary(true);
         break;
       default:
         setShowReservation(true);
         setShowDatePicker(false);
         setShowRoomSelector(false);
-        setshowBookingSummary(false);
+        setShowBookingSummary(false);
         break;
     }
   }, [location.pathname]);
@@ -259,7 +259,7 @@ function Reservations() {
       setTimeout(() => {
         setLoading(false);
         if (response.status === 201) {
-          setshowBookingSummary(true);
+          setShowBookingSummary(true);
           navigate('/reservations/booking-summary');
           showSnackbar('Booking confirmed!', 'success');
         }
@@ -276,7 +276,7 @@ function Reservations() {
         showSnackbar('Error confirming booking. Please try again.', 'error');
       }
     }
-    setshowBookingSummary(true);
+    setShowBookingSummary(true);
   };
 
   const handleCancel = () => {

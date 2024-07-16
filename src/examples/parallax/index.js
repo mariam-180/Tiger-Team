@@ -5,7 +5,7 @@ import Plx from 'react-plx';
 // eslint-disable-next-line max-len
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
 import bg from 'assets/images/parallax/trees.png';
-import background from 'assets/images/tigers_ai/tigersTeamCar_5.webp';
+import background from 'assets/images/tigers_ai/tigersTeamCar_13.webp';
 
 export default function ParallaxComponent() {
   useEffect(() => {
@@ -133,14 +133,28 @@ export default function ParallaxComponent() {
       >
         <div
           style={{
-            color: '#A50000',
-            textAlign: 'center',
-            animation: 'bounce 2s infinite',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            height: '15vh',
           }}
         >
-          Scroll Down
-          <br />
-          <KeyboardDoubleArrowDownIcon sx={{ fontSize: 60, color: '#000' }} />
+          <div
+            style={{
+              color: '#d4af37',
+              textAlign: 'center',
+              animation: 'bounce 2s infinite',
+              borderRadius: '15px',
+              backgroundColor: 'rgba(0, 0, 0, 0.4)',
+              padding: '20px',
+              width: '50vw',
+              maxWidth: '300px',
+            }}
+          >
+            Scroll Down
+            <br />
+            <KeyboardDoubleArrowDownIcon sx={{ fontSize: 60, color: '#fff' }} />
+          </div>
         </div>
 
         <style jsx="true">
