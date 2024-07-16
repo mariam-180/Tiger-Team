@@ -99,7 +99,25 @@ function Live() {
             color="#fff"
             fontSize="24px"
           >
-            {errorMessage}
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              width="80%"
+              height="20vh"
+              color="rgba(0, 0, 0, 0.6)"
+              fontSize="24px"
+              sx={{
+                backgroundColor: 'rgba(255, 255, 255, 0.6)',
+                padding: '20px',
+                borderRadius: '40px',
+                boxShadow: '0px 15px 50px rgba(180, 180, 180, 1.2)',
+                textAlign: 'center',
+                maxWidth: '550px',
+              }}
+            >
+              {errorMessage}
+            </Box>
           </Box>
         ) : (
           <div data-vjs-player>
