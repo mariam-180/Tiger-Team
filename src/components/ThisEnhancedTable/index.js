@@ -94,7 +94,7 @@ DynamicTable.propTypes = {
 };
 
 DynamicTable.defaultProps = {
-  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
+  entriesPerPage: { defaultValue: 5, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
   pagination: { variant: 'gradient', color: 'info' },

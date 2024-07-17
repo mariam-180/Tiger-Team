@@ -54,7 +54,7 @@ function DataTable({
 }) {
   const defaultValue = entriesPerPage.defaultValue
     ? entriesPerPage.defaultValue
-    : 10;
+    : 5;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ['5', '10', '15', '20', '25'];
@@ -285,7 +285,7 @@ function DataTable({
 }
 
 DataTable.defaultProps = {
-  entriesPerPage: { defaultValue: 10, entries: [5, 10, 15, 20, 25] },
+  entriesPerPage: { defaultValue: 5, entries: [5, 10, 15, 20, 25] },
   canSearch: false,
   showTotalEntries: true,
   pagination: { variant: 'gradient', color: 'info' },

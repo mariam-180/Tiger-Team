@@ -542,7 +542,10 @@ function AdminReservations() {
                 rows={alKiloCircleFilteredRows}
                 isSorted
                 canSearch
-                entriesPerPage
+                entriesPerPage={{
+                  defaultValue: 10,
+                  entries: [5, 10, 15, 20, 25],
+                }}
                 showTotalEntries={false}
                 noEndBorder
               />
@@ -630,7 +633,10 @@ function AdminReservations() {
                 rows={snokardoFilteredRows}
                 isSorted
                 canSearch
-                entriesPerPage
+                entriesPerPage={{
+                  defaultValue: 10,
+                  entries: [5, 10, 15, 20, 25],
+                }}
                 showTotalEntries={false}
                 noEndBorder
               />

@@ -201,6 +201,8 @@ function EventRegistrations() {
         <DashboardLayout>
           <Box
             sx={{
+              marginTop: '100px',
+              marginBottom: '100px',
               width: {
                 xs: '90vw',
                 sm: '92vw',
