@@ -116,6 +116,9 @@ function DefaultNavbarMobile({ routes, open }) {
                       variant="button"
                       fontWeight="bold"
                       textTransform="capitalize"
+                      sx={{
+                        color: '#808080',
+                      }}
                     >
                       {item.name}
                     </ThisTypography>

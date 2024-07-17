@@ -102,7 +102,13 @@ function DefaultNavbarDropdown({
           color={light ? 'white' : 'dark'}
           ml="auto"
         >
-          <Icon sx={{ fontWeight: 'normal', verticalAlign: 'middle' }}>
+          <Icon
+            sx={{
+              fontWeight: 'normal',
+              verticalAlign: 'middle',
+              color: '#d4af37',
+            }}
+          >
             {collapse && 'keyboard_arrow_down'}
           </Icon>
         </ThisTypography>
