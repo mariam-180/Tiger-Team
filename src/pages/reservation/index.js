@@ -362,13 +362,11 @@ function Reservations() {
           element={
             showReservation &&
             !loading && (
-              <AnimatedItem>
-                <Reservation
-                  branches={branches}
-                  handleCardClick={handleCardClick}
-                  background={background}
-                />
-              </AnimatedItem>
+              <Reservation
+                branches={branches}
+                handleCardClick={handleCardClick}
+                background={background}
+              />
             )
           }
         />
