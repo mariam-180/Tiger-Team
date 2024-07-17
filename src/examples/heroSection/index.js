@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-// import RegistrationFormDialog from 'examples/formSubmit';
+import RegistrationFormDialog from 'examples/formSubmit';
 import ViaLogin from 'examples/formSubmit/viaLogin';
 
 const FlexContainer = styled(Box)({
@@ -111,6 +111,7 @@ const WelcomingEventPage = ({
 }) => {
   const [open, setOpen] = useState(false);
 
+  // eslint-disable-next-line no-unused-vars
   const handleClickOpen = () => {
     setOpen(false);
     setOpen(true);
@@ -148,23 +149,23 @@ const WelcomingEventPage = ({
       >
         Experience racing like never before. Start your engines, join now!
       </BodyText>
-      <StyledRegisterButton
+      {/* <StyledRegisterButton
         variant="contained"
         size="large"
         onClick={handleClickOpen}
       >
         Register Now
-      </StyledRegisterButton>
-      {/* <ClosedRegistrationMessage>
+      </StyledRegisterButton> */}
+      <ClosedRegistrationMessage>
         Registration is now closed. See you at the event!
-      </ClosedRegistrationMessage> */}
-      {/* <RegistrationFormDialog
+      </ClosedRegistrationMessage>
+      <RegistrationFormDialog
         open={open}
         handleClose={handleClose}
         setSnackbarOpen={setSnackbarOpen}
         setSnackbarMessage={setSnackbarMessage}
         setSnackbarSeverity={setSnackbarSeverity}
-      /> */}
+      />
       {open && <ViaLogin handleClose={handleClose} />}
     </FlexContainer>
   );
