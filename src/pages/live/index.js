@@ -8,7 +8,7 @@ import 'video.js/dist/video-js.css';
 
 function Live() {
   const playerRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('A');
 
   const videoJsOptions = {
     autoplay: true,
@@ -29,6 +29,10 @@ function Live() {
     const player = playerRef.current
       ? videojs(playerRef.current, videoJsOptions, () => {})
       : null;
+
+    if (!player) {
+      setErrorMessage('No live streaming at this moment');
+    }
 
     if (player) {
       player.on('error', () => {
