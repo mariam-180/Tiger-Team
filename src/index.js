@@ -1,11 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import App from 'App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { AuthProvider } from 'authContext';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+ReactDOM.render(
   <React.StrictMode>
     <Router>
       <AuthProvider>
@@ -13,4 +12,5 @@ root.render(
       </AuthProvider>
     </Router>
   </React.StrictMode>,
+  document.getElementById('root'),
 );
