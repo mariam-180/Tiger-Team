@@ -4,109 +4,107 @@
 /* eslint-disable new-cap */
 import React from 'react';
 
-import { Grid } from '@mui/material';
-import Box from 'components/ThisBox';
-import Avatar from 'components/ThisAvatar';
-import Typography from 'components/ThisTypography';
-import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
-import DynamicTable from 'components/ThisEnhancedTable';
-import ForgotPasswordDialog from 'examples/forgotPasswordDialog';
-
-import ViaLogin from 'examples/formSubmit/viaLogin';
-
+import { Box, Grid } from '@mui/material';
+import ScrollAnimation from 'utils/scrollAnimation';
+import ProductList from 'examples/productList';
 import NavBar from 'examples/navbars/DefaultNavbar';
-import ParentContainer from 'components/ThisContainer/filtered';
 import Footer from 'examples/footer';
 
-import background from 'assets/images/tigers_ai/tigersTeamCar_9.webp';
-import team2 from 'assets/images/tigers_ai/tigersTeamCar_6.webp';
+import Slider from 'examples/videoSlider';
+
+import vd1 from 'assets/videos/FSR_3.mp4';
+import vd2 from 'assets/videos/R5_2.mp4';
+import vd3 from 'assets/videos/FSR_2.mp4';
+import vd4 from 'assets/videos/R5_3.mp4';
+
+import img1 from 'assets/images/tigers_ai/tigersTeamCar_1.webp';
+import img2 from 'assets/images/tigers_ai/tigersTeamCar_2.webp';
+import img3 from 'assets/images/tigers_ai/tigersTeamCar_3.webp';
+
+const products = [
+  {
+    name: 'Super Rockez A400',
+    category: 'Bluetooth Headset',
+    price: '2,900',
+    stock: 7,
+    isLowestPrice: true,
+    image: img1,
+    link: '#product-card',
+    onAddToCart: () => alert('Product added to cart!'),
+  },
+  {
+    name: 'Another Product',
+    category: 'Gadget',
+    price: '1,200',
+    stock: 3,
+    isLowestPrice: false,
+    image: img2,
+    link: '#another-product',
+    onAddToCart: () => alert('Another product added to cart!'),
+  },
+  {
+    name: 'Super Rockez A400',
+    category: 'Bluetooth Headset',
+    price: '2,900',
+    stock: 7,
+    isLowestPrice: true,
+    image: img3,
+    link: '#product-card',
+    onAddToCart: () => alert('Product added to cart!'),
+  },
+  {
+    name: 'Another Product',
+    category: 'Gadget',
+    price: '1,200',
+    stock: 3,
+    isLowestPrice: false,
+    image:
+      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
+    link: '#another-product',
+    onAddToCart: () => alert('Another product added to cart!'),
+  },
+  {
+    name: 'Super Rockez A400',
+    category: 'Bluetooth Headset',
+    price: '2,900',
+    stock: 7,
+    isLowestPrice: true,
+    image:
+      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
+    link: '#product-card',
+    onAddToCart: () => alert('Product added to cart!'),
+  },
+  {
+    name: 'Another Product',
+    category: 'Gadget',
+    price: '1,200',
+    stock: 3,
+    isLowestPrice: false,
+    image:
+      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
+    link: '#another-product',
+    onAddToCart: () => alert('Another product added to cart!'),
+  },
+  // Add more products as needed
+];
+
+const media = [
+  { type: 'video', src: vd1 },
+  { type: 'video', src: vd2 },
+  { type: 'video', src: vd3 },
+  { type: 'video', src: vd4 },
+];
+const textContent = {
+  'FSR Formula Wheel':
+    'Wheel transition in seconds. Enjoy a stable, solid connection',
+  'R12 Wheel Base':
+    'Our advanced system continuously monitors the temperature of the motor and electronic components in real-time',
+  'RS V2': 'Forged Carbon Fiber base Plate & Magnetic Shifter Paddles',
+  'R16 Wheel Base':
+    'Feel everything through an optimized motor design, offering practically zero torque ripple, notching or cogging.',
+};
 
 function QA() {
-  const Author = ({ image, name, email }) => (
-    <Box display="flex" alignItems="center" lineHeight={1}>
-      <Avatar src={image} name={name} size="sm" />
-      <Box ml={2} lineHeight={1}>
-        <Typography display="block" variant="button" fontWeight="medium">
-          {name}
-        </Typography>
-        <Typography variant="caption">{email}</Typography>
-      </Box>
-    </Box>
-  );
-
-  const columns = [
-    { Header: 'Author', accessor: 'author', width: '45%', align: 'left' },
-    { Header: 'Username', accessor: 'user_name', align: 'left' },
-    { Header: 'Credit', accessor: 'credit', align: 'center' },
-    { Header: 'Role', accessor: 'role', align: 'center' },
-    { Header: 'Action', accessor: 'action', align: 'center' },
-  ];
-
-  const rows = [
-    {
-      author: (
-        <Author
-          image={team2}
-          name="John Michael"
-          email="john@creative-tim.com"
-        />
-      ),
-      user_name: (
-        <Typography
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-        >
-          TEST
-        </Typography>
-      ),
-      action: (
-        <Typography
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-        >
-          Edit
-        </Typography>
-      ),
-    },
-    {
-      author: (
-        <Author
-          image={team2}
-          name="Aohn Michael"
-          email="john@creative-tim.com"
-        />
-      ),
-      user_name: (
-        <Typography
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-        >
-          A
-        </Typography>
-      ),
-      action: (
-        <Typography
-          component="a"
-          href="#"
-          variant="caption"
-          color="text"
-          fontWeight="medium"
-        >
-          Edit
-        </Typography>
-      ),
-    },
-  ];
-
   return (
     <Grid
       container
@@ -125,42 +123,39 @@ function QA() {
         overflow: 'hidden',
       }}
     >
-      <NavBar />
-      <ForgotPasswordDialog open={true} onClose={{}} />
-      {/* <ParentContainer
-        blur={2}
-        brightness={20}
-        backgroundImage={background}
+      <Slider media={media} text={textContent} />;
+      <ProductList products={products} category="R5" />
+      <ProductList products={products} category="Streaing" />
+      <Box height="100vh" />
+      <Box
         sx={{
-          padding: '',
-          alignItems: '',
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
         }}
       >
-        <DashboardLayout>
+        <ScrollAnimation animation="fade-up" delay={100}>
           <Box
-            sx={{
-              width: {
-                xs: '90vw',
-                sm: '92vw',
-                md: '94vw',
-                xl: '95.5vw',
-              },
-            }}
-          >
-            <Grid container spacing={6}>
-              <Grid item xs={12}>
-                <DynamicTable
-                  title="Authors Table"
-                  columns={columns}
-                  rows={rows}
-                />
-              </Grid>
-            </Grid>
-          </Box>
-        </DashboardLayout>
-      </ParentContainer> */}
-      {/* <ViaLogin></ViaLogin> */}
-      {/* <ConfirmationDialog></ConfirmationDialog> */}
+            marginBottom="20px"
+            sx={{ width: 300, height: 300, backgroundColor: 'darkGold.main' }}
+          ></Box>
+        </ScrollAnimation>
+        <ScrollAnimation animation="fade-up" delay={100}>
+          <Box
+            marginBottom="20px"
+            sx={{ width: 300, height: 300, backgroundColor: 'darkGold.main' }}
+          ></Box>
+        </ScrollAnimation>
+        <ScrollAnimation animation="fade-up" delay={100}>
+          <Box
+            marginBottom="20px"
+            sx={{ width: 300, height: 300, backgroundColor: 'darkGold.main' }}
+          ></Box>
+        </ScrollAnimation>
+      </Box>
+      <Box height="100vh" />
+      <NavBar />
       <Footer />
     </Grid>
   );
