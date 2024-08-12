@@ -15,7 +15,7 @@ const ProductList = ({ products, category }) => {
           backgroundColor: 'rgba(255, 255, 255, 0.5)',
           color: 'white',
           padding: 2,
-          borderRadius: 1,
+          borderRadius: 0,
           mb: 3,
           display: 'flex',
           alignItems: 'center',

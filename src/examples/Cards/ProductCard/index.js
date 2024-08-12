@@ -32,15 +32,15 @@ const ProductCard = ({
       <Card
         sx={{
           width: '100%',
-          height: isMobile ? '300px' : '400px',
+          height: isMobile ? '400px' : '450px',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',
-          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // Drop shadow for 3D effect
-          transition: 'transform 0.3s ease', // Smooth transition for hover effect
+          boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.5)',
+          transition: 'transform 0.3s ease',
           '&:hover': {
-            transform: 'translateY(-5px)', // Lift effect on hover
-            boxShadow: '0px 8px 20px rgba(0, 0, 0, 0.3)', // Stronger shadow on hover
+            transform: 'translateY(-5px)',
+            boxShadow: '0px 8px 20px rgba(0, 255, 255, 0.9)',
           },
           padding: 1,
           ...otherProps.sx,
@@ -94,6 +94,10 @@ const ProductCard = ({
             sx={{
               color: 'rgba(0, 255, 255, 0.7)',
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 255, 255, 0.5)',
+                color: 'rgba(0, 0, 0, 1)',
+              },
             }}
           >
             Add to cart
