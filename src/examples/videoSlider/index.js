@@ -71,7 +71,7 @@ function Slider({ media, text }) {
     autoSlideTimeout.current = setTimeout(() => {
       next();
       autoSlide();
-    }, 3500);
+    }, 5000);
   };
 
   const resetAutoSlide = () => {

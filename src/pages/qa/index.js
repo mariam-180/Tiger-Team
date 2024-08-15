@@ -5,7 +5,6 @@
 import React from 'react';
 
 import { Box, Grid } from '@mui/material';
-import ScrollAnimation from 'utils/scrollAnimation';
 import ProductList from 'examples/productList';
 import NavBar from 'examples/navbars/DefaultNavbar';
 import Footer from 'examples/footer';
@@ -125,8 +124,8 @@ function QA() {
     >
       <Slider media={media} text={textContent} />;
       <ProductList products={products} category="R5" />
-      <ProductList products={products} category="Streaing" />
-      <Box height="100vh" />
+      <ProductList products={products} category="R16" />
+      {/* <Box height="100vh" />
       <Box
         sx={{
           display: 'flex',
@@ -154,7 +153,7 @@ function QA() {
           ></Box>
         </ScrollAnimation>
       </Box>
-      <Box height="100vh" />
+      <Box height="100vh" /> */}
       <NavBar />
       <Footer />
     </Grid>

@@ -12,6 +12,7 @@ import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
 import Profile from 'layouts/pages/profile';
 // import QA from 'layouts/pages/qa';
+import Product from 'layouts/pages/product';
 import Live from 'layouts/pages/live';
 
 const routes = [
@@ -37,6 +38,12 @@ const routes = [
     name: 'Reservations',
     route: '/reservations',
     component: <Reservations />,
+  },
+  {
+    name: 'Product',
+    route: '/product',
+    component: <Product />,
+    requiredRole: null,
   },
   {
     name: 'Live',
@@ -113,7 +120,8 @@ const routes = [
   // {
   //   name: 'QA',
   //   route: '/QA',
-  //   component: <PrivateRoute element={<QA />} />,
+  //   // component: <PrivateRoute element={<QA />} />,
+  //   component: <QA />,
   //   requiredRole: null,
   // },
 ];

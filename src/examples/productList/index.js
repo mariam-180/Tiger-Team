@@ -4,15 +4,18 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import ProductCard from 'examples/Cards/ProductCard';
+import bg from 'assets/images/backGround/red_blackBG.webp';
 
-const ProductList = ({ products, category }) => {
+const ProductList = ({ id, products, category }) => {
   return (
     <>
       <Box
+        id={id}
         sx={{
           width: '100%',
           height: '8vh',
-          backgroundColor: 'rgba(255, 255, 255, 0.5)',
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          filter: 'drop-shadow(8px 10px 1px rgba(255, 0, 0, 0.3))',
           color: 'white',
           padding: 2,
           borderRadius: 0,
@@ -32,6 +35,7 @@ const ProductList = ({ products, category }) => {
             fontSize: '1.8rem',
             letterSpacing: '0.05em',
             color: '#ffffff',
+            filter: 'drop-shadow(-2px -2px 2px rgba(255, 0, 0, 0.7))',
           }}
         >
           {category}
@@ -42,9 +46,24 @@ const ProductList = ({ products, category }) => {
         container
         spacing={3}
         sx={{
-          padding: 3,
-          backgroundColor: '#ffffff',
+          padding: 4,
+          position: 'relative',
+          zIndex: 0,
           justifyContent: 'center',
+          overflow: 'hidden',
+          '&::before': {
+            content: '""',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundImage: `url(${bg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'brightness(0.5) blur(5px)',
+            zIndex: -1,
+          },
         }}
       >
         {products.map((product, index) => (
@@ -58,6 +77,7 @@ const ProductList = ({ products, category }) => {
 };
 
 ProductList.propTypes = {
+  id: PropTypes.string,
   products: PropTypes.arrayOf(
     PropTypes.shape({
       image: PropTypes.string.isRequired,
