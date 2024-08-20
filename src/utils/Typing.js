@@ -2,6 +2,15 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Typed from 'typed.js';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const GradientTypography = styled(Typography)`
+  background: linear-gradient(40deg, #ffffff 30%, #ff0000 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  width: fit-content;
+`;
 
 const AnimatedTypingText = ({
   strings,
@@ -11,6 +20,7 @@ const AnimatedTypingText = ({
   smartBackspace,
   loop,
   backDelay = 1000,
+  styled = false,
 }) => {
   const el = useRef(null);
 
@@ -30,9 +40,18 @@ const AnimatedTypingText = ({
   }, [strings, typeSpeed, backSpeed, smartBackspace, loop, backDelay]);
 
   return (
-    <Typography component="div" variant="body1" sx={sx}>
-      <span ref={el} />
-    </Typography>
+    <>
+      {styled && (
+        <GradientTypography variant="body1" sx={sx}>
+          <span ref={el} />
+        </GradientTypography>
+      )}
+      {!styled && (
+        <Typography component="div" variant="body1" sx={sx}>
+          <span ref={el} />
+        </Typography>
+      )}
+    </>
   );
 };
 
@@ -44,6 +63,7 @@ AnimatedTypingText.propTypes = {
   smartBackspace: PropTypes.bool,
   loop: PropTypes.bool,
   backDelay: PropTypes.number,
+  styled: PropTypes.bool,
 };
 
 export default AnimatedTypingText;

@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
@@ -17,11 +18,11 @@ import ProductDetailsModal from './ProductDetailsModal';
 import ScrollAnimation from 'utils/scrollAnimation';
 
 const ProductCard = ({
-  image,
+  img_url,
   name,
   category,
   price,
-  stock,
+  stock_quantity,
   isLowestPrice,
   link,
   description,
@@ -32,6 +33,7 @@ const ProductCard = ({
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const [detailsOpen, setDetailsOpen] = useState(false);
+  const [showPrice] = useState(false);
 
   const handleViewDetails = () => {
     setDetailsOpen(true);
@@ -57,26 +59,27 @@ const ProductCard = ({
             transform: 'translateY(-5px)',
             boxShadow: '0px 3px 20px 5px rgba(255, 0, 0, 0.7)',
           },
-          padding: 2,
+          padding: 0,
           ...otherProps.sx,
         }}
         {...otherProps}
       >
         <CardMedia
           component="img"
-          image={image}
+          image={img_url}
           alt={name}
           sx={{
             objectFit: 'cover',
-            height: '40%',
+            height: '50%',
+            padding: 0.5,
           }}
         />
         <CardContent
           sx={{
             flexGrow: 1,
-            padding: 1,
             overflow: 'hidden',
             marginBottom: isMobile ? 2 : 0,
+            padding: 1,
           }}
         >
           <Typography variant="body2" color="text.secondary">
@@ -101,11 +104,13 @@ const ProductCard = ({
               </Typography>
             </Box>
           )}
-          <Typography variant="h6" color="text.primary">
-            {price} JOD
-          </Typography>
+          {showPrice && (
+            <Typography variant="h6" color="text.primary">
+              {price} JOD
+            </Typography>
+          )}
           <Typography variant="body2" color="text.secondary">
-            Only <b>{stock}</b> left in stock!
+            Only <b>{stock_quantity}</b> left in stock!
           </Typography>
         </CardContent>
         <Box
@@ -113,6 +118,7 @@ const ProductCard = ({
             p: 1,
             display: 'flex',
             gap: 2,
+            padding: 1,
           }}
         >
           <Button
@@ -160,11 +166,12 @@ const ProductCard = ({
           onClose={handleCloseDetails}
           onAddToCart={onAddToCart}
           product={{
-            image,
+            img_url,
             name,
             category,
             price,
-            stock,
+            showPrice,
+            stock_quantity,
             isLowestPrice,
             link,
             description,
@@ -176,14 +183,14 @@ const ProductCard = ({
 };
 
 ProductCard.propTypes = {
-  image: PropTypes.string.isRequired,
+  img_url: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
-  stock: PropTypes.number.isRequired,
+  price: PropTypes.number.isRequired,
+  stock_quantity: PropTypes.number.isRequired,
   description: PropTypes.string.isRequired,
   isLowestPrice: PropTypes.bool,
-  link: PropTypes.string.isRequired,
+  link: PropTypes.string,
   onAddToCart: PropTypes.func,
 };
 

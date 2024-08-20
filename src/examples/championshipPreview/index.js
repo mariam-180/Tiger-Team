@@ -34,7 +34,7 @@ const PreviewContainer = styled(Box)(({ theme }) => ({
     right: 0,
     bottom: 0,
     left: 0,
-    background: 'rgba(0, 0, 0, 0.5)',
+    background: 'rgba(0, 0, 0, 0.6)',
   },
   '&::after': {
     content: '""',
@@ -113,16 +113,14 @@ const ChampionshipPreview = () => {
         <>
           <AnimatedTypingText
             sx={{
-              color: 'gold',
-              variant: 'h2',
-              component: 'h2',
               fontSize: '2rem',
               fontWeight: 'bold',
-              zIndex: 2,
+              zIndex: 1,
             }}
             strings={['Get Ready for the Big Race!']}
             backSpeed={25}
             smartBackspace={true}
+            styled={true}
           />
           <Typography
             color="#ffffff"

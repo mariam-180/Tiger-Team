@@ -29,6 +29,7 @@ const ProductList = ({ id, products, category }) => {
         <Typography
           variant="h4"
           component="div"
+          id={id}
           sx={{
             textAlign: 'left',
             fontWeight: 'bold',
@@ -80,13 +81,13 @@ ProductList.propTypes = {
   id: PropTypes.string,
   products: PropTypes.arrayOf(
     PropTypes.shape({
-      image: PropTypes.string.isRequired,
+      img_url: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       category: PropTypes.string.isRequired,
-      price: PropTypes.string.isRequired,
-      stock: PropTypes.number.isRequired,
+      price: PropTypes.number.isRequired,
+      stock_quantity: PropTypes.number.isRequired,
       isLowestPrice: PropTypes.bool,
-      link: PropTypes.string.isRequired,
+      link: PropTypes.string,
       onAddToCart: PropTypes.func,
     }),
   ).isRequired,

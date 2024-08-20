@@ -14,19 +14,44 @@ import SocialMediaIcons from 'examples/socialMediaIcons';
 
 const duration = 400;
 
+// const StyledButton = styled(Button)(({ theme }) => ({
+//   background: 'linear-gradient(45deg, #000000 0%, #d4af37 90%)',
+//   color: '#ffffff',
+//   padding: theme.spacing(1.5, 4),
+//   fontSize: '.9rem',
+//   fontWeight: 600,
+//   textTransform: 'none',
+//   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
+//   borderRadius: '25px',
+//   transition: 'background 0.5s ease, box-shadow 0.5s ease',
+//   '&:hover': {
+//     background: 'linear-gradient(45deg, #000000 0%, #d4af37 90%)',
+//     boxShadow: '0 5px 7px 2px rgba(255, 165, 0, 0.5)',
+//   },
+// }));
+
+const GradientTypography = styled(Typography)`
+  background: linear-gradient(40deg, #ffffff 30%, #ff0000 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  width: fit-content;
+`;
+
 const StyledButton = styled(Button)(({ theme }) => ({
-  background: 'linear-gradient(45deg, #000000 0%, #d4af37 90%)',
+  background: 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
   color: '#ffffff',
   padding: theme.spacing(1.5, 4),
-  fontSize: '.9rem',
+  margin: theme.spacing(3),
+  fontSize: '1rem',
   fontWeight: 600,
   textTransform: 'none',
   boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
   borderRadius: '25px',
   transition: 'background 0.5s ease, box-shadow 0.5s ease',
   '&:hover': {
-    background: 'linear-gradient(45deg, #000000 0%, #d4af37 90%)',
-    boxShadow: '0 5px 7px 2px rgba(255, 165, 0, 0.5)',
+    background: 'linear-gradient(45deg, #333333 30%, #666666 90%)',
+    boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
   },
 }));
 
@@ -139,14 +164,16 @@ const ImageSlider = ({ images }) => {
           left: isMobile ? '0' : '20%',
         }}
       >
-        <Typography
+        <GradientTypography
           variant="h3"
           component="h1"
-          color="rgba(255, 165, 0, 0.5)"
-          sx={{ marginBottom: 1 }}
+          // color="rgba(255, 165, 0, 0.5)"
+          sx={{
+            marginBottom: 1,
+          }}
         >
           {images[index].title}
-        </Typography>
+        </GradientTypography>
         <Typography variant="body1" component="p" sx={{ marginBottom: 1 }}>
           {images[index].description}
         </Typography>

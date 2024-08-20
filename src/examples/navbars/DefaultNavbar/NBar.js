@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React, { Fragment, useState, useEffect } from 'react';
+import { styled } from '@mui/material/styles';
 
 import { Link } from 'react-router-dom';
 import { useAuth } from 'authContext';
@@ -23,6 +24,23 @@ import DefaultNavbarMobile from 'examples/navbars/DefaultNavbar/DefaultNavbarMob
 
 import breakpoints from 'assets/theme/base/breakpoints';
 import Typography from 'components/ThisTypography';
+
+const GradientIcon = styled(Icon)`
+  position: relative;
+  top: 5px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ffffff 30%, #ff0000 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+`;
+
+const GradientTypography = styled(Typography)`
+  background: linear-gradient(40deg, #ffffff 30%, #ff0000 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  width: fit-content;
+`;
 
 function DefaultNavbar({
   brand,
@@ -554,19 +572,10 @@ function DefaultNavbar({
             >
               {!tokenValid ? (
                 <Link to="/Registration" style={{ textDecoration: 'none' }}>
-                  <Icon
-                    sx={{
-                      position: 'relative',
-                      top: '5px',
-                      color: '#A0830E',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    lock_open
-                  </Icon>
+                  <GradientIcon>lock_open</GradientIcon>
                 </Link>
               ) : (
-                <Typography
+                <GradientTypography
                   onClick={handleLogout}
                   sx={{
                     color: '#d4af37',
@@ -575,7 +584,7 @@ function DefaultNavbar({
                   }}
                 >
                   Log Out
-                </Typography>
+                </GradientTypography>
               )}
             </ThisBox>
           </ThisBox>

@@ -7,7 +7,10 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function getPrice(price) {
-  return Number(price.replace(/,/g, ''));
+  if (typeof price === 'string') {
+    return Number(price.replace(/,/g, ''));
+  }
+  return price;
 }
 
 function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
@@ -106,7 +109,7 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                 <Box
                   component="img"
-                  src={item.image}
+                  src={item.img_url}
                   alt={item.name}
                   sx={{ width: 50, height: 50, borderRadius: '8px', mr: 2 }}
                 />

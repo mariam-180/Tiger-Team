@@ -13,7 +13,7 @@ function ViewMyCartButton({ cart, onUpdateQuantity, onRemoveAll }) {
 
   useEffect(() => {
     const handleScroll = () => {
-      const sliderElement = document.getElementById('First_Product_List');
+      const sliderElement = document.getElementById('Bundles_Product');
       if (sliderElement) {
         const sliderBottom = sliderElement.getBoundingClientRect().bottom;
         const windowHeight = window.innerHeight;

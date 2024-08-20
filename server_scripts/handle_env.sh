@@ -33,6 +33,10 @@ CONFIG_KEYS=(
     "REACT_APP_ADMIN_REPORTS_URL"
     "REACT_APP_ADMIN_USERNAME"
     "REACT_APP_ADMIN_PASSWORD"
+    "REACT_APP_PRODUCTS_ENDPOINT"
+    "REACT_APP_CATEGORIES_ENDPOINT"
+    "REACT_APP_ORDER_ENDPOINT"
+    "REACT_APP_ORDER_ITEMS_ENDPOINT"
 )
 
 CONFIG_VALUES=(
@@ -59,6 +63,10 @@ CONFIG_VALUES=(
     "https://www.tigers-team.com/access/reports/"
     "admin"
     "Tiger@Team@20-0-4"
+    "/products/"
+    "/categories/"
+    "/orders/"
+    "/order-items/"
 )
 
 # Determine the host based on the environment

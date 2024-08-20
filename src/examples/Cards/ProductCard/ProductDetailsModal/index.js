@@ -57,7 +57,7 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
             backgroundColor: '#fff',
             borderRadius: '16px',
             boxShadow: 24,
-            padding: 4,
+            padding: 1.5,
             position: 'relative',
             boxShadow: '0px 4px 10px rgba(255, 255, 255, 1)',
             background: 'rgba(255, 255, 255, 0.9)',
@@ -98,12 +98,11 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
           >
             <Box
               component="img"
-              src={product.image}
+              src={product.img_url}
               alt={product.name}
               sx={{
                 width: '100%',
                 height: 'auto',
-                maxWidth: '600px',
                 maxHeight: '300px',
                 borderRadius: '16px',
                 marginBottom: 2,
@@ -111,7 +110,7 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.8)',
               }}
             />
-            <Box sx={{ width: '100%' }}>
+            <Box sx={{ width: '100%', padding: 2 }}>
               <Typography
                 id="product-details-title"
                 variant="h4"
@@ -124,16 +123,18 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
               >
                 {product.name}
               </Typography>
-              <Typography
-                variant="h5"
-                sx={{
-                  fontWeight: 'medium',
-                  marginTop: 1,
-                  color: 'rgba(70, 190, 100, 0.9)',
-                }}
-              >
-                Price: {product.price} JOD
-              </Typography>
+              {product.showPrice && (
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 'medium',
+                    marginTop: 1,
+                    color: 'rgba(70, 190, 100, 0.9)',
+                  }}
+                >
+                  Price: {product.price} JOD
+                </Typography>
+              )}
               <Typography
                 id="product-details-description"
                 variant="body1"
@@ -185,8 +186,9 @@ ProductDetailsModal.propTypes = {
   product: PropTypes.shape({
     name: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.string.isRequired,
+    img_url: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    showPrice: PropTypes.bool,
   }).isRequired,
   onAddToCart: PropTypes.func.isRequired,
 };

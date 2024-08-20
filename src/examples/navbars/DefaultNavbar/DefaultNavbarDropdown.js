@@ -7,6 +7,26 @@ import ThisBox from 'components/ThisBox';
 import ThisTypography from 'components/ThisTypography';
 import { styled } from '@mui/material/styles';
 
+const GradientIcon = styled(Icon)`
+  position: relative;
+  top: 5px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #ffffff 30%, #ff0000 50%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  &:hover {
+    background: linear-gradient(45deg, #ff0000 30%, #ffffff 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  &:active {
+    background: linear-gradient(45deg, #ff0000 30%, #ffffff 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+`;
+
 const ActiveTypography = styled(ThisTypography, {
   shouldForwardProp: (prop) => prop !== 'isactive',
 })(({ theme }) => ({
@@ -32,7 +52,8 @@ const ActiveBox = styled(ThisBox, {
   borderRadius: '20px 20px 0 0',
   transition: 'all 0.3s',
   '&:hover': {
-    backgroundColor: theme.palette.darkGold.main,
+    // backgroundColor: theme.palette.darkGold.main,
+    backgroundColor: theme.palette.darkRed.main,
   },
   [theme.breakpoints.down('lg')]: {
     borderRadius: '20px 0 0 20px',
@@ -102,7 +123,7 @@ function DefaultNavbarDropdown({
           color={light ? 'white' : 'dark'}
           ml="auto"
         >
-          <Icon
+          <GradientIcon
             sx={{
               fontWeight: 'normal',
               verticalAlign: 'middle',
@@ -110,7 +131,7 @@ function DefaultNavbarDropdown({
             }}
           >
             {collapse && 'keyboard_arrow_down'}
-          </Icon>
+          </GradientIcon>
         </ThisTypography>
       </ActiveBox>
       {children && (

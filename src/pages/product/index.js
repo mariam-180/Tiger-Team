@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
-
-import { Box, Grid } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Box, Grid, CircularProgress } from '@mui/material';
 import NavBar from 'examples/navbars/DefaultNavbar';
 import ProductList from 'examples/productList';
 import ViewMyCartButton from 'examples/viewMyCartButton';
+import CategoriesSection from './CategoriesSection';
 import Footer from 'examples/footer';
-
 import Slider from 'examples/videoSlider';
 
 import vd1 from 'assets/videos/FSR_3.mp4';
@@ -13,94 +13,13 @@ import vd2 from 'assets/videos/R5_2.mp4';
 import vd3 from 'assets/videos/FSR_2.mp4';
 import vd4 from 'assets/videos/R5_3.mp4';
 
-import img1 from 'assets/images/tigers_ai/tigersTeamCar_1.webp';
-import img2 from 'assets/images/tigers_ai/tigersTeamCar_2.webp';
-import img3 from 'assets/images/tigers_ai/tigersTeamCar_3.webp';
-
-const products = [
-  {
-    name: 'PulseWave X100',
-    category: 'Bluetooth Headset',
-    price: '3,200',
-    stock: 12,
-    isLowestPrice: false,
-    image: img1,
-    link: '#product-card',
-    description:
-      'Experience crystal-clear sound with the PulseWave X100. With noise-cancellation technology and an ergonomic design, this Bluetooth headset ensures hours of comfortable use whether you’re on a call or listening to music.',
-    onAddToCart: () => alert('PulseWave X100 added to cart!'),
-  },
-  {
-    name: 'GadgetPro Z200',
-    category: 'Smart Gadget',
-    price: '1,500',
-    stock: 5,
-    isLowestPrice: false,
-    image: img2,
-    link: '#another-product',
-    description:
-      'The GadgetPro Z200 is your perfect companion for a smart lifestyle. This multifunctional gadget includes a fitness tracker, weather updates, and smartphone integration, all in a sleek, compact design.',
-    onAddToCart: () => alert('GadgetPro Z200 added to cart!'),
-  },
-  {
-    name: 'SoundBlaze A500',
-    category: 'Bluetooth Headset',
-    price: '3,500',
-    stock: 9,
-    isLowestPrice: false,
-    image: img3,
-    link: '#product-card',
-    description:
-      'Elevate your audio experience with SoundBlaze A500. Featuring deep bass and high-definition sound, this headset also boasts a long-lasting battery, perfect for travel and daily use.',
-    onAddToCart: () => alert('SoundBlaze A500 added to cart!'),
-  },
-  {
-    name: 'VisionTech VRX',
-    category: 'Virtual Reality Headset',
-    price: '6,400',
-    stock: 4,
-    isLowestPrice: false,
-    image:
-      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
-    link: '#another-product',
-    description:
-      'Dive into new worlds with the VisionTech VRX. This cutting-edge virtual reality headset offers stunning visuals, immersive audio, and a comfortable fit, making it ideal for gaming and virtual experiences.',
-    onAddToCart: () => alert('VisionTech VRX added to cart!'),
-  },
-  {
-    name: 'AeroFit X3',
-    category: 'Bluetooth Headset',
-    price: '2,800',
-    stock: 15,
-    isLowestPrice: true,
-    image:
-      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
-    link: '#product-card',
-    description:
-      'Lightweight and powerful, the AeroFit X3 is designed for those on the go. With a sweat-resistant build and up to 20 hours of playtime, it’s perfect for workouts and outdoor adventures.',
-    onAddToCart: () => alert('AeroFit X3 added to cart!'),
-  },
-  {
-    name: 'TechMaster S400',
-    category: 'Smart Gadget',
-    price: '1,800',
-    stock: 8,
-    isLowestPrice: false,
-    image:
-      'https://images.unsplash.com/photo-1593121925328-369cc8459c08?auto=format&fit=crop&w=286',
-    link: '#another-product',
-    description:
-      'Stay ahead with the TechMaster S400. This advanced gadget integrates seamlessly with your home and office, providing smart solutions for automation, security, and communication.',
-    onAddToCart: () => alert('TechMaster S400 added to cart!'),
-  },
-];
-
 const media = [
   { type: 'video', src: vd2 },
   { type: 'video', src: vd1 },
   { type: 'video', src: vd3 },
   { type: 'video', src: vd4 },
 ];
+
 const textContent = {
   'R12 Wheel Base':
     'Our advanced system continuously monitors the temperature of the motor and electronic components in real-time',
@@ -112,7 +31,45 @@ const textContent = {
 };
 
 function Product() {
+  const [productsByCategory, setProductsByCategory] = useState({});
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
+
+  useEffect(() => {
+    const fetchCategoriesAndProducts = async () => {
+      try {
+        const categoriesResponse = await axios.get(
+          process.env.REACT_APP_CATEGORIES_ENDPOINT,
+        );
+        const categories = categoriesResponse.data;
+
+        setCategories(categories);
+
+        const productsPromises = categories.map((category) =>
+          axios.get(
+            `${process.env.REACT_APP_PRODUCTS_ENDPOINT}category/${category.name}`,
+          ),
+        );
+        categories.map((category) => console.log(category.name));
+        const productsResponses = await Promise.all(productsPromises);
+        const productsData = productsResponses.reduce(
+          (acc, response, index) => {
+            acc[categories[index].name] = response.data;
+            return acc;
+          },
+          {},
+        );
+
+        setProductsByCategory(productsData);
+        setLoading(false);
+      } catch (err) {
+        console.error(err.message);
+      }
+    };
+
+    fetchCategoriesAndProducts();
+  }, []);
 
   const handleAddToCart = (product) => {
     setCart((prevCart) => {
@@ -130,6 +87,7 @@ function Product() {
       }
     });
   };
+
   const handleUpdateQuantity = (product, newQuantity) => {
     setCart((prevCart) => {
       if (newQuantity <= 0) {
@@ -168,21 +126,32 @@ function Product() {
       <NavBar />
       <Slider media={media} text={textContent} />
       <Box height="4vh" />
-      <ProductList
-        id="First_Product_List"
-        products={products.map((product) => ({
-          ...product,
-          onAddToCart: () => handleAddToCart(product),
-        }))}
-        category="R5"
-      />
-      <ProductList
-        products={products.map((product) => ({
-          ...product,
-          onAddToCart: () => handleAddToCart(product),
-        }))}
-        category="R16"
-      />
+      <CategoriesSection categories={categories} />
+      {loading && (
+        <Grid
+          container
+          justifyContent="center"
+          alignItems="center"
+          style={{ height: '100vh' }}
+        >
+          <CircularProgress />
+        </Grid>
+      )}
+      {!loading && (
+        <>
+          {categories.map((category) => (
+            <ProductList
+              key={category.name}
+              id={`${category.name}_Product`}
+              products={productsByCategory[category.name].map((product) => ({
+                ...product,
+                onAddToCart: () => handleAddToCart(product),
+              }))}
+              category={category.name}
+            />
+          ))}
+        </>
+      )}
       <ViewMyCartButton
         cart={cart}
         onUpdateQuantity={handleUpdateQuantity}
