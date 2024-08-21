@@ -61,12 +61,14 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
       if (response.status === 201) {
         showSnackbar('Checkout successful!', 'success');
         onClose();
+      }
+    } catch (error) {
+      if (error.response.status === 507) {
+        showSnackbar('Insufficient stock available!', 'error');
+        onClose();
       } else {
         showSnackbar('Checkout failed. Please try again.', 'error');
       }
-    } catch (error) {
-      console.error('Checkout error:', error);
-      showSnackbar('Checkout failed. Please try again.', 'error');
     }
   };
 
