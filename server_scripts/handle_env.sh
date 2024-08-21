@@ -34,9 +34,15 @@ CONFIG_KEYS=(
     "REACT_APP_ADMIN_USERNAME"
     "REACT_APP_ADMIN_PASSWORD"
     "REACT_APP_PRODUCTS_ENDPOINT"
+    "REACT_APP_PRODUCT_BY_ID_ENDPOINT"
+    "REACT_APP_PRODUCT_BY_CATEGORY_ENDPOINT"
+    "REACT_APP_PRODUCT_SEARCH_ENDPOINT"
     "REACT_APP_CATEGORIES_ENDPOINT"
-    "REACT_APP_ORDER_ENDPOINT"
+    "REACT_APP_CATEGORY_BY_ID_ENDPOINT"
+    "REACT_APP_ORDERS_ENDPOINT"
+    "REACT_APP_ORDER_BY_ID_ENDPOINT"
     "REACT_APP_ORDER_ITEMS_ENDPOINT"
+    "REACT_APP_ORDER_ITEM_BY_ID_ENDPOINT"
 )
 
 CONFIG_VALUES=(
@@ -64,9 +70,15 @@ CONFIG_VALUES=(
     "admin"
     "Tiger@Team@20-0-4"
     "/products/"
+    "/products/{product_id}"
+    "/products/category/{category_name}"
+    "/products/search/"
     "/categories/"
+    "/categories/{category_id}"
     "/orders/"
+    "/orders/{order_id}"
     "/order-items/"
+    "/order-items/{order_item_id}"
 )
 
 # Determine the host based on the environment

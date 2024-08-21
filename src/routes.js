@@ -5,12 +5,9 @@ import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 import Home from 'layouts/pages/home';
 import Champion from 'layouts/pages/champion';
 import Registration from 'layouts/pages/registrationPage';
-import AdminUsers from 'layouts/pages/admin/users';
-import AdminEvents from 'layouts/pages/admin/events';
-import AdminReports from 'layouts/pages/admin/reports';
-import AdminReservation from 'layouts/pages/admin/reservation';
 import Reservations from 'layouts/pages/reservations';
 import Profile from 'layouts/pages/profile';
+import Admin from 'layouts/pages/admin';
 // import QA from 'layouts/pages/qa';
 import Product from 'layouts/pages/product';
 import Live from 'layouts/pages/live';
@@ -61,52 +58,10 @@ const routes = [
   },
   {
     name: 'Admin',
-    collapse: [
-      {
-        name: 'Users',
-        route: '/admin/users',
-        component: (
-          <RoleBasedPrivateRoute
-            element={<AdminUsers />}
-            requiredRole="EMPLOYEE_USER"
-          />
-        ),
-        requiredRole: 'EMPLOYEE_USER',
-      },
-      {
-        name: 'Reservations',
-        route: '/admin/reservations',
-        component: (
-          <RoleBasedPrivateRoute
-            element={<AdminReservation />}
-            requiredRole="EMPLOYEE_USER"
-          />
-        ),
-        requiredRole: 'EMPLOYEE_USER',
-      },
-      {
-        name: 'Events',
-        route: '/admin/events',
-        component: (
-          <RoleBasedPrivateRoute
-            element={<AdminEvents />}
-            requiredRole="EMPLOYEE_USER"
-          />
-        ),
-        requiredRole: 'EMPLOYEE_USER',
-      },
-      {
-        name: 'Reports',
-        route: '/admin/reports',
-        component: (
-          <RoleBasedPrivateRoute
-            element={<AdminReports />}
-            requiredRole="SUPER_USER"
-          />
-        ),
-        requiredRole: 'SUPER_USER',
-      },
-    ],
+    route: '/admin',
+    component: (
+      <RoleBasedPrivateRoute element={<Admin />} requiredRole="EMPLOYEE_USER" />
+    ),
     requiredRole: 'EMPLOYEE_USER',
   },
   // {

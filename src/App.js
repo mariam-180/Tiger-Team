@@ -12,6 +12,7 @@ import LoginRequired from 'layouts/pages/loginRequired';
 import Reservations from 'layouts/pages/reservations';
 import ResetPassword from 'layouts/pages/resetPassword';
 import routes from 'routes';
+import { adminRoutes } from 'adminRoutes';
 
 function App() {
   const { pathname } = useLocation();
@@ -49,6 +50,7 @@ function App() {
               <Route path="/reservations/*" element={<Reservations />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               {getRoutes(routes)}
+              {getRoutes(adminRoutes)}
             </Routes>
           </LoginRequiredProvider>
         </SnackbarProvider>

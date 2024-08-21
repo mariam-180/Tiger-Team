@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
+import { useAuth } from 'authContext';
+
 import PropTypes from 'prop-types';
 import { Box, Typography, Button, Divider, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import axios from 'axios';
+import { useSnackbar } from 'context/SnackbarContext';
 
 function getPrice(price) {
   if (typeof price === 'string') {
@@ -14,6 +18,9 @@ function getPrice(price) {
 }
 
 function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
+  const { showSnackbar } = useSnackbar();
+  const { accessToken } = useAuth();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -32,6 +39,36 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
     const numericPrice = getPrice(item.price);
     return total + numericPrice * item.quantity;
   }, 0);
+
+  const handleCheckout = async () => {
+    try {
+      const response = await axios.post(
+        process.env.REACT_APP_ORDERS_ENDPOINT,
+        {
+          items: cart.map((item) => ({
+            product_id: item.id,
+            quantity: item.quantity,
+            price: getPrice(item.price),
+          })),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            history: true,
+          },
+        },
+      );
+      if (response.status === 201) {
+        showSnackbar('Checkout successful!', 'success');
+        onClose();
+      } else {
+        showSnackbar('Checkout failed. Please try again.', 'error');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      showSnackbar('Checkout failed. Please try again.', 'error');
+    }
+  };
 
   return (
     <>
@@ -126,7 +163,6 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
                     sx={{ color: 'error.main' }}
                     disabled={item.quantity === 1}
                   >
-                    {/* {item.quantity === 1 ? <DeleteIcon /> : <RemoveIcon />} */}
                     <RemoveIcon />
                   </IconButton>
                   <Typography variant="body1" sx={{ mx: 2 }}>
@@ -172,7 +208,7 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
             <Button
               variant="contained"
               fullWidth
-              onClick={() => alert('Proceed to Checkout')}
+              onClick={handleCheckout}
               sx={{
                 color: 'rgba(255, 255, 255, 0.9)',
                 backgroundColor: 'rgba(0, 0, 0, 0.7) !important',
@@ -196,10 +232,11 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
 CartModal.propTypes = {
   cart: PropTypes.arrayOf(
     PropTypes.shape({
+      id: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
       price: PropTypes.string.isRequired,
       quantity: PropTypes.number.isRequired,
-      image: PropTypes.string.isRequired,
+      img_url: PropTypes.string.isRequired,
     }),
   ).isRequired,
   isOpen: PropTypes.bool.isRequired,

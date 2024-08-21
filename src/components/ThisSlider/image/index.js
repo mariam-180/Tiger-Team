@@ -197,7 +197,7 @@ const ImageSlider = ({ images }) => {
             rgba(0, 0, 0, 0.1) 20%,
             rgba(0, 0, 0, 0.4) 80%,
             rgba(0, 0, 0, 0.3) 60%,
-            rgba(255, 165, 0, 0.5) 100%
+            rgba(255, 0, 0, 0.5) 100%
             )`,
           clipPath: 'polygon(50% 0%, 100% 0, 100% 100%, 0% 100%)',
           height: '100vh',
