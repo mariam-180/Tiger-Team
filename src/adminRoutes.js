@@ -111,18 +111,18 @@ const sections = [
     route: '/admin/reservations',
   },
   {
-    title: 'Reports',
-    icon: <Report />,
-    color: '#388e3c',
-    component: <AdminReports />,
-    route: '/admin/reports',
-  },
-  {
     title: 'Orders',
     icon: <ShoppingCart />,
     color: '#ff9800',
     component: <AdminOrders />,
     route: '/admin/orders',
+  },
+  {
+    title: 'Reports',
+    icon: <Report />,
+    color: '#388e3c',
+    component: <AdminReports />,
+    route: '/admin/reports',
   },
 ];
 

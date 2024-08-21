@@ -74,7 +74,6 @@ function AdminOrders() {
         },
       );
       const fetchedOrders = ordersResponse.data;
-      console.log(fetchedOrders);
 
       setFilteredOrders(fetchedOrders);
       setOrders(fetchedOrders);
@@ -97,8 +96,16 @@ function AdminOrders() {
       fetchData();
       showSnackbar('Order updated successfully', 'success');
     } catch (error) {
-      console.error('Error updating order:', error);
-      showSnackbar('Error updating order. Please try again.', 'error');
+      if (error.response && error.response.status === 402) {
+        showSnackbar(
+          `Insufficient Credit!
+            ${error.response.data.detail}`,
+          'error',
+        );
+      } else {
+        console.error('Error updating order:', error);
+        showSnackbar('Error updating order. Please try again.', 'error');
+      }
     }
   };
 
@@ -118,7 +125,6 @@ function AdminOrders() {
   const handleEditOrder = (id) => {
     const order = orders.find((order) => order.id === id);
     setSelectedOrder(order);
-    console.log(order);
     setEditOrderDialogOpen(true);
   };
 
@@ -204,10 +210,24 @@ function AdminOrders() {
                         anchorEl={anchorEl}
                         open={Boolean(anchorEl) && selectedOrderId === order.id}
                         onClose={handleMenuClose}
+                        sx={{}}
+                        MenuListProps={{
+                          sx: {
+                            display: 'flex',
+                            overflowX: 'auto',
+                            flexDirection: 'column',
+                          },
+                        }}
                       >
                         {order.items.map((item, index) => (
-                          <MenuItem key={index}>
+                          <MenuItem
+                            key={index}
+                            sx={{
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
                             {`${item.product.name} - Quantity: ${item.quantity}`}
+                            &nbsp;
                           </MenuItem>
                         ))}
                       </Menu>
@@ -251,18 +271,6 @@ function AdminOrders() {
         <DialogTitle>Edit Order</DialogTitle>
         <DialogContent>
           <TextField
-            label="Customer Email"
-            value={selectedOrder?.user?.customer_email || ''}
-            onChange={(e) =>
-              setSelectedOrder({
-                ...selectedOrder,
-                customer_email: e.target.value,
-              })
-            }
-            fullWidth
-            sx={{ marginBottom: 2, marginTop: 2 }}
-          />
-          <TextField
             label="Total Amount"
             value={selectedOrder?.total_amount || ''}
             onChange={(e) =>
@@ -272,7 +280,7 @@ function AdminOrders() {
               })
             }
             fullWidth
-            sx={{ marginBottom: 2 }}
+            sx={{ marginBottom: 2, marginTop: 2 }}
           />
           <Select
             label="Order Status"
@@ -286,12 +294,13 @@ function AdminOrders() {
             fullWidth
             sx={{ marginBottom: 2 }}
           >
-            <MenuItem value="Pending">Pending</MenuItem>
-            <MenuItem value="Processing">Processing</MenuItem>
-            <MenuItem value="Shipped">Shipped</MenuItem>
-            <MenuItem value="Delivered">Delivered</MenuItem>
-            <MenuItem value="Cancelled">Cancelled</MenuItem>
+            <MenuItem value="PENDING">Pending</MenuItem>
+            <MenuItem value="PROCESSING">Processing</MenuItem>
+            <MenuItem value="SHIPPED">Shipped</MenuItem>
+            <MenuItem value="DELIVERED">Delivered</MenuItem>
+            <MenuItem value="CANCELLED">Cancelled</MenuItem>
           </Select>
+
           <Typography variant="h6" sx={{ marginTop: 2 }}>
             Items
           </Typography>
