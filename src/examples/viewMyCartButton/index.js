@@ -5,7 +5,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import CartModal from './cartModal';
 import { useIsMobile } from 'utils/hooks';
 
-function ViewMyCartButton({ cart, onUpdateQuantity, onRemoveAll }) {
+function ViewMyCartButton({
+  cart,
+  onUpdateQuantity,
+  onRemoveAll,
+  setCart,
+  fetchCategoriesAndProducts,
+}) {
   const [showButton, setShowButton] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isInvisible, setIsInvisible] = useState(true);
@@ -102,6 +108,8 @@ function ViewMyCartButton({ cart, onUpdateQuantity, onRemoveAll }) {
         onClose={handleCloseModal}
         onUpdateQuantity={onUpdateQuantity}
         onRemoveAll={onRemoveAll}
+        setCart={setCart}
+        fetchCategoriesAndProducts={fetchCategoriesAndProducts}
       />
     </>
   );
@@ -111,6 +119,8 @@ ViewMyCartButton.propTypes = {
   cart: PropTypes.array.isRequired,
   onUpdateQuantity: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
+  setCart: PropTypes.func,
+  fetchCategoriesAndProducts: PropTypes.func,
 };
 
 export default ViewMyCartButton;

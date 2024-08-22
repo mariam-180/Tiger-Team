@@ -1,10 +1,17 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import Grid from '@mui/material/Grid';
-import Divider from '@mui/material/Divider';
+import {
+  Grid,
+  Divider,
+  Button,
+  Box,
+  Typography,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 
-import Box from 'components/ThisBox';
 import Footer from 'examples/footer';
 import ProfileInfoCard from 'examples/Cards/InfoCards/ProfileInfoCard';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
@@ -22,10 +29,51 @@ import avatarImg from 'assets/images/logos/logoGray.png';
 import AnimatedItem from 'utils/animatedItem';
 import { formatTime } from 'utils/timeUtils';
 
+import EventIcon from '@mui/icons-material/Event';
+import ReservationIcon from '@mui/icons-material/Computer';
+import OrderIcon from '@mui/icons-material/ShoppingCart';
+
+const sections = [
+  {
+    id: 'reservations',
+    title: 'Reservations',
+    icon: <ReservationIcon />,
+    color: '#ff7009',
+  },
+  { id: 'events', title: 'Events', icon: <EventIcon />, color: '#ff7009' },
+  { id: 'orders', title: 'Orders', icon: <OrderIcon />, color: '#ff7009' },
+];
+
 function Profile() {
   const { accessToken } = useAuth();
   const [reservations, setReservations] = useState([]);
   const [events, setEvents] = useState([]);
+  const [orders, setOrders] = useState([]);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+  const [selectedSection, setSelectedSection] = useState(null);
+
+  const handleSectionClick = (sectionId) => {
+    setSelectedSection(sectionId);
+  };
+
+  const formattedDate = (date) => {
+    const newDate = new Date(date);
+    newDate.setHours(newDate.getHours() + 3);
+    return newDate.toLocaleString();
+  };
+
+  const handleMenuOpen = (event, orderId) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedOrderId(orderId);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedOrderId(null);
+  };
 
   const [profileData, setProfileData] = useState({
     firstName: '',
@@ -93,6 +141,20 @@ function Profile() {
       } catch (error) {
         console.error('Error fetching events data:', error);
       }
+
+      try {
+        const ordersResponse = await axios.get(
+          `${process.env.REACT_APP_ORDER_BY_USERNAME_ENDPOINT}${userData.user_name}`,
+          {
+            headers: { Authorization: `Bearer ${accessToken}` },
+          },
+        );
+        const ordersData = ordersResponse.data;
+
+        setOrders(ordersData);
+      } catch (error) {
+        console.error('Error fetching orders. Please try again.', 'error');
+      }
     } catch (error) {
       console.error('Error fetching user data:', error);
     }
@@ -121,6 +183,13 @@ function Profile() {
     { Header: 'Status', accessor: 'status', align: 'left' },
   ];
 
+  const orderColumns = [
+    { Header: 'Items', accessor: 'items', align: 'left' },
+    { Header: 'Status', accessor: 'status', align: 'left' },
+    { Header: 'Total Amount', accessor: 'total_amount', align: 'left' },
+    { Header: 'Date', accessor: 'date', align: 'left' },
+  ];
+
   const reservationRows = reservations.map((reservation) => ({
     branch_name: reservation.branch_name,
     pc_number: reservation.pc_number,
@@ -128,6 +197,54 @@ function Profile() {
     reservation_end: formatTime(reservation.reservation_end),
     duration: reservation.duration,
     total_cost: reservation.total_cost,
+  }));
+
+  const orderRows = orders.map((order) => ({
+    status: order.status,
+    total_amount: order.total_amount,
+    items: (
+      <Box>
+        <Typography variant="body2">
+          {`Total Items: ${order.items.length}`}
+        </Typography>
+        <Button
+          onClick={(event) => handleMenuOpen(event, order.id)}
+          sx={{
+            textTransform: 'none',
+            fontSize: '0.875rem',
+            color: '#ff7009 !IMPORTANT',
+          }}
+        >
+          Show
+        </Button>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl) && selectedOrderId === order.id}
+          onClose={handleMenuClose}
+          sx={{}}
+          MenuListProps={{
+            sx: {
+              display: 'flex',
+              overflowX: 'auto',
+              flexDirection: 'column',
+            },
+          }}
+        >
+          {order.items.map((item, index) => (
+            <MenuItem
+              key={index}
+              sx={{
+                whiteSpace: 'nowrap',
+              }}
+            >
+              {`${item.product.name} - Quantity: ${item.quantity}`}
+              &nbsp;
+            </MenuItem>
+          ))}
+        </Menu>
+      </Box>
+    ),
+    date: formattedDate(order.created_at),
   }));
 
   const eventRows = [
@@ -227,30 +344,103 @@ function Profile() {
                       gap: '20px',
                     }}
                   >
-                    <AnimatedItem>
-                      <DynamicTable
-                        title="Reservations"
-                        columns={reservationColumns}
-                        rows={reservationRows}
-                        isSorted={false}
-                        canSearch={false}
-                        entriesPerPage={false}
-                        showTotalEntries={false}
-                        noEndBorder
-                      />
-                    </AnimatedItem>
-                    <AnimatedItem>
-                      <DynamicTable
-                        title="Events"
-                        columns={eventColumns}
-                        rows={eventRows}
-                        isSorted={false}
-                        canSearch={false}
-                        entriesPerPage={false}
-                        showTotalEntries={false}
-                        noEndBorder
-                      />
-                    </AnimatedItem>
+                    <Box
+                      sx={{
+                        display: 'flex',
+                        justifyContent: 'space-around',
+                        flexDirection: 'row',
+                        maxWidth: '450px',
+                        m: 3,
+                        overflowX: 'auto',
+                      }}
+                    >
+                      <Typography
+                        variant="h6"
+                        onClick={() => setSelectedSection('events')}
+                        sx={{
+                          paddingRight: 2,
+                          cursor: 'pointer',
+                          color:
+                            selectedSection === 'events'
+                              ? 'primary.main'
+                              : 'text.primary',
+                        }}
+                      >
+                        Events 🎈
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        onClick={() => setSelectedSection('reservations')}
+                        sx={{
+                          paddingRight: 2,
+                          cursor: 'pointer',
+                          color:
+                            selectedSection === 'reservations'
+                              ? 'primary.main'
+                              : 'text.primary',
+                        }}
+                      >
+                        Reservations 🖥️
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        onClick={() => setSelectedSection('orders')}
+                        sx={{
+                          paddingRight: 2,
+                          cursor: 'pointer',
+                          color:
+                            selectedSection === 'orders'
+                              ? 'primary.main'
+                              : 'text.primary',
+                        }}
+                      >
+                        Orders 🛒
+                      </Typography>
+                    </Box>
+
+                    {selectedSection === 'reservations' && (
+                      <AnimatedItem>
+                        <DynamicTable
+                          title="Reservations"
+                          columns={reservationColumns}
+                          rows={reservationRows}
+                          isSorted={false}
+                          canSearch={false}
+                          entriesPerPage={false}
+                          showTotalEntries={false}
+                          noEndBorder
+                        />
+                      </AnimatedItem>
+                    )}
+                    {selectedSection === 'events' && (
+                      <AnimatedItem>
+                        <DynamicTable
+                          title="Events"
+                          columns={eventColumns}
+                          rows={eventRows}
+                          isSorted={false}
+                          canSearch={false}
+                          entriesPerPage={false}
+                          showTotalEntries={false}
+                          noEndBorder
+                        />
+                      </AnimatedItem>
+                    )}
+
+                    {selectedSection === 'orders' && (
+                      <AnimatedItem>
+                        <DynamicTable
+                          title="Orders"
+                          columns={orderColumns}
+                          rows={orderRows}
+                          isSorted={false}
+                          canSearch={false}
+                          entriesPerPage={false}
+                          showTotalEntries={false}
+                          noEndBorder
+                        />
+                      </AnimatedItem>
+                    )}
                   </Box>
                 </Grid>
               </Box>

@@ -43,6 +43,7 @@ CONFIG_KEYS=(
     "REACT_APP_ORDER_BY_ID_ENDPOINT"
     "REACT_APP_ORDER_ITEMS_ENDPOINT"
     "REACT_APP_ORDER_ITEM_BY_ID_ENDPOINT"
+    "REACT_APP_ORDER_BY_USERNAME_ENDPOINT"
 )
 
 CONFIG_VALUES=(
@@ -79,6 +80,7 @@ CONFIG_VALUES=(
     "/orders/{order_id}"
     "/order-items/"
     "/order-items/{order_item_id}"
+    "/orders/by-username/"
 )
 
 # Determine the host based on the environment

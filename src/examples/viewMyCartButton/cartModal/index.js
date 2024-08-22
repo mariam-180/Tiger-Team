@@ -17,7 +17,15 @@ function getPrice(price) {
   return price;
 }
 
-function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
+function CartModal({
+  cart,
+  isOpen,
+  onClose,
+  onUpdateQuantity,
+  onRemoveAll,
+  setCart,
+  fetchCategoriesAndProducts,
+}) {
   const { showSnackbar } = useSnackbar();
   const { accessToken } = useAuth();
 
@@ -60,6 +68,8 @@ function CartModal({ cart, isOpen, onClose, onUpdateQuantity, onRemoveAll }) {
       );
       if (response.status === 201) {
         showSnackbar('Checkout successful!', 'success');
+        setCart([]);
+        fetchCategoriesAndProducts();
         onClose();
       }
     } catch (error) {
@@ -245,6 +255,8 @@ CartModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   onUpdateQuantity: PropTypes.func.isRequired,
   onRemoveAll: PropTypes.func.isRequired,
+  setCart: PropTypes.func,
+  fetchCategoriesAndProducts: PropTypes.func,
 };
 
 export default CartModal;

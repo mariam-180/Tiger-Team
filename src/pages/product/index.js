@@ -36,38 +36,34 @@ function Product() {
   const [loading, setLoading] = useState(true);
   const [cart, setCart] = useState([]);
 
+  const fetchCategoriesAndProducts = async () => {
+    try {
+      const categoriesResponse = await axios.get(
+        process.env.REACT_APP_CATEGORIES_ENDPOINT,
+      );
+      const categories = categoriesResponse.data;
+
+      setCategories(categories);
+
+      const productsPromises = categories.map((category) =>
+        axios.get(
+          `${process.env.REACT_APP_PRODUCTS_ENDPOINT}category/${category.name}`,
+        ),
+      );
+      categories.map((category) => console.log(category.name));
+      const productsResponses = await Promise.all(productsPromises);
+      const productsData = productsResponses.reduce((acc, response, index) => {
+        acc[categories[index].name] = response.data;
+        return acc;
+      }, {});
+
+      setProductsByCategory(productsData);
+      setLoading(false);
+    } catch (err) {
+      console.error(err.message);
+    }
+  };
   useEffect(() => {
-    const fetchCategoriesAndProducts = async () => {
-      try {
-        const categoriesResponse = await axios.get(
-          process.env.REACT_APP_CATEGORIES_ENDPOINT,
-        );
-        const categories = categoriesResponse.data;
-
-        setCategories(categories);
-
-        const productsPromises = categories.map((category) =>
-          axios.get(
-            `${process.env.REACT_APP_PRODUCTS_ENDPOINT}category/${category.name}`,
-          ),
-        );
-        categories.map((category) => console.log(category.name));
-        const productsResponses = await Promise.all(productsPromises);
-        const productsData = productsResponses.reduce(
-          (acc, response, index) => {
-            acc[categories[index].name] = response.data;
-            return acc;
-          },
-          {},
-        );
-
-        setProductsByCategory(productsData);
-        setLoading(false);
-      } catch (err) {
-        console.error(err.message);
-      }
-    };
-
     fetchCategoriesAndProducts();
   }, []);
 
@@ -156,6 +152,8 @@ function Product() {
         cart={cart}
         onUpdateQuantity={handleUpdateQuantity}
         onRemoveAll={handleRemoveAll}
+        setCart={setCart}
+        fetchCategoriesAndProducts={fetchCategoriesAndProducts}
       />
       <Footer />
     </Grid>

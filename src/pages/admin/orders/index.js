@@ -42,6 +42,12 @@ function AdminOrders() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
+  const formattedDate = (date) => {
+    const newDate = new Date(date);
+    newDate.setHours(newDate.getHours() + 3);
+    return newDate.toLocaleString();
+  };
+
   const handleMenuOpen = (event, orderId) => {
     setAnchorEl(event.currentTarget);
     setSelectedOrderId(orderId);
@@ -189,8 +195,8 @@ function AdminOrders() {
                   customer_email: order.user.email,
                   total_amount: order.total_amount,
                   status: order.status,
-                  created_at: new Date(order.created_at).toLocaleString(),
-                  updated_at: new Date(order.updated_at).toLocaleString(),
+                  created_at: formattedDate(order.created_at),
+                  updated_at: formattedDate(order.updated_at),
                   items: (
                     <Box>
                       <Typography variant="body2">
@@ -233,7 +239,6 @@ function AdminOrders() {
                       </Menu>
                     </Box>
                   ),
-
                   action: (
                     <Box display="flex" justifyContent="center">
                       <Button
