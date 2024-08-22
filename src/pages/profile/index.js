@@ -53,11 +53,7 @@ function Profile() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const [selectedSection, setSelectedSection] = useState(null);
-
-  const handleSectionClick = (sectionId) => {
-    setSelectedSection(sectionId);
-  };
+  const [selectedSection, setSelectedSection] = useState('events');
 
   const formattedDate = (date) => {
     const newDate = new Date(date);
