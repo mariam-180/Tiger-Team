@@ -50,19 +50,31 @@ function Product() {
           `${process.env.REACT_APP_PRODUCTS_ENDPOINT}category/${category.name}`,
         ),
       );
-      categories.map((category) => console.log(category.name));
+
       const productsResponses = await Promise.all(productsPromises);
+
       const productsData = productsResponses.reduce((acc, response, index) => {
         acc[categories[index].name] = response.data;
         return acc;
       }, {});
 
+      const hasProducts = Object.values(productsData).some(
+        (products) => products.length > 0,
+      );
+
+      if (!hasProducts) {
+        setLoading(true);
+      } else {
+        setLoading(false);
+      }
+
       setProductsByCategory(productsData);
-      setLoading(false);
     } catch (err) {
       console.error(err.message);
+      setLoading(true);
     }
   };
+
   useEffect(() => {
     fetchCategoriesAndProducts();
   }, []);
