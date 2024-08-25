@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from 'authContext';
 import axios from 'axios';
+import Resizer from 'react-image-file-resizer';
 import {
   Grid,
   Dialog,
@@ -36,7 +37,7 @@ function AdminProducts() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [editProductDialogOpen, setEditProductDialogOpen] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false); // New state to check if the form is in edit mode
+  const [isEditMode, setIsEditMode] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
@@ -190,7 +191,21 @@ function AdminProducts() {
   };
 
   const handleImageChange = (e) => {
-    setSelectedImage(e.target.files[0]);
+    const file = e.target.files[0];
+    if (file) {
+      Resizer.imageFileResizer(
+        file,
+        800,
+        800,
+        'WEBP',
+        85,
+        0,
+        (uri) => {
+          setSelectedImage(uri);
+        },
+        'blob',
+      );
+    }
   };
 
   useEffect(() => {
