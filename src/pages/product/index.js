@@ -147,17 +147,24 @@ function Product() {
       )}
       {!loading && (
         <>
-          {categories.map((category) => (
-            <ProductList
-              key={category.name}
-              id={`${category.name}_Product`}
-              products={productsByCategory[category.name].map((product) => ({
-                ...product,
-                onAddToCart: () => handleAddToCart(product),
-              }))}
-              category={category.name}
-            />
-          ))}
+          {categories.map((category) => {
+            const products = productsByCategory[category.name];
+            return (
+              <ProductList
+                key={category.name}
+                id={`${category.name}_Product`}
+                products={
+                  products
+                    ? products.map((product) => ({
+                        ...product,
+                        onAddToCart: () => handleAddToCart(product),
+                      }))
+                    : []
+                }
+                category={category.name}
+              />
+            );
+          })}
         </>
       )}
       <ViewMyCartButton
