@@ -5,7 +5,8 @@ import {
   Report,
   EventAvailable,
   ShoppingCart,
-} from '@mui/icons-material'; // Import ShoppingCart icon
+  Store,
+} from '@mui/icons-material';
 import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
 import Home from 'layouts/pages/home';
@@ -14,7 +15,8 @@ import AdminUsers from 'layouts/pages/admin/users';
 import AdminEvents from 'layouts/pages/admin/events';
 import AdminReports from 'layouts/pages/admin/reports';
 import AdminReservation from 'layouts/pages/admin/reservation';
-import AdminOrders from 'layouts/pages/admin/orders'; // Import AdminOrders component
+import AdminOrders from 'layouts/pages/admin/orders';
+import AdminProducts from 'layouts/pages/admin/products';
 
 const adminRoutes = [
   {
@@ -86,6 +88,17 @@ const adminRoutes = [
     ),
     requiredRole: 'EMPLOYEE_USER',
   },
+  {
+    name: 'Products',
+    route: '/admin/products',
+    component: (
+      <RoleBasedPrivateRoute
+        element={<AdminProducts />}
+        requiredRole="EMPLOYEE_USER"
+      />
+    ),
+    requiredRole: 'EMPLOYEE_USER',
+  },
 ];
 
 const sections = [
@@ -116,6 +129,13 @@ const sections = [
     color: '#ff9800',
     component: <AdminOrders />,
     route: '/admin/orders',
+  },
+  {
+    title: 'Products',
+    icon: <Store />,
+    color: '#9c27b0',
+    component: <AdminProducts />,
+    route: '/admin/products',
   },
   {
     title: 'Reports',
