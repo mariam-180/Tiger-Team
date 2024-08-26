@@ -17,7 +17,7 @@ function Admin() {
   return (
     <Grid
       container
-      direction="row"
+      direction="column"
       minHeight="100vh"
       sx={{
         backgroundColor: '#060708',
@@ -34,7 +34,7 @@ function Admin() {
     >
       <NavBar />
       <Grid item sx={{ flexGrow: 1 }}>
-        <Box sx={{ padding: 3, mt: { xs: '10%', md: '0' } }}>
+        <Box sx={{}}>
           <AdminDashboardContent
             activeSection={activeSection}
             handleSectionClick={handleSectionClick}

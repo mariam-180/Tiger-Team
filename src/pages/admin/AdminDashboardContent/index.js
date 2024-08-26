@@ -19,21 +19,18 @@ const AdminDashboardContent = () => {
       container
       spacing={4}
       sx={{
-        position: 'absolute',
+        position: 'relative',
         overflow: 'hidden',
         minHeight: '100vh',
         justifyContent: 'center',
         alignItems: 'center',
-        top: {
-          xs: '10%',
-          md: '8%',
-          lg: '5%',
-        },
-        left: 0,
-        right: 0,
-        bottom: 0,
+        padding: 0,
+        margin: 0,
+        paddingTop: '10vh',
         '&::before': {
           position: 'absolute',
+          width: '100%',
+          height: '100%',
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -55,18 +52,34 @@ const AdminDashboardContent = () => {
         sx={{
           textAlign: 'center',
           padding: 4,
-          margin: 'auto',
           maxWidth: '1200px',
           zIndex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          textAlign: 'center',
         }}
       >
         {sections.map((section, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={4}
+            lg={4}
+            key={index}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+            }}
+          >
             <Box
               onClick={() => handleSectionClick(section)}
               sx={{
                 backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                backdropFilter: 'blur(10px) ',
+                backdropFilter: 'blur(10px)',
                 color: '#fff',
                 padding: 4,
                 borderRadius: 2,
@@ -83,6 +96,14 @@ const AdminDashboardContent = () => {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '200px',
+                width: '100%',
+                maxWidth: {
+                  xs: '300px',
+                  sm: '300px',
+                  md: '400px',
+                  lg: 'auto',
+                  xl: 'auto',
+                },
               }}
             >
               <Box sx={{ color: section.color }}>
