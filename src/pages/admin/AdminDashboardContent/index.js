@@ -13,28 +13,36 @@ const AdminDashboardContent = () => {
   const handleSectionClick = (section) => {
     navigate(section.route);
   };
+
   return (
     <Grid
       container
       spacing={4}
       sx={{
+        position: 'absolute',
+        overflow: 'hidden',
         minHeight: '100vh',
         justifyContent: 'center',
         alignItems: 'center',
+        top: {
+          xs: '10%',
+          md: '8%',
+          lg: '5%',
+        },
+        left: 0,
+        right: 0,
+        bottom: 0,
         '&::before': {
-          marginTop: '40px',
-          position: 'relative',
+          position: 'absolute',
           backgroundImage: `url(${backgroundImage})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           filter: 'blur(5px) brightness(0.3)',
           content: '""',
-          position: 'absolute',
           top: 0,
           left: 0,
           right: 0,
           bottom: 0,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
           zIndex: 0,
         },
       }}
