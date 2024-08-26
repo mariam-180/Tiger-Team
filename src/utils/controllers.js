@@ -74,6 +74,13 @@ export const performActionsBasedOnControllers = (
           actionCallback('RegistrationOpen', false);
         }
         break;
+      case 'LiveRouteEnabled':
+        if (controller.value === 'true') {
+          actionCallback('LivePageEnabled', true);
+        } else {
+          actionCallback('LivePageEnabled', false);
+        }
+        break;
       default:
         break;
     }
