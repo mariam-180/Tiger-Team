@@ -6,6 +6,7 @@ import WheelBasesIMG from 'assets/images/Categories/WheelBases.webp';
 import SteeringWheelsIMG from 'assets/images/Categories/Steering-Wheels.webp';
 import Pedals from 'assets/images/Categories/Pedals.webp';
 import Accessories from 'assets/images/Categories/Accessories.webp';
+import Rigs from 'assets/images/Categories/Rigs.webp';
 import bg from 'assets/images/backGround/red_blackBG.webp';
 
 import ScrollAnimation from 'utils/scrollAnimation';
@@ -28,6 +29,7 @@ const categories = [
   },
   { name: 'Pedals', image: Pedals, link: '#Pedals_Product' },
   { name: 'Accessories', image: Accessories, link: '#Accessories_Product' },
+  { name: 'Rigs', image: Rigs, link: '#Rigs_Product' },
 ];
 
 const CategoriesSection = () => {

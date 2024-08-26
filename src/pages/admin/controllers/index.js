@@ -342,6 +342,7 @@ function AdminControllers() {
                                     value: e.target.checked ? 'true' : 'false',
                                   })
                                 }
+                                disabled
                               />
                             }
                             label="Value"

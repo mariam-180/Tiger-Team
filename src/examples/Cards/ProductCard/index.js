@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Card,
@@ -14,8 +14,9 @@ import {
 import ShoppingCartOutlined from '@mui/icons-material/AddShoppingCartTwoTone';
 
 import ProductDetailsModal from './ProductDetailsModal';
-
 import ScrollAnimation from 'utils/scrollAnimation';
+import { fetchControllers, getControllerByName } from 'utils/controllers';
+import { useAuth } from 'authContext';
 
 const ProductCard = ({
   img_url,
@@ -32,8 +33,28 @@ const ProductCard = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  const { accessToken } = useAuth();
   const [detailsOpen, setDetailsOpen] = useState(false);
-  const [showPrice] = useState(false);
+  const [showPrice, setShowPrice] = useState(false);
+
+  useEffect(() => {
+    const loadShowPrices = async () => {
+      try {
+        const controllers = await fetchControllers(accessToken);
+        const showPricesController = getControllerByName(
+          controllers,
+          'ShowPrices',
+        );
+        if (showPricesController && showPricesController.value === 'true') {
+          setShowPrice(true);
+        }
+      } catch (error) {
+        console.error('Error fetching ShowPrices controller:', error);
+      }
+    };
+
+    loadShowPrices();
+  }, [accessToken]);
 
   const handleViewDetails = () => {
     setDetailsOpen(true);
@@ -105,7 +126,15 @@ const ProductCard = ({
             </Box>
           )}
           {showPrice && (
-            <Typography variant="h6" color="text.primary">
+            <Typography
+              variant="h6"
+              color="text.primary"
+              sx={{
+                fontWeight: 'medium',
+                marginTop: 1,
+                color: 'rgba(150, 255, 255, 1)',
+              }}
+            >
               {price} JOD
             </Typography>
           )}
