@@ -20,7 +20,7 @@ const routes = [
     requiredRole: null,
   },
   {
-    name: 'championship',
+    name: 'Championship',
     route: '/championship',
     component: <Champion />,
     requiredRole: null,
@@ -37,14 +37,14 @@ const routes = [
     component: <Reservations />,
   },
   {
-    name: 'Product',
-    route: '/product',
+    name: 'Products',
+    route: '/products',
     component: <Product />,
     requiredRole: null,
   },
   {
     name: 'Live',
-    route: '/Live',
+    route: '/live',
     component: <Live />,
     requiredRole: null,
   },

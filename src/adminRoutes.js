@@ -6,10 +6,10 @@ import {
   EventAvailable,
   ShoppingCart,
   Store,
+  Settings,
 } from '@mui/icons-material';
 import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
-import Home from 'layouts/pages/home';
 import Admin from 'layouts/pages/admin';
 import AdminUsers from 'layouts/pages/admin/users';
 import AdminEvents from 'layouts/pages/admin/events';
@@ -17,14 +17,9 @@ import AdminReports from 'layouts/pages/admin/reports';
 import AdminReservation from 'layouts/pages/admin/reservation';
 import AdminOrders from 'layouts/pages/admin/orders';
 import AdminProducts from 'layouts/pages/admin/products';
+import AdminControllers from 'layouts/pages/admin/controllers';
 
 const adminRoutes = [
-  {
-    name: 'Home',
-    route: '/',
-    component: <Home />,
-    requiredRole: null,
-  },
   {
     name: 'Admin',
     route: '/admin',
@@ -99,6 +94,17 @@ const adminRoutes = [
     ),
     requiredRole: 'EMPLOYEE_USER',
   },
+  {
+    name: 'Controllers',
+    route: '/admin/controllers',
+    component: (
+      <RoleBasedPrivateRoute
+        element={<AdminControllers />}
+        requiredRole="SUPER_USER"
+      />
+    ),
+    requiredRole: 'SUPER_USER',
+  },
 ];
 
 const sections = [
@@ -117,7 +123,7 @@ const sections = [
     route: '/admin/events',
   },
   {
-    title: 'Reservation',
+    title: 'Reservations',
     icon: <EventAvailable />,
     color: '#fbc02d',
     component: <AdminReservation />,
@@ -136,6 +142,13 @@ const sections = [
     color: '#9c27b0',
     component: <AdminProducts />,
     route: '/admin/products',
+  },
+  {
+    title: 'Controllers',
+    icon: <Settings />,
+    color: '#3f51b5',
+    component: <AdminControllers />,
+    route: '/admin/controllers',
   },
   {
     title: 'Reports',

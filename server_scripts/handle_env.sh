@@ -1,5 +1,13 @@
 #!/bin/bash
 
+########################################################
+# Usage: 
+# ./server_scripts/handle_env.sh Non-Prod
+# ./server_scripts/handle_env.sh Stage
+# ./server_scripts/handle_env.sh Prod
+
+########################################################
+
 ENVIRONMENT=$1
 ENV_FILE=".env"
 
@@ -44,6 +52,8 @@ CONFIG_KEYS=(
     "REACT_APP_ORDER_ITEMS_ENDPOINT"
     "REACT_APP_ORDER_ITEM_BY_ID_ENDPOINT"
     "REACT_APP_ORDER_BY_USERNAME_ENDPOINT"
+    "REACT_APP_CONTROLLERS_ENDPOINT"
+    "REACT_APP_CONTROLLER_BY_ID_ENDPOINT"
 )
 
 CONFIG_VALUES=(
@@ -71,16 +81,18 @@ CONFIG_VALUES=(
     "admin"
     "Tiger@Team@20-0-4"
     "/products/"
-    "/products/{product_id}"
-    "/products/category/{category_name}"
+    "/products/"
+    "/products/category/"
     "/products/search/"
     "/categories/"
-    "/categories/{category_id}"
+    "/categories/"
     "/orders/"
-    "/orders/{order_id}"
+    "/orders/"
     "/order-items/"
-    "/order-items/{order_item_id}"
+    "/order-items/"
     "/orders/by-username/"
+    "/controllers/"
+    "/controllers/"
 )
 
 # Determine the host based on the environment
