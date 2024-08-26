@@ -35,12 +35,12 @@ function App() {
       try {
         const controllers = await fetchControllers(accessToken);
         performActionsBasedOnControllers(controllers, (name, value) => {
-          if (name === 'LiveRouteEnabled') {
+          if (name === 'LivePageEnabled') {
             setIsLiveRouteEnabled(value);
           }
         });
       } catch (error) {
-        console.error('Error fetching LiveRouteEnabled controller:', error);
+        console.error('Error fetching LivePageEnabled controller:', error);
       }
     };
 
