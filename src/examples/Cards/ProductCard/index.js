@@ -54,7 +54,7 @@ const ProductCard = ({
     };
 
     loadShowPrices();
-  }, [accessToken]);
+  }, []);
 
   const handleViewDetails = () => {
     setDetailsOpen(true);

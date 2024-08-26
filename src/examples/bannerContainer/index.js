@@ -45,7 +45,7 @@ const Banner = ({
     };
 
     loadTargetDate();
-  }, [accessToken]);
+  }, []);
 
   return (
     <VideoBackgroundContainer videoURL={formulaVideo}>

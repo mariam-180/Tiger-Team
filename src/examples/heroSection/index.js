@@ -132,7 +132,7 @@ const WelcomingEventPage = ({
     };
 
     loadRegistrationStatus();
-  }, [accessToken]);
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
