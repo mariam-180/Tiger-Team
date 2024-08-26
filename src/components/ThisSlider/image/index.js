@@ -125,7 +125,7 @@ const ImageSlider = ({ images }) => {
           display: 'flex',
           flexDirection: 'column',
           position: 'absolute',
-          zIndex: 20,
+          zIndex: 3,
           gap: 2,
           top: '44%',
           left: '10%',
@@ -221,7 +221,7 @@ const ImageSlider = ({ images }) => {
           display: 'flex',
           flexDirection: 'column',
           gap: '10px',
-          zIndex: 10,
+          zIndex: 3,
           '@media (max-width: 600px)': {
             right: 'auto',
             top: 'auto',
