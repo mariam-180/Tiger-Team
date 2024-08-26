@@ -49,6 +49,31 @@ export const performActionsBasedOnControllers = (
           actionCallback('ShowPrices', false);
         }
         break;
+      case 'EventComingSoon':
+        if (controller.value === 'true') {
+          actionCallback('EventComingSoon', true);
+        } else {
+          actionCallback('EventComingSoon', false);
+        }
+        break;
+      case 'EventStartDate':
+        if (controller.start_date) {
+          const adjustedStartDate = new Date(
+            new Date(controller.start_date).getTime() + 3 * 60 * 60 * 1000,
+          );
+          actionCallback(
+            'EventStartDate',
+            adjustedStartDate.toISOString().split('.')[0],
+          );
+        }
+        break;
+      case 'RegistrationOpen':
+        if (controller.value === 'true') {
+          actionCallback('RegistrationOpen', true);
+        } else {
+          actionCallback('RegistrationOpen', false);
+        }
+        break;
       default:
         break;
     }

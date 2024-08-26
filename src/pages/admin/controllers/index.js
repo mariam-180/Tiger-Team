@@ -179,12 +179,17 @@ function AdminControllers() {
           <DatePicker
             label="Value"
             value={selectedController?.value || null}
-            onChange={(date) =>
+            onChange={(date) => {
+              const adjustedDate = date
+                ? new Date(date.getTime() + 3 * 60 * 60 * 1000)
+                : null;
               setSelectedController({
                 ...selectedController,
-                value: date ? date.toISOString().split('.')[0] : '', // Keep the time component
-              })
-            }
+                value: adjustedDate
+                  ? adjustedDate.toISOString().split('.')[0]
+                  : '',
+              });
+            }}
             renderInput={(params) => <TextField {...params} fullWidth />}
           />
         );
@@ -349,18 +354,26 @@ function AdminControllers() {
                           />
                         ) : controller.value_type === 'DATE' ? (
                           <>
-                            <Typography variant="body2">
-                              Start date:{' '}
-                              {new Date(
-                                controller.start_date,
-                              ).toLocaleDateString()}
-                            </Typography>
-                            <Typography variant="body2">
-                              End date:{' '}
-                              {new Date(
-                                controller.end_date,
-                              ).toLocaleDateString()}
-                            </Typography>
+                            {controller.start_date ? (
+                              <Typography variant="body2">
+                                Start date:{' '}
+                                {new Date(
+                                  controller.start_date,
+                                ).toLocaleDateString()}
+                              </Typography>
+                            ) : (
+                              <></>
+                            )}
+                            {controller.end_date ? (
+                              <Typography variant="body2">
+                                End date:{' '}
+                                {new Date(
+                                  controller.end_date,
+                                ).toLocaleDateString()}
+                              </Typography>
+                            ) : (
+                              <></>
+                            )}
                           </>
                         ) : (
                           <Typography variant="body2">

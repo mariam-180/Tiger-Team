@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,8 @@ import logoIMG from 'assets/images/logos/logo.png';
 import ComingSoon from 'pages/comingSoon/signboard';
 
 import AnimatedTypingText from 'utils/Typing';
+import { fetchControllers, getControllerByName } from 'utils/controllers';
+import { useAuth } from 'authContext';
 
 const PreviewContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -99,8 +101,30 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const ChampionshipPreview = () => {
   const navigate = useNavigate();
+  const { accessToken } = useAuth();
 
-  const [eventClosed] = useState(false);
+  const [eventClosed, setEventClosed] = useState(false);
+
+  useEffect(() => {
+    const loadEventClosed = async () => {
+      try {
+        const controllers = await fetchControllers(accessToken);
+        const eventClosedController = getControllerByName(
+          controllers,
+          'EventComingSoon',
+        );
+        if (eventClosedController && eventClosedController.value === 'true') {
+          setEventClosed(true);
+        } else {
+          setEventClosed(false);
+        }
+      } catch (error) {
+        console.error('Error fetching EventClosed controller:', error);
+      }
+    };
+
+    loadEventClosed();
+  }, [accessToken]);
 
   const handleNavigate = () => {
     navigate('/championship');

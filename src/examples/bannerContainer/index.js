@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 
@@ -9,6 +9,9 @@ import BackgroundContainer from 'components/ThisBackgroundContainer';
 
 import CountdownClock from 'examples/countDown';
 import WelcomingEventPage from 'examples/heroSection';
+
+import { fetchControllers, getControllerByName } from 'utils/controllers';
+import { useAuth } from 'authContext';
 
 const CountdownContainerItem = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -22,6 +25,28 @@ const Banner = ({
   setSnackbarMessage,
   setSnackbarSeverity,
 }) => {
+  const [targetDate, setTargetDate] = useState('2024-07-20');
+  const { accessToken } = useAuth();
+
+  useEffect(() => {
+    const loadTargetDate = async () => {
+      try {
+        const controllers = await fetchControllers(accessToken);
+        const targetDateController = getControllerByName(
+          controllers,
+          'EventStartDate',
+        );
+        if (targetDateController) {
+          setTargetDate(targetDateController.start_date);
+        }
+      } catch (error) {
+        console.error('Error fetching EventStartDate controller:', error);
+      }
+    };
+
+    loadTargetDate();
+  }, [accessToken]);
+
   return (
     <VideoBackgroundContainer videoURL={formulaVideo}>
       <BackgroundContainer
@@ -33,7 +58,7 @@ const Banner = ({
         }}
       >
         <CountdownContainerItem>
-          <CountdownClock targetDate="2024-07-20" />
+          <CountdownClock targetDate={targetDate} />
         </CountdownContainerItem>
         <WelcomingEventPage
           setSnackbarOpen={setSnackbarOpen}

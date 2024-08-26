@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import RegistrationFormDialog from 'examples/formSubmit';
+// import RegistrationFormDialog from 'examples/formSubmit';
 import ViaLogin from 'examples/formSubmit/viaLogin';
+
+import {
+  fetchControllers,
+  performActionsBasedOnControllers,
+} from 'utils/controllers';
+import { useAuth } from 'authContext';
 
 const FlexContainer = styled(Box)({
   display: 'flex',
@@ -49,7 +55,6 @@ const BodyText = styled(Typography)(({ theme }) => ({
     padding: '20px',
   },
 }));
-// eslint-disable-next-line no-unused-vars
 const StyledRegisterButton = styled(Button)(({ theme }) => ({
   background: 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
   color: '#ffffff',
@@ -66,7 +71,6 @@ const StyledRegisterButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-// eslint-disable-next-line no-unused-vars
 const ClosedRegistrationMessage = styled(Typography)(({ theme }) => ({
   color: '#A50000',
   width: '80%',
@@ -110,10 +114,27 @@ const WelcomingEventPage = ({
   setSnackbarSeverity,
 }) => {
   const [open, setOpen] = useState(false);
+  const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
+  const { accessToken } = useAuth();
 
-  // eslint-disable-next-line no-unused-vars
+  useEffect(() => {
+    const loadRegistrationStatus = async () => {
+      try {
+        const controllers = await fetchControllers(accessToken);
+        performActionsBasedOnControllers(controllers, (name, value) => {
+          if (name === 'RegistrationOpen') {
+            setIsRegistrationOpen(value);
+          }
+        });
+      } catch (error) {
+        console.error('Error fetching RegistrationOpen controller:', error);
+      }
+    };
+
+    loadRegistrationStatus();
+  }, [accessToken]);
+
   const handleClickOpen = () => {
-    setOpen(false);
     setOpen(true);
   };
 
@@ -149,23 +170,26 @@ const WelcomingEventPage = ({
       >
         Experience racing like never before. Start your engines, join now!
       </BodyText>
-      {/* <StyledRegisterButton
-        variant="contained"
-        size="large"
-        onClick={handleClickOpen}
-      >
-        Register Now
-      </StyledRegisterButton> */}
-      <ClosedRegistrationMessage>
-        Registration is now closed. See you at the event!
-      </ClosedRegistrationMessage>
-      <RegistrationFormDialog
+      {isRegistrationOpen ? (
+        <StyledRegisterButton
+          variant="contained"
+          size="large"
+          onClick={handleClickOpen}
+        >
+          Register Now
+        </StyledRegisterButton>
+      ) : (
+        <ClosedRegistrationMessage>
+          Registration is now closed. See you at the event!
+        </ClosedRegistrationMessage>
+      )}
+      {/* <RegistrationFormDialog
         open={open}
         handleClose={handleClose}
         setSnackbarOpen={setSnackbarOpen}
         setSnackbarMessage={setSnackbarMessage}
         setSnackbarSeverity={setSnackbarSeverity}
-      />
+      /> */}
       {open && <ViaLogin handleClose={handleClose} />}
     </FlexContainer>
   );

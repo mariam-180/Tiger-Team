@@ -86,7 +86,7 @@ const CountdownClock = ({ targetDate }) => {
     }
 
     const now = new Date();
-    now.setHours(now.getHours() + 3);
+    now.setHours(now.getHours());
     const difference = +targetDateObject - +now;
 
     let timeLeft = {

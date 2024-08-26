@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Grid, Snackbar, Alert } from '@mui/material';
 
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
@@ -7,11 +7,37 @@ import Content from 'examples/eventContant';
 import Footer from 'examples/footer';
 import ComingSoon from 'pages/comingSoon';
 
+import { fetchControllers, getControllerByName } from 'utils/controllers';
+import { useAuth } from 'authContext';
+
 function Champion() {
+  const { accessToken } = useAuth();
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [eventClosed] = useState(false);
+  const [eventClosed, setEventClosed] = useState(false);
+
+  useEffect(() => {
+    const loadEventClosed = async () => {
+      try {
+        const controllers = await fetchControllers(accessToken);
+        const eventClosedController = getControllerByName(
+          controllers,
+          'EventComingSoon',
+        );
+        if (eventClosedController && eventClosedController.value === 'true') {
+          setEventClosed(true);
+        } else {
+          setEventClosed(false);
+        }
+      } catch (error) {
+        console.error('Error fetching EventClosed controller:', error);
+      }
+    };
+
+    loadEventClosed();
+  }, [accessToken]);
 
   return (
     <Grid

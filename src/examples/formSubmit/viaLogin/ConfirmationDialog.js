@@ -37,7 +37,7 @@ const InfoText = styled(Typography)({
 
 const StyledButton = styled(Button)({
   backgroundColor: '#35465c',
-  color: '#fff',
+  color: '#fff !IMPORTANT',
   '&:hover': {
     backgroundColor: '#303f9f',
   },
