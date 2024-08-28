@@ -9,7 +9,6 @@ import {
   fetchControllers,
   performActionsBasedOnControllers,
 } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
 const FlexContainer = styled(Box)({
   display: 'flex',
@@ -115,12 +114,11 @@ const WelcomingEventPage = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
-  const { accessToken } = useAuth();
 
   useEffect(() => {
     const loadRegistrationStatus = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         performActionsBasedOnControllers(controllers, (name, value) => {
           if (name === 'RegistrationOpen') {
             setIsRegistrationOpen(value);

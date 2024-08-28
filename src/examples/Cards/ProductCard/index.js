@@ -16,7 +16,6 @@ import ShoppingCartOutlined from '@mui/icons-material/AddShoppingCartTwoTone';
 import ProductDetailsModal from './ProductDetailsModal';
 import ScrollAnimation from 'utils/scrollAnimation';
 import { fetchControllers, getControllerByName } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
 const ProductCard = ({
   img_url,
@@ -33,14 +32,13 @@ const ProductCard = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const { accessToken } = useAuth();
   const [detailsOpen, setDetailsOpen] = useState(false);
   const [showPrice, setShowPrice] = useState(false);
 
   useEffect(() => {
     const loadShowPrices = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         const showPricesController = getControllerByName(
           controllers,
           'ShowPrices',

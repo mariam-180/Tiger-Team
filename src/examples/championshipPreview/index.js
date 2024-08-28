@@ -11,7 +11,6 @@ import ComingSoon from 'pages/comingSoon/signboard';
 
 import AnimatedTypingText from 'utils/Typing';
 import { fetchControllers, getControllerByName } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
 const PreviewContainer = styled(Box)(({ theme }) => ({
   position: 'relative',
@@ -101,14 +100,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const ChampionshipPreview = () => {
   const navigate = useNavigate();
-  const { accessToken } = useAuth();
 
   const [eventClosed, setEventClosed] = useState(false);
 
   useEffect(() => {
     const loadEventClosed = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         const eventClosedController = getControllerByName(
           controllers,
           'EventComingSoon',
@@ -124,7 +122,7 @@ const ChampionshipPreview = () => {
     };
 
     loadEventClosed();
-  }, [accessToken]);
+  }, []);
 
   const handleNavigate = () => {
     navigate('/championship');

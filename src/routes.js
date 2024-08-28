@@ -10,15 +10,14 @@ import Admin from 'layouts/pages/admin';
 import Product from 'layouts/pages/product';
 import Live from 'layouts/pages/live';
 import { fetchControllers, getControllerByName } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
-const useLiveRouteEnabled = (accessToken) => {
+const useLiveRouteEnabled = () => {
   const [isLiveRouteEnabled, setIsLiveRouteEnabled] = useState(true);
 
   useEffect(() => {
     const loadLiveRouteStatus = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         const liveRouteController = getControllerByName(
           controllers,
           'LivePageEnabled',
@@ -39,8 +38,7 @@ const useLiveRouteEnabled = (accessToken) => {
 };
 
 export const getRoutesList = () => {
-  const { accessToken } = useAuth();
-  const isLiveRouteEnabled = useLiveRouteEnabled(accessToken);
+  const isLiveRouteEnabled = useLiveRouteEnabled();
 
   const routes = [
     {

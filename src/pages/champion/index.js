@@ -8,11 +8,8 @@ import Footer from 'examples/footer';
 import ComingSoon from 'pages/comingSoon';
 
 import { fetchControllers, getControllerByName } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
 function Champion() {
-  const { accessToken } = useAuth();
-
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
@@ -21,7 +18,7 @@ function Champion() {
   useEffect(() => {
     const loadEventClosed = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         const eventClosedController = getControllerByName(
           controllers,
           'EventComingSoon',

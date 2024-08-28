@@ -11,7 +11,6 @@ import CountdownClock from 'examples/countDown';
 import WelcomingEventPage from 'examples/heroSection';
 
 import { fetchControllers, getControllerByName } from 'utils/controllers';
-import { useAuth } from 'authContext';
 
 const CountdownContainerItem = styled('div')(({ theme }) => ({
   position: 'absolute',
@@ -26,12 +25,11 @@ const Banner = ({
   setSnackbarSeverity,
 }) => {
   const [targetDate, setTargetDate] = useState('2024-07-20');
-  const { accessToken } = useAuth();
 
   useEffect(() => {
     const loadTargetDate = async () => {
       try {
-        const controllers = await fetchControllers(accessToken);
+        const controllers = await fetchControllers();
         const targetDateController = getControllerByName(
           controllers,
           'EventStartDate',

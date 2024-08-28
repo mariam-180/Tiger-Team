@@ -7,13 +7,9 @@ const CONTROLLERS_ENDPOINT = process.env.REACT_APP_CONTROLLERS_ENDPOINT;
  * @param {string} accessToken - The access token for authorization.
  * @return {Promise<Array>} - A promise that resolves to an array of controllers.
  */
-export const fetchControllers = async (accessToken) => {
+export const fetchControllers = async () => {
   try {
-    const response = await axios.get(CONTROLLERS_ENDPOINT, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await axios.get(CONTROLLERS_ENDPOINT);
     return response.data;
   } catch (error) {
     console.error('Error fetching controllers:', error);
