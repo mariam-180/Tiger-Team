@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { useAuth } from 'authContext';
-import axios from 'axios';
 import {
   Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Typography,
+  Box,
+  Button,
+  IconButton,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  Button,
   TextField,
-  Box,
-  Typography,
-  Switch,
   FormControlLabel,
+  Switch,
   Select,
   MenuItem,
   FormControl,
-  IconButton,
-  Card,
-  CardContent,
-  CardActions,
 } from '@mui/material';
 import { Delete, Edit } from '@mui/icons-material';
 import { DatePicker } from '@mui/lab';
+import axios from 'axios';
+import { useAuth } from 'authContext';
 import { useSnackbar } from 'context/SnackbarContext';
 import DashboardLayout from 'examples/LayoutContainers/DashboardLayout';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
@@ -31,6 +31,7 @@ import ParentContainer from 'components/ThisContainer/filtered';
 import SimpleButton from 'components/ThisSimpleButton';
 import AnimatedItem from 'utils/animatedItem';
 import backgroundImage from 'assets/images/tigers_ai/tigersTeamCar_8.webp';
+import DeleteConfirmationDialog from './DeleteConfirmationDialog';
 
 function AdminControllers() {
   const { accessToken } = useAuth();
@@ -40,6 +41,9 @@ function AdminControllers() {
     useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [selectedController, setSelectedController] = useState(null);
+  const [deleteControllerDialogOpen, setDeleteControllerDialogOpen] =
+    useState(false);
+  const [controllerToDelete, setControllerToDelete] = useState(null);
 
   const fetchControllers = async () => {
     try {
@@ -153,6 +157,17 @@ function AdminControllers() {
     }
 
     saveController(updatedController);
+  };
+
+  const handleDeleteController = (id) => {
+    const controller = controllers.find((controller) => controller.id === id);
+    setControllerToDelete(controller);
+    setDeleteControllerDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    deleteController(controllerToDelete.id);
+    setDeleteControllerDialogOpen(false);
   };
 
   const renderControllerValueInput = () => {
@@ -405,7 +420,7 @@ function AdminControllers() {
                       </IconButton>
                       <IconButton
                         color="error"
-                        onClick={() => deleteController(controller.id)}
+                        onClick={() => handleDeleteController(controller.id)}
                         sx={{
                           borderRadius: '50%',
                           padding: '8px',
@@ -508,6 +523,13 @@ function AdminControllers() {
           <SimpleButton onClick={handleControllerSave}>Save</SimpleButton>
         </DialogActions>
       </Dialog>
+
+      <DeleteConfirmationDialog
+        open={deleteControllerDialogOpen}
+        onClose={() => setDeleteControllerDialogOpen(false)}
+        onConfirm={handleDeleteConfirm}
+        controllerName={controllerToDelete?.name}
+      />
     </Grid>
   );
 }
