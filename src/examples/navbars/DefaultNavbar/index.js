@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import routes from 'routes';
+import { getRoutesList } from 'routes';
+
 import { useAuth } from 'authContext';
 import filterRoutesByRole from 'utils/FilterRoutesByRole';
 
@@ -7,6 +8,8 @@ import StyledBox from 'components/ThisBox';
 import DefaultNavbar from 'examples/navbars/DefaultNavbar/NBar';
 
 function NavBar() {
+  const routes = getRoutesList();
+
   const [showNavbar, setShowNavbar] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
