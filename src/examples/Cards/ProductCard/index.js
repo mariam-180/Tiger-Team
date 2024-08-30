@@ -81,8 +81,10 @@ const ProductCard = ({
             boxShadow: '0px 3px 20px 5px rgba(255, 0, 0, 0.7)',
           },
           padding: 0,
+          cursor: isMobile ? 'pointer' : 'default',
           ...otherProps.sx,
         }}
+        onClick={isMobile ? handleViewDetails : undefined}
         {...otherProps}
       >
         <CardMedia
