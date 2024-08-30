@@ -91,6 +91,7 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
                 minWidth: 'auto',
                 minHeight: 'auto',
                 pointerEvents: 'auto',
+                zIndex: 4,
                 '&:hover': {
                   backgroundColor: 'rgba(0, 0, 0, 0.3)',
                   color: 'error.main',
