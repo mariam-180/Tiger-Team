@@ -88,7 +88,9 @@ const ProductCard = ({
           image={img_url}
           alt={name}
           sx={{
-            objectFit: 'cover',
+            objectFit: 'contain',
+            objectPosition: 'center',
+            backgroundColor: '#fff',
             height: '50%',
             padding: 0.5,
           }}
@@ -130,7 +132,7 @@ const ProductCard = ({
               sx={{
                 fontWeight: 'medium',
                 marginTop: 1,
-                color: 'rgba(150, 255, 255, 1)',
+                color: 'primary.main',
               }}
             >
               {price} JOD

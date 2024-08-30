@@ -64,28 +64,44 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
             overflowY: 'auto',
           }}
         >
-          <IconButton
-            onClick={onClose}
+          <Box
             sx={{
               position: 'absolute',
-              top: '5px',
-              right: '5px',
-              backgroundColor: 'rgba(0, 0, 0, 0.1)',
-              color: 'primary.main',
-              borderRadius: '40%',
-              padding: '8px',
-              minWidth: 'auto',
-              minHeight: 'auto',
-              '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.3)',
-                color: 'error.main',
-                transform: 'scale(1.1)',
-              },
-              transition: 'all 0.3s ease',
+              top: 0,
+              right: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'flex-start',
+              pointerEvents: 'none',
+              zIndex: 2,
             }}
           >
-            <CloseIcon />
-          </IconButton>
+            <IconButton
+              onClick={onClose}
+              sx={{
+                position: 'sticky',
+                top: '0',
+                right: '0',
+                backgroundColor: 'rgba(0, 0, 0, 0.1)',
+                color: 'primary.main',
+                borderRadius: '40%',
+                padding: '8px',
+                minWidth: 'auto',
+                minHeight: 'auto',
+                pointerEvents: 'auto',
+                '&:hover': {
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                  color: 'error.main',
+                  transform: 'scale(1.1)',
+                },
+                transition: 'all 0.3s ease',
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
           <Box
             sx={{
               display: 'flex',
@@ -106,7 +122,9 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
                 maxHeight: '300px',
                 borderRadius: '16px',
                 marginBottom: 2,
-                objectFit: 'cover',
+                objectFit: 'contain',
+                objectPosition: 'center',
+                backgroundColor: '#fff',
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.8)',
               }}
             />
@@ -117,8 +135,6 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
                 gutterBottom
                 sx={{
                   fontWeight: 'bold',
-                  color: 'primary.main',
-                  textShadow: '1px 1px 2px rgba(0, 0, 0, 0.2)',
                 }}
               >
                 {product.name}
@@ -129,7 +145,8 @@ const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
                   sx={{
                     fontWeight: 'medium',
                     marginTop: 1,
-                    color: 'rgba(70, 190, 100, 0.9)',
+                    marginBottom: 1,
+                    color: 'primary.main',
                   }}
                 >
                   Price: {product.price} JOD
