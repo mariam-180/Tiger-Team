@@ -23,6 +23,8 @@ const ProductCard = ({
   category,
   price,
   stock_quantity,
+  availability,
+  show_stock_quantity,
   isLowestPrice,
   link,
   description,
@@ -138,9 +140,11 @@ const ProductCard = ({
               {price} JOD
             </Typography>
           )}
-          <Typography variant="body2" color="text.secondary">
-            Only <b>{stock_quantity}</b> left in stock!
-          </Typography>
+          {show_stock_quantity && (
+            <Typography variant="body2" color="text.secondary">
+              Only <b>{stock_quantity}</b> left in stock!
+            </Typography>
+          )}
         </CardContent>
         <Box
           sx={{
@@ -221,6 +225,8 @@ ProductCard.propTypes = {
   isLowestPrice: PropTypes.bool,
   link: PropTypes.string,
   onAddToCart: PropTypes.func,
+  availability: PropTypes.string.isRequired,
+  show_stock_quantity: PropTypes.bool.isRequired,
 };
 
 export default ProductCard;

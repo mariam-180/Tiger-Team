@@ -45,6 +45,12 @@ function AdminProducts() {
     { Header: 'Product Name', accessor: 'name', align: 'left' },
     { Header: 'Price', accessor: 'price', align: 'left' },
     { Header: 'Stock Quantity', accessor: 'stock_quantity', align: 'left' },
+    { Header: 'Availability', accessor: 'availability', align: 'left' },
+    {
+      Header: 'Show Stock Quantity',
+      accessor: 'show_stock_quantity',
+      align: 'left',
+    },
     { Header: 'Category', accessor: 'category_name', align: 'left' },
     { Header: 'Action', accessor: 'action', align: 'center' },
   ];
@@ -117,6 +123,10 @@ function AdminProducts() {
       if (selectedImage) {
         formData.append('image', selectedImage);
       }
+      if (productData.availability)
+        formData.append('availability', productData.availability);
+      if (productData.show_stock_quantity !== undefined)
+        formData.append('show_stock_quantity', productData.show_stock_quantity);
 
       if (isEditMode) {
         await axios.patch(
@@ -276,6 +286,10 @@ function AdminProducts() {
                   name: product.name,
                   price: product.price,
                   stock_quantity: product.stock_quantity,
+                  availability: product.availability.replace('_', ' '),
+                  show_stock_quantity: product.show_stock_quantity
+                    ? 'Yes'
+                    : 'No',
                   category_name: product.category_name,
                   action: (
                     <Box display="flex" justifyContent="center">
@@ -368,6 +382,32 @@ function AdminProducts() {
           <FormControlLabel
             control={
               <Switch
+                checked={selectedProduct?.show_stock_quantity || false}
+                onChange={(e) =>
+                  setSelectedProduct({
+                    ...selectedProduct,
+                    show_stock_quantity: e.target.checked,
+                  })
+                }
+                sx={{
+                  '& .MuiSwitch-switchBase.Mui-checked': {
+                    color: '#005f00',
+                  },
+                  '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+                    backgroundColor: '#005f00',
+                  },
+                }}
+              />
+            }
+            label="Show Stock Quantity"
+            sx={{
+              marginBottom: 2,
+              color: '#005f00',
+            }}
+          />
+          <FormControlLabel
+            control={
+              <Switch
                 checked={selectedProduct?.is_lowest_price || false}
                 onChange={(e) =>
                   setSelectedProduct({
@@ -417,6 +457,30 @@ function AdminProducts() {
             rows={4}
             sx={{ marginBottom: 2 }}
           />
+          <FormControl fullWidth sx={{ marginBottom: 2 }}>
+            <Typography
+              variant="h6"
+              sx={{
+                color: 'rgba(0, 0, 0, 0.5)',
+                fontFamily: 'Roboto, sans-serif',
+                mb: 1,
+              }}
+            >
+              Availability:
+            </Typography>
+            <Select
+              value={selectedProduct?.availability || 'IN_STOCK'}
+              onChange={(e) =>
+                setSelectedProduct({
+                  ...selectedProduct,
+                  availability: e.target.value,
+                })
+              }
+            >
+              <MenuItem value="IN_STOCK">In Stock</MenuItem>
+              <MenuItem value="PRE_ORDER">Pre-Order</MenuItem>
+            </Select>
+          </FormControl>
           <Typography
             variant="h6"
             sx={{
