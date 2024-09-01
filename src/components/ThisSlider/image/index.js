@@ -113,7 +113,7 @@ const ImageSlider = ({ images }) => {
         position: 'relative',
         overflow: 'hidden',
         width: '100%',
-        height: '95vh',
+        height: '100vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

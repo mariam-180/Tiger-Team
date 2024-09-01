@@ -2,29 +2,30 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-import highWay from 'assets/images/backGround/HighWayRoad.webp';
 import StyledContainer from 'components/ThisContainer';
 import VideoSlider from 'components/ThisSlider/video';
+
 import ChampionshipPreview from 'examples/championshipPreview';
 import ImageSlider from 'components/ThisSlider/image';
-
 import DefaultNavbar from 'examples/navbars/DefaultNavbar';
 import TextScrolling from 'examples/scrolling';
 import Footer from 'examples/footer';
 import CsMovingWrap from 'examples/movingWrap';
+
 import AnimatedItem from 'utils/animatedItem';
 
+import useSponsorAdsEnabled from 'hooks/useSponsorAdsEnabled';
+
+import highWay from 'assets/images/backGround/HighWayRoad.webp';
 import darkBG from 'assets/images/backGround/FocusSpotLight.avif';
 import CarBG1 from 'assets/images/tigers_ai/tigersTeamCar_4.webp';
 import CarBG2 from 'assets/images/tigers_ai/tigersTeamCar_2.webp';
 import CarBG3 from 'assets/images/tigers_ai/tigersTeamCar_3.webp';
-// import Header from 'views/Intro';
 
 function Home() {
   const navigate = useNavigate();
-
-  const texts = ['Drifting', 'Racing', 'Boost', 'Drifting', 'Racing', 'Boost'];
-  const customMap = (text) => `${text}`;
+  const { sponsorAdsEnabled, sponsorTexts } = useSponsorAdsEnabled();
+  console.log(sponsorTexts);
 
   const images = [
     {
@@ -92,13 +93,18 @@ function Home() {
       }}
     >
       <DefaultNavbar />
-      {/* <Header/> */}
       <AnimatedItem>
         <ImageSlider images={images} />
       </AnimatedItem>
-      <AnimatedItem>
-        <CsMovingWrap texts={texts} map={customMap} backgroundimage={darkBG} />
-      </AnimatedItem>
+      {sponsorAdsEnabled && (
+        <AnimatedItem>
+          <CsMovingWrap
+            texts={sponsorTexts}
+            map={(text) => `${text}`}
+            backgroundimage={darkBG}
+          />
+        </AnimatedItem>
+      )}
       <AnimatedItem>
         <ChampionshipPreview />
       </AnimatedItem>
