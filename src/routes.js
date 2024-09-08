@@ -9,36 +9,52 @@ import Profile from 'layouts/pages/profile';
 import Admin from 'layouts/pages/admin';
 import Product from 'layouts/pages/product';
 import Live from 'layouts/pages/live';
+import QA from 'layouts/pages/qa';
 import { fetchControllers, getControllerByName } from 'utils/controllers';
 
-const useLiveRouteEnabled = () => {
-  const [isLiveRouteEnabled, setIsLiveRouteEnabled] = useState(true);
+const useRouteStatuses = () => {
+  const [statuses, setStatuses] = useState({
+    isLiveRouteEnabled: false,
+    isQARouteEnabled: false,
+    isLoading: true,
+  });
 
   useEffect(() => {
-    const loadLiveRouteStatus = async () => {
+    const loadRouteStatuses = async () => {
       try {
+        const REACT_APP_ENVIRONMENT = process.env.REACT_APP_ENVIRONMENT;
+        const isQARouteEnabled = REACT_APP_ENVIRONMENT === 'Non-Prod';
+
         const controllers = await fetchControllers();
         const liveRouteController = getControllerByName(
           controllers,
           'LivePageEnabled',
         );
-        if (liveRouteController && liveRouteController.value === 'true') {
-          setIsLiveRouteEnabled(true);
-        } else {
-          setIsLiveRouteEnabled(false);
-        }
+        const isLiveRouteEnabled =
+          liveRouteController && liveRouteController.value === 'true';
+
+        setStatuses({
+          isLiveRouteEnabled,
+          isQARouteEnabled,
+          isLoading: false,
+        });
       } catch (error) {
-        console.error('Error fetching LivePageEnabled controller:', error);
+        console.error('Error fetching route statuses:', error);
+        setStatuses((prevState) => ({ ...prevState, isLoading: false }));
       }
     };
 
-    loadLiveRouteStatus();
+    loadRouteStatuses();
   }, []);
-  return isLiveRouteEnabled;
+
+  return statuses;
 };
 
 export const getRoutesList = () => {
-  const isLiveRouteEnabled = useLiveRouteEnabled();
+  const { isLiveRouteEnabled, isQARouteEnabled, isLoading } =
+    useRouteStatuses();
+
+  if (isLoading) return [];
 
   const routes = [
     {
@@ -96,6 +112,15 @@ export const getRoutesList = () => {
       name: 'Live',
       route: '/live',
       component: <Live />,
+      requiredRole: null,
+    });
+  }
+
+  if (isQARouteEnabled) {
+    routes.push({
+      name: 'QA',
+      route: '/QA',
+      component: <QA />,
       requiredRole: null,
     });
   }

@@ -25,7 +25,6 @@ import CarBG3 from 'assets/images/tigers_ai/tigersTeamCar_3.webp';
 function Home() {
   const navigate = useNavigate();
   const { sponsorAdsEnabled, sponsorTexts } = useSponsorAdsEnabled();
-  console.log(sponsorTexts);
 
   const images = [
     {
