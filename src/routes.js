@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
 import Home from 'layouts/pages/home';
@@ -10,51 +10,52 @@ import Admin from 'layouts/pages/admin';
 import Product from 'layouts/pages/product';
 import Live from 'layouts/pages/live';
 import QA from 'layouts/pages/qa';
-import { fetchControllers, getControllerByName } from 'utils/controllers';
 
-const useRouteStatuses = () => {
-  const [statuses, setStatuses] = useState({
-    isLiveRouteEnabled: false,
-    isQARouteEnabled: false,
-    isLoading: true,
-  });
+// const useRouteStatuses = () => {
+//   const [statuses, setStatuses] = useState({
+//     isLiveRouteEnabled: false,
+//     isQARouteEnabled: false,
+//     isLoading: true,
+//   });
 
-  useEffect(() => {
-    const loadRouteStatuses = async () => {
-      try {
-        const REACT_APP_ENVIRONMENT = process.env.REACT_APP_ENVIRONMENT;
-        const isQARouteEnabled = REACT_APP_ENVIRONMENT === 'Non-Prod';
+//   useEffect(() => {
+//     const loadRouteStatuses = async () => {
+//       try {
+//         const REACT_APP_ENVIRONMENT = process.env.REACT_APP_ENVIRONMENT;
+//         const isQARouteEnabled = REACT_APP_ENVIRONMENT === 'Non-Prod';
 
-        const controllers = await fetchControllers();
-        const liveRouteController = getControllerByName(
-          controllers,
-          'LivePageEnabled',
-        );
-        const isLiveRouteEnabled =
-          liveRouteController && liveRouteController.value === 'true';
+//         const controllers = await fetchControllers();
+//         const liveRouteController = getControllerByName(
+//           controllers,
+//           'LivePageEnabled',
+//         );
+//         const isLiveRouteEnabled =
+//           liveRouteController && liveRouteController.value === 'true';
 
-        setStatuses({
-          isLiveRouteEnabled,
-          isQARouteEnabled,
-          isLoading: false,
-        });
-      } catch (error) {
-        console.error('Error fetching route statuses:', error);
-        setStatuses((prevState) => ({ ...prevState, isLoading: false }));
-      }
-    };
+//         setStatuses({
+//           isLiveRouteEnabled,
+//           isQARouteEnabled,
+//           isLoading: false,
+//         });
+//       } catch (error) {
+//         console.error('Error fetching route statuses:', error);
+//         setStatuses((prevState) => ({ ...prevState, isLoading: false }));
+//       }
+//     };
 
-    loadRouteStatuses();
-  }, []);
+//     loadRouteStatuses();
+//   }, []);
 
-  return statuses;
-};
+//   return statuses;
+// };
 
 export const getRoutesList = () => {
-  const { isLiveRouteEnabled, isQARouteEnabled, isLoading } =
-    useRouteStatuses();
+  // const { isLiveRouteEnabled, isQARouteEnabled, isLoading } =
+  //   useRouteStatuses();
 
-  if (isLoading) return [];
+  // if (isLoading) return [];
+  const isLiveRouteEnabled = false;
+  const isQARouteEnabled = false;
 
   const routes = [
     {
