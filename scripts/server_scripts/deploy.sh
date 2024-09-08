@@ -23,8 +23,22 @@ fi
 
 # Navigate to the server directory and pull the latest changes
 echo "Navigating to the server directory and pulling the latest changes..."
-if ssh root@139.59.174.109 'cd /var/www/html/TigersTeamReact && git pull'; then
-    echo "Pulled the latest changes successfully."
+if ssh root@139.59.174.109 << 'EOF'
+    cd /var/www/html/TigersTeamReact
+
+    # Configure the git pull strategy to use rebase by default
+    git config pull.rebase true
+
+    # Attempt to pull the latest changes
+    if git pull; then
+        echo "Pulled the latest changes successfully."
+    else
+        echo "Failed to pull the latest changes." >&2
+        exit 1
+    fi
+EOF
+then
+    echo "Latest changes pulled successfully."
 else
     echo "Failed to pull the latest changes." >&2
     exit 1
