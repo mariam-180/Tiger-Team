@@ -155,8 +155,8 @@ const ChampionshipPreview = () => {
               zIndex: 1,
             }}
           >
-            Get set for an amazing car race event on July 20th, 2024! It&apos;s
-            a fun day where drivers show off their amazing driving skills in
+            Get set for an amazing car race event on 22nd Nov, 2024! It&apos;s a
+            fun day where drivers show off their amazing driving skills in
             exciting races. It&apos;s perfect for anyone who loves cars and
             racing. Don&apos;t miss it!
           </Typography>

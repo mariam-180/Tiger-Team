@@ -24,7 +24,7 @@ const Banner = ({
   setSnackbarMessage,
   setSnackbarSeverity,
 }) => {
-  const [targetDate, setTargetDate] = useState('2024-07-20');
+  const [targetDate, setTargetDate] = useState('2024-11-22');
 
   useEffect(() => {
     const loadTargetDate = async () => {

@@ -122,7 +122,7 @@ const EventSection = () => {
             The inaugural Tigers Team Champion League, a first-of-its-kind
             annual championship in the region, is organized by the Tigers Team
             Center in collaboration with Jordan Speed Center. Scheduled to take
-            place on July 20th, 2024, this event is a celebration of drifting
+            place on 22nd Nov, 2024, this event is a celebration of drifting
             simulation, designed to challenge and entertain participants and
             spectators alike. With a commitment to inclusively and excellence,
             the championship will feature a meticulously organized race format,
