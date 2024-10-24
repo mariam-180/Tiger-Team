@@ -55,6 +55,7 @@ CONFIG_KEYS=(
     "REACT_APP_ORDER_BY_USERNAME_ENDPOINT"
     "REACT_APP_CONTROLLERS_ENDPOINT"
     "REACT_APP_CONTROLLER_BY_ID_ENDPOINT"
+    "REACT_APP_EVENTS_ENDPOINT"
 )
 
 CONFIG_VALUES=(
@@ -95,6 +96,7 @@ CONFIG_VALUES=(
     "/orders/by-username/"
     "/controllers/"
     "/controllers/"
+    "/events/"
 )
 
 # Determine the host based on the environment

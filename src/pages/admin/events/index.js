@@ -12,6 +12,9 @@ import {
   TextField,
   Box,
   MenuItem,
+  FormControl,
+  Select,
+  InputLabel,
 } from '@mui/material';
 import Typography from 'components/ThisTypography';
 import SimpleButton from 'components/ThisSimpleButton';
@@ -51,15 +54,36 @@ function EventRegistrations() {
   const [totalUnpaid, setTotalUnpaid] = useState(0);
   const [totalPaid, setTotalPaid] = useState(0);
   const [totalCancelled, setTotalCancelled] = useState(0);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await axios.get(process.env.REACT_APP_EVENTS_ENDPOINT, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      setEvents(response.data);
+    } catch (error) {
+      console.error('Error fetching events:', error);
+      showSnackbar('Error fetching events. Please try again.', 'error');
+    }
+  };
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
+      const REGISTRATION_ENDPOINT = new URL(
         process.env.REACT_APP_REGISTRATION_FORM_ENDPOINT,
-        {
-          headers: { Authorization: `Bearer ${accessToken}` },
-        },
       );
+
+      if (selectedEvent) {
+        REGISTRATION_ENDPOINT.searchParams.append('event_name', selectedEvent);
+      }
+
+      const response = await axios.get(REGISTRATION_ENDPOINT.toString(), {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
       const data = response.data;
       const users = data.users;
       const totalCount = data.total_count;
@@ -139,8 +163,15 @@ function EventRegistrations() {
     setEditRegistrationDialogOpen(false);
 
   useEffect(() => {
+    fetchEvents();
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (selectedEvent) {
+      fetchData();
+    }
+  }, [selectedEvent]);
 
   const registrationRows = filteredRegistrations.map((registration) => ({
     name: (
@@ -211,6 +242,38 @@ function EventRegistrations() {
               },
             }}
           >
+            <FormControl fullWidth variant="outlined" sx={{ marginBottom: 2 }}>
+              <InputLabel
+                id="event-select-label"
+                sx={{
+                  backgroundColor: '#ffffff !important',
+                  borderRadius: '20px',
+                  width: '160px',
+                  paddingLeft: '20px',
+                }}
+              >
+                Select Event
+              </InputLabel>
+              <Select
+                labelId="event-select-label"
+                value={selectedEvent}
+                onChange={(e) => setSelectedEvent(e.target.value)}
+                label="Select Event"
+                sx={{
+                  marginTop: '10px',
+                  backgroundColor: '#ffffff !important',
+                  '& .MuiSelect-select': {
+                    backgroundColor: '#ffffff !important',
+                  },
+                }}
+              >
+                {events.map((event) => (
+                  <MenuItem key={event.id} value={event.name}>
+                    {event.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <Box
               sx={{
                 display: 'flex',
