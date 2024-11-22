@@ -88,6 +88,12 @@ export const getRoutesList = () => {
       requiredRole: null,
     },
     {
+      name: 'Live',
+      route: '/live',
+      component: <Live />,
+      requiredRole: null,
+    },
+    {
       name: 'Profile',
       route: '/profile',
       component: (
