@@ -13,7 +13,7 @@ ENV_FILE=".env"
 
 # Define hostnames for each environment
 HOST_NON_PROD="http://localhost:8081"
-HOST_STAGE="http://139.59.174.109/api"
+HOST_STAGE="http://64.23.173.16/api"
 HOST_PROD="https://www.tigers-team.com/api"
 
 # Common configuration values (without hostname)
