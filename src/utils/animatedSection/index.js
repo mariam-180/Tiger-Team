@@ -132,7 +132,6 @@ AnimatedSection.propTypes = {
 AnimatedSection.defaultProps = {
   animation: animations.fadeUp,
   shake: false,
-  animation: 'fadeUp',
 };
 
 export default AnimatedSection;
