@@ -7,7 +7,7 @@ import SteeringWheelsIMG from 'assets/images/Categories/Steering-Wheels.webp';
 import Pedals from 'assets/images/Categories/Pedals.webp';
 import Accessories from 'assets/images/Categories/Accessories.webp';
 import Rigs from 'assets/images/Categories/Rigs.webp';
-import Maps from 'assets/images/Categories/arena.png';
+import Maps from 'assets/images/Categories/arena.webp';
 import bg from 'assets/images/backGround/red_blackBG.webp';
 
 import ScrollAnimation from 'utils/scrollAnimation';
@@ -74,10 +74,10 @@ const CategoriesSection = () => {
             <Grid
               item
               key={category.name}
-              xs={6}
-              sm={6}
+              xs={7}
+              sm={5}
               md={4}
-              lg={2}
+              lg={3}
               sx={{
                 display: 'flex',
                 justifyContent: 'center',
