@@ -6,28 +6,11 @@ import ProductList from 'examples/productList';
 import ViewMyCartButton from 'examples/viewMyCartButton';
 import CategoriesSection from './CategoriesSection';
 import Footer from 'examples/footer';
-import Slider from 'examples/videoSlider';
+import bundleImage from 'assets/images/BUNDLES/1/R3-Racing-Wheel-and-Pedals-2.webp';
+import { getProductImageUrl } from 'utils/productImage';
 
-import vd1 from 'assets/videos/FSR_3.mp4';
-import vd2 from 'assets/videos/R5_2.mp4';
-import vd3 from 'assets/videos/FSR_2.mp4';
-import vd4 from 'assets/videos/R5_3.mp4';
-
-const media = [
-  { type: 'video', src: vd2 },
-  { type: 'video', src: vd1 },
-  { type: 'video', src: vd3 },
-  { type: 'video', src: vd4 },
-];
-
-const textContent = {
-  'R12 Wheel Base':
-    'Our advanced system continuously monitors the temperature of the motor and electronic components in real-time',
-  'FSR Formula Wheel':
-    'Wheel transition in seconds. Enjoy a stable, solid connection',
-  'RS V2': 'Forged Carbon Fiber base Plate & Magnetic Shifter Paddles',
-  'R16 Wheel Base':
-    'Feel everything through an optimized motor design, offering practically zero torque ripple, notching or cogging.',
+const getProductImage = (product) => {
+  return getProductImageUrl(product.img_url, bundleImage);
 };
 
 function Product() {
@@ -38,23 +21,19 @@ function Product() {
 
   const fetchCategoriesAndProducts = async () => {
     try {
-      const categoriesResponse = await axios.get(
-        process.env.REACT_APP_CATEGORIES_ENDPOINT,
-      );
+      const [categoriesResponse, productsResponse] = await Promise.all([
+        axios.get(process.env.REACT_APP_CATEGORIES_ENDPOINT),
+        axios.get(process.env.REACT_APP_PRODUCTS_ENDPOINT),
+      ]);
       const categories = categoriesResponse.data;
+      const products = productsResponse.data;
 
       setCategories(categories);
 
-      const productsPromises = categories.map((category) =>
-        axios.get(
-          `${process.env.REACT_APP_PRODUCTS_ENDPOINT}category/${category.name}`,
-        ),
-      );
-
-      const productsResponses = await Promise.all(productsPromises);
-
-      const productsData = productsResponses.reduce((acc, response, index) => {
-        acc[categories[index].name] = response.data;
+      const productsData = categories.reduce((acc, category) => {
+        acc[category.name] = products.filter(
+          (product) => String(product.category_id) === String(category.id),
+        );
         return acc;
       }, {});
 
@@ -132,7 +111,6 @@ function Product() {
       }}
     >
       <NavBar />
-      <Slider media={media} text={textContent} />
       <Box height="4vh" />
       <CategoriesSection categories={categories} />
       {loading && (
@@ -157,6 +135,7 @@ function Product() {
                   products
                     ? products.map((product) => ({
                         ...product,
+                        img_url: getProductImage(product),
                         onAddToCart: () => handleAddToCart(product),
                       }))
                     : []

@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import StyledTypography from 'components/ThisTypography';
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 
-import TigersTeam from 'assets/videos/TigersTeam.mp4';
+import TigersTeam from 'assets/images/backGround/tigersTeam.png';
 
 import BackgroundContainer from 'components/ThisBackgroundContainer';
 

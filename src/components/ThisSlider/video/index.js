@@ -1,11 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
-import racingVideo from 'assets/videos/racing.mp4';
-import driftingVideo from 'assets/videos/drifting.mp4';
-import formulaVideo from 'assets/videos/formula.mp4';
-import rallyVideo from 'assets/videos/rally.mp4';
-
 import racingImage from 'assets/images/backGround/racing.jpeg';
 import driftingImage from 'assets/images/backGround/drifting.jpeg';
 import formulaImage from 'assets/images/backGround/formula.png';
@@ -19,14 +14,14 @@ import FlipToBackIcon from '@mui/icons-material/FlipToBack';
 import FlipToFrontIcon from '@mui/icons-material/FlipToFront';
 
 const videos = [
-  { title: 'GT racing', url: racingVideo, thumbnail: racingImage },
-  { title: 'Drifting', url: driftingVideo, thumbnail: driftingImage },
-  { title: 'Formula', url: formulaVideo, thumbnail: formulaImage },
-  { title: 'Rally', url: rallyVideo, thumbnail: rallyImage },
-  { title: 'GT racing', url: racingVideo, thumbnail: racingImage },
-  { title: 'Drifting', url: driftingVideo, thumbnail: driftingImage },
-  { title: 'Formula', url: formulaVideo, thumbnail: formulaImage },
-  { title: 'Rally', url: rallyVideo, thumbnail: rallyImage },
+  { title: 'GT racing', url: racingImage, thumbnail: racingImage },
+  { title: 'Drifting', url: driftingImage, thumbnail: driftingImage },
+  { title: 'Formula', url: formulaImage, thumbnail: formulaImage },
+  { title: 'Rally', url: rallyImage, thumbnail: rallyImage },
+  { title: 'GT racing', url: racingImage, thumbnail: racingImage },
+  { title: 'Drifting', url: driftingImage, thumbnail: driftingImage },
+  { title: 'Formula', url: formulaImage, thumbnail: formulaImage },
+  { title: 'Rally', url: rallyImage, thumbnail: rallyImage },
 ];
 
 const VideoSlider = () => {

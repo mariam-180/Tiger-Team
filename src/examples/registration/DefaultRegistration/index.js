@@ -30,7 +30,7 @@ import {
 import { validateForm } from 'utils/formValidation';
 import VerificationPopup from '../VerificationPopup';
 
-import backGroundVideo from 'assets/videos/BMW_M3_Live.mp4';
+import backGroundVideo from 'assets/images/backGround/BMW_M3.png';
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;

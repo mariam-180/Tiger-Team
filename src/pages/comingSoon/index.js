@@ -9,7 +9,7 @@ import Footer from 'examples/footer';
 
 import AnimatedItem from 'utils/animatedItem';
 
-import formulaVideo from 'assets/videos/formula.mp4';
+import formulaVideo from 'assets/images/backGround/formula.png';
 
 import ComingSoonBoard from './signboard';
 

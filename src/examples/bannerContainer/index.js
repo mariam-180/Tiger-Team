@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 
-import formulaVideo from 'assets/videos/formula.mp4';
+import formulaVideo from 'assets/images/backGround/formula.png';
 
 import VideoBackgroundContainer from 'components/ThisBGVideo';
 import BackgroundContainer from 'components/ThisBackgroundContainer';

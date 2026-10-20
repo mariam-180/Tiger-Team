@@ -44,7 +44,7 @@ To set up the project locally, follow these simple steps.
 
 ## Installation
 1- Clone the repo
-    git clone https://github.com/Mohammad-Alqadi/TigersTeamReact.git
+    git clone <repository-url>
 
 2- Navigate to the project directory
     cd TigersTeamReact
@@ -76,7 +76,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 Should you have any feedback, questions, or concerns, please reach out to us:
 
-Email: qadi_m@yahoo.com
-Project Link: https://github.com/E-Gadi/TigersTeamReact
+Email: support@example.com
+Project Link: <repository-url>
 
 Thank you for visiting the Tigers Team Racing Simulator repository!

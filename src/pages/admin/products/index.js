@@ -197,6 +197,18 @@ function AdminProducts() {
   };
 
   const handleProductSave = () => {
+    if (
+      !selectedProduct?.name?.trim() ||
+      selectedProduct?.price === '' ||
+      selectedProduct?.stock_quantity === '' ||
+      !selectedProduct?.category_id
+    ) {
+      showSnackbar(
+        'Enter a name, price, stock quantity, and category before saving.',
+        'warning',
+      );
+      return;
+    }
     saveProduct(selectedProduct);
   };
 
@@ -220,8 +232,13 @@ function AdminProducts() {
 
   useEffect(() => {
     fetchCategories();
-    fetchData();
-  }, [categories.length]);
+  }, [accessToken]);
+
+  useEffect(() => {
+    if (categories.length > 0) {
+      fetchData();
+    }
+  }, [accessToken, categories.length]);
 
   return (
     <Grid

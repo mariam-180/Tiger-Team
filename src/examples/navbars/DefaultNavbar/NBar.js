@@ -8,7 +8,12 @@ import { useAuth } from 'authContext';
 import PropTypes from 'prop-types';
 
 import Container from '@mui/material/Container';
-import Icon from '@mui/material/Icon';
+import ArrowDropUpRounded from '@mui/icons-material/ArrowDropUpRounded';
+import KeyboardArrowRightRounded from '@mui/icons-material/KeyboardArrowRightRounded';
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import LoginRounded from '@mui/icons-material/LoginRounded';
+import LogoutRounded from '@mui/icons-material/LogoutRounded';
+import MenuRounded from '@mui/icons-material/MenuRounded';
 import Popper from '@mui/material/Popper';
 import Grow from '@mui/material/Grow';
 import Grid from '@mui/material/Grid';
@@ -23,24 +28,74 @@ import DefaultNavbarDropdown from 'examples/navbars/DefaultNavbar/DefaultNavbarD
 import DefaultNavbarMobile from 'examples/navbars/DefaultNavbar/DefaultNavbarMobile';
 
 import breakpoints from 'assets/theme/base/breakpoints';
-import Typography from 'components/ThisTypography';
+import logoImage from 'assets/images/logos/logo.png';
 
-const GradientIcon = styled(Icon)`
-  position: relative;
-  top: 5px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #ffffff 30%, #ff0000 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-`;
+const LogoImage = styled('img')({
+  display: 'block',
+  height: '40px',
+  width: 'auto',
+  transform: 'scale(3)',
+  transformOrigin: 'left center',
+  transition: `transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.6s ease`,
+  '&:hover': {
+    transform: 'scale(3.3)',
+    animation: 'logoFocus 0.7s ease-out both',
+  },
+  '@keyframes logoFocus': {
+    '0%': { filter: 'blur(0px)' },
+    '35%': { filter: 'blur(3px)' },
+    '100%': { filter: 'blur(0px)' },
+  },
+  '@media (max-width: 600px)': {
+    height: '32px',
+    transform: 'scale(2.4)',
+    '&:hover': {
+      transform: 'scale(2.4)',
+    },
+  },
+});
 
-const GradientTypography = styled(Typography)`
-  background: linear-gradient(40deg, #ffffff 30%, #ff0000 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  width: fit-content;
-`;
+const AUTH_BUTTON_STYLE = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '8px',
+  padding: '8px 20px',
+  color: '#ffffff',
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  letterSpacing: '0.08em',
+  textDecoration: 'none',
+  textTransform: 'uppercase',
+  cursor: 'pointer',
+  backgroundColor: 'rgba(255, 255, 255, 0.06)',
+  border: '1px solid rgba(255, 255, 255, 0.35)',
+  borderRadius: '999px',
+  backdropFilter: 'blur(8px)',
+  WebkitBackdropFilter: 'blur(8px)',
+  transition:
+    'background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease',
+  '& svg': {
+    transition: 'transform 0.3s ease',
+  },
+  '&:hover': {
+    backgroundColor: '#d40000',
+    borderColor: '#d40000',
+    transform: 'translateY(-2px)',
+    '& svg': {
+      transform: 'translateX(3px)',
+    },
+  },
+  '@media (max-width: 600px)': {
+    padding: '8px 12px',
+    '& span': {
+      display: 'none',
+    },
+  },
+};
+
+const AuthLink = styled(Link)(AUTH_BUTTON_STYLE);
+const AuthButton = styled('button')(AUTH_BUTTON_STYLE);
 
 function DefaultNavbar({
   brand,
@@ -282,16 +337,14 @@ function DefaultNavbar({
                 item.name
               )}
               {item.collapse && (
-                <Icon
+                <KeyboardArrowRightRounded
                   fontSize="small"
                   sx={{
                     fontWeight: 'normal',
                     verticalAlign: 'middle',
                     mr: -0.5,
                   }}
-                >
-                  keyboard_arrow_right
-                </Icon>
+                />
               )}
             </CUTypography>
           );
@@ -337,9 +390,7 @@ function DefaultNavbar({
         >
           <ThisBox borderRadius="lg">
             <CUTypography variant="h1" color="white">
-              <Icon ref={setArrowRef} sx={{ mt: -3 }}>
-                arrow_drop_up
-              </Icon>
+              <ArrowDropUpRounded ref={setArrowRef} sx={{ mt: -3 }} />
             </CUTypography>
             <ThisBox shadow="lg" borderRadius="lg" p={2} mt={2}>
               {renderRoutes}
@@ -420,16 +471,14 @@ function DefaultNavbar({
                       item.name
                     )}
                     {item.collapse && (
-                      <Icon
+                      <KeyboardArrowRightRounded
                         fontSize="small"
                         sx={{
                           fontWeight: 'normal',
                           verticalAlign: 'middle',
                           mr: -0.5,
                         }}
-                      >
-                        keyboard_arrow_right
-                      </Icon>
+                      />
                     )}
                   </CUTypography>
                 );
@@ -512,13 +561,7 @@ function DefaultNavbar({
             py={transparent ? 1.5 : 0.75}
             pl={relative || transparent ? 0 : { xs: 0, lg: 1 }}
           >
-            <CUTypography
-              variant="button"
-              fontWeight="bold"
-              color={light ? 'white' : 'dark'}
-            >
-              {brand}
-            </CUTypography>
+            <LogoImage src={logoImage} alt={brand} />
           </ThisBox>
           <ThisBox
             color="inherit"
@@ -571,33 +614,48 @@ function DefaultNavbar({
               }}
             >
               {!tokenValid ? (
-                <Link to="/Registration" style={{ textDecoration: 'none' }}>
-                  <GradientIcon>lock_open</GradientIcon>
-                </Link>
+                <AuthLink to="/Registration" aria-label="Open registration">
+                  <LoginRounded fontSize="small" />
+                  <span>Sign In</span>
+                </AuthLink>
               ) : (
-                <GradientTypography
-                  onClick={handleLogout}
-                  sx={{
-                    color: '#d4af37',
-                    fontSize: '0.875rem',
-                    cursor: 'pointer',
-                  }}
-                >
-                  Log Out
-                </GradientTypography>
+                <AuthButton type="button" onClick={handleLogout}>
+                  <LogoutRounded fontSize="small" />
+                  <span>Log Out</span>
+                </AuthButton>
               )}
             </ThisBox>
           </ThisBox>
           <ThisBox
+            component="button"
+            type="button"
+            aria-label={
+              mobileNavbar ? 'Close navigation menu' : 'Open navigation menu'
+            }
+            aria-expanded={mobileNavbar}
             display={{ xs: 'inline-block', lg: 'none' }}
             lineHeight={0}
-            py={1.5}
-            pl={1.5}
             color={transparent ? 'white' : 'inherit'}
-            sx={{ cursor: 'pointer' }}
+            sx={{
+              cursor: 'pointer',
+              border: 'none',
+              backgroundColor: 'transparent',
+              outline: 'none',
+              borderRadius: '50%',
+              p: 1.25,
+              ml: 0.5,
+              transition: 'background-color 0.3s ease',
+              '&:hover': {
+                backgroundColor: 'rgba(255, 255, 255, 0.12)',
+              },
+              '&:focus-visible': {
+                outline: '2px solid rgba(255, 255, 255, 0.6)',
+                outlineOffset: '2px',
+              },
+            }}
             onClick={openMobileNavbar}
           >
-            <Icon fontSize="default">{mobileNavbar ? 'close' : 'menu'}</Icon>
+            {mobileNavbar ? <CloseRounded /> : <MenuRounded />}
           </ThisBox>
         </ThisBox>
         <ThisBox

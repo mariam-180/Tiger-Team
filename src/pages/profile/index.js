@@ -110,13 +110,11 @@ function Profile() {
 
         const reservationsData = reservationsResponse.data;
 
-        if (!reservationsData || reservationsData.length === 0) {
-          throw new Error('No reservations found');
-        }
-
-        setReservations(reservationsData);
+        setReservations(reservationsData || []);
       } catch (error) {
-        console.error('Error fetching reservations data:', error);
+        if (error.response?.status !== 404) {
+          console.error('Error fetching reservations data:', error);
+        }
       }
 
       try {
@@ -129,13 +127,11 @@ function Profile() {
 
         const eventsData = eventsResponse.data;
 
-        if (!eventsData || eventsData.length === 0) {
-          throw new Error('No events found');
-        }
-
-        setEvents(eventsData);
+        setEvents(eventsData || {});
       } catch (error) {
-        console.error('Error fetching events data:', error);
+        if (error.response?.status !== 404) {
+          console.error('Error fetching events data:', error);
+        }
       }
 
       try {
@@ -149,7 +145,9 @@ function Profile() {
 
         setOrders(ordersData);
       } catch (error) {
-        console.error('Error fetching orders. Please try again.', 'error');
+        if (error.response?.status !== 404) {
+          console.error('Error fetching orders. Please try again.', error);
+        }
       }
     } catch (error) {
       console.error('Error fetching user data:', error);

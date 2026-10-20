@@ -9,26 +9,57 @@ import 'video.js/dist/video-js.css';
 function Live() {
   const playerRef = useRef(null);
   const [errorMessage, setErrorMessage] = useState('');
-
-  const videoJsOptions = {
-    autoplay: true,
-    controls: true,
-    responsive: true,
-    fluid: true,
-    playsInline: true,
-    muted: true,
-    sources: [
-      {
-        src: 'https://tigers-team.com/hls/low/OBS_Stream.m3u8',
-        type: 'application/x-mpegURL',
-      },
-    ],
-  };
+  const [streamAvailable, setStreamAvailable] = useState(false);
+  const [streamChecked, setStreamChecked] = useState(false);
 
   useEffect(() => {
-    const player = playerRef.current
-      ? videojs(playerRef.current, videoJsOptions, () => {})
-      : null;
+    let cancelled = false;
+
+    fetch('/srs-api/api/v1/streams/')
+      .then((response) => (response.ok ? response.json() : { streams: [] }))
+      .then((data) => {
+        const available = (data.streams || []).some(
+          (stream) =>
+            stream.name === 'OBS_Stream' || stream.name === 'live/OBS_Stream',
+        );
+        if (!cancelled) {
+          setStreamAvailable(available);
+          setStreamChecked(true);
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setStreamAvailable(false);
+          setStreamChecked(true);
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!streamAvailable || !playerRef.current) return undefined;
+
+    const player = videojs(
+      playerRef.current,
+      {
+        autoplay: true,
+        controls: true,
+        responsive: true,
+        fluid: true,
+        playsInline: true,
+        muted: true,
+        sources: [
+          {
+            src: process.env.REACT_APP_STREAM_HLS_URL,
+            type: 'application/x-mpegURL',
+          },
+        ],
+      },
+      () => {},
+    );
 
     if (player) {
       player.on('error', () => {
@@ -40,11 +71,9 @@ function Live() {
     }
 
     return () => {
-      if (player) {
-        player.dispose();
-      }
+      player.dispose();
     };
-  }, [videoJsOptions]);
+  }, [streamAvailable]);
 
   return (
     <Grid
@@ -89,7 +118,7 @@ function Live() {
           zIndex: 200,
         }}
       >
-        {errorMessage ? (
+        {errorMessage || (streamChecked && !streamAvailable) ? (
           <Box
             display="flex"
             justifyContent="center"
@@ -116,13 +145,17 @@ function Live() {
                 maxWidth: '550px',
               }}
             >
-              {errorMessage}
+              {errorMessage || 'No live streaming at this moment'}
             </Box>
           </Box>
-        ) : (
+        ) : streamAvailable ? (
           <div data-vjs-player>
             <video ref={playerRef} className="video-js vjs-big-play-centered" />
           </div>
+        ) : (
+          <Box color="#fff" fontSize="20px">
+            Checking live stream…
+          </Box>
         )}
       </Box>
       <Box width="100%" height="30vh" />

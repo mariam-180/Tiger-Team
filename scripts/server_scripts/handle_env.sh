@@ -13,8 +13,8 @@ ENV_FILE=".env"
 
 # Define hostnames for each environment
 HOST_NON_PROD="http://localhost:8081"
-HOST_STAGE="http://64.23.173.16/api"
-HOST_PROD="https://www.tigers-team.com/api"
+HOST_STAGE="${HOST_STAGE:-https://staging.example.com/api}"
+HOST_PROD="${HOST_PROD:-https://www.example.com/api}"
 
 # Common configuration values (without hostname)
 CONFIG_KEYS=(
@@ -79,10 +79,10 @@ CONFIG_VALUES=(
     "/reports/"
     "/"
     "/stream/"
-    "Tigers@20\$24"
-    "https://www.tigers-team.com/access/reports/"
-    "admin"
-    "Tiger@Team@20-0-4"
+    "${REACT_APP_STREAM_PASSWORD:-change-me-stream-password}"
+    "${REACT_APP_ADMIN_REPORTS_URL:-https://www.example.com/access/reports/}"
+    "${REACT_APP_ADMIN_USERNAME:-configure-admin-username}"
+    "${REACT_APP_ADMIN_PASSWORD:-change-me-admin-password}"
     "/products/"
     "/products/"
     "/products/category/"

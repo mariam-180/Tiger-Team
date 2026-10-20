@@ -36,7 +36,7 @@ const animationOptions = [
 
 function ScrollAnimation({ children, animation, duration, delay }) {
   useEffect(() => {
-    AOS.init({ duration });
+    AOS.init({ duration, once: true, offset: 40 });
   }, [duration, delay]);
 
   return (
@@ -55,7 +55,7 @@ ScrollAnimation.propTypes = {
 
 ScrollAnimation.defaultProps = {
   animation: 'fade-up',
-  duration: 1500,
+  duration: 450,
   delay: 0,
 };
 

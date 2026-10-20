@@ -73,6 +73,7 @@ function EventRegistrations() {
     try {
       const REGISTRATION_ENDPOINT = new URL(
         process.env.REACT_APP_REGISTRATION_FORM_ENDPOINT,
+        window.location.origin,
       );
 
       if (selectedEvent) {

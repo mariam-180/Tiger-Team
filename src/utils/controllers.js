@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 const CONTROLLERS_ENDPOINT = process.env.REACT_APP_CONTROLLERS_ENDPOINT;
+let controllersRequest;
 
 /**
  * Fetch all controllers.
@@ -8,13 +9,18 @@ const CONTROLLERS_ENDPOINT = process.env.REACT_APP_CONTROLLERS_ENDPOINT;
  * @return {Promise<Array>} - A promise that resolves to an array of controllers.
  */
 export const fetchControllers = async () => {
-  try {
-    const response = await axios.get(CONTROLLERS_ENDPOINT);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching controllers:', error);
-    throw new Error('Failed to fetch controllers.');
-  }
+  if (controllersRequest) return controllersRequest;
+
+  controllersRequest = axios
+    .get(CONTROLLERS_ENDPOINT)
+    .then((response) => response.data)
+    .catch((error) => {
+      controllersRequest = null;
+      console.error('Error fetching controllers:', error);
+      throw new Error('Failed to fetch controllers.');
+    });
+
+  return controllersRequest;
 };
 
 /**

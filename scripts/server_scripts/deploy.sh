@@ -3,6 +3,9 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
+SERVER="${SERVER:?Set SERVER to the deployment SSH target}"
+REMOTE_DIR="${REMOTE_DIR:-/var/www/html/TigersTeamReact}"
+
 # Build the React application
 echo "Building the React application..."
 if npm run build; then
@@ -23,8 +26,8 @@ fi
 
 # Navigate to the server directory and pull the latest changes
 echo "Navigating to the server directory and pulling the latest changes..."
-if ssh root@64.23.173.16 << 'EOF'
-    cd /var/www/html/TigersTeamReact
+if ssh "$SERVER" << EOF
+    cd "$REMOTE_DIR"
 
     # Configure the git pull strategy to use rebase by default
     git config pull.rebase true
@@ -46,7 +49,7 @@ fi
 
 # Remove existing build directory on the server
 echo "Removing existing build directory on the server..."
-if ssh root@64.23.173.16 'rm -rf /var/www/html/TigersTeamReact/build'; then
+if ssh "$SERVER" "rm -rf '$REMOTE_DIR/build'"; then
     echo "Removed existing build directory successfully."
 else
     echo "Failed to remove existing build directory." >&2
@@ -55,7 +58,7 @@ fi
 
 # Copy the zipped build file to the server
 echo "Copying zipped build file to the server..."
-if scp build.zip root@64.23.173.16:/var/www/html/TigersTeamReact/; then
+if scp build.zip "$SERVER:$REMOTE_DIR/"; then
     echo "Copied zipped build file to the server successfully."
 else
     echo "Failed to copy zipped build file to the server." >&2
@@ -64,7 +67,7 @@ fi
 
 # Unzip the build file on the server
 echo "Unzipping build file on the server..."
-if ssh root@64.23.173.16 'unzip /var/www/html/TigersTeamReact/build.zip -d /var/www/html/TigersTeamReact/'; then
+if ssh "$SERVER" "unzip '$REMOTE_DIR/build.zip' -d '$REMOTE_DIR/'"; then
     echo "Build file unzipped successfully on the server."
 else
     echo "Failed to unzip build file on the server." >&2
@@ -73,7 +76,7 @@ fi
 
 # Remove the zip file from the server
 echo "Removing zip file from the server..."
-if ssh root@64.23.173.16 'rm /var/www/html/TigersTeamReact/build.zip'; then
+if ssh "$SERVER" "rm '$REMOTE_DIR/build.zip'"; then
     echo "Zip file removed from the server successfully."
 else
     echo "Failed to remove zip file from the server." >&2
@@ -91,7 +94,7 @@ fi
 
 # Reload Nginx on the server
 echo "Reloading Nginx on the server..."
-if ssh root@64.23.173.16 'sudo systemctl reload nginx'; then
+if ssh "$SERVER" 'sudo systemctl reload nginx'; then
     echo "Nginx reloaded successfully."
 else
     echo "Failed to reload Nginx." >&2

@@ -7,6 +7,7 @@ import {
   ShoppingCart,
   Store,
   Settings,
+  Videocam,
 } from '@mui/icons-material';
 import RoleBasedPrivateRoute from 'roleBasedPrivateRoute';
 
@@ -18,6 +19,7 @@ import AdminReservation from 'layouts/pages/admin/reservation';
 import AdminOrders from 'layouts/pages/admin/orders';
 import AdminProducts from 'layouts/pages/admin/products';
 import AdminControllers from 'layouts/pages/admin/controllers';
+import AdminStreaming from 'layouts/pages/admin/streaming';
 
 const adminRoutes = [
   {
@@ -105,6 +107,17 @@ const adminRoutes = [
     ),
     requiredRole: 'SUPER_USER',
   },
+  {
+    name: 'Streaming',
+    route: '/admin/streaming',
+    component: (
+      <RoleBasedPrivateRoute
+        element={<AdminStreaming />}
+        requiredRole="EMPLOYEE_USER"
+      />
+    ),
+    requiredRole: 'EMPLOYEE_USER',
+  },
 ];
 
 const sections = [
@@ -149,6 +162,13 @@ const sections = [
     color: '#3f51b5',
     component: <AdminControllers />,
     route: '/admin/controllers',
+  },
+  {
+    title: 'Streaming',
+    icon: <Videocam />,
+    color: '#00897b',
+    component: <AdminStreaming />,
+    route: '/admin/streaming',
   },
   {
     title: 'Reports',

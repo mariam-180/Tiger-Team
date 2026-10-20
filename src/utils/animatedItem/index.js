@@ -3,16 +3,17 @@ import PropTypes from 'prop-types';
 import { useInView } from 'react-intersection-observer';
 import { makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     opacity: 0,
-    // transform: 'translatey(20px)',
+    transform: 'translateY(40px)',
     transition: ({ delay }) =>
-      `opacity 1.8s ease-out ${delay}s, transform 1.2s ease-out ${delay}s`,
+      `opacity 1s ease-out ${delay}s, transform 1s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`,
+    willChange: 'opacity, transform',
   },
   visible: {
     opacity: 1,
-    // transform: 'translatey(0)',
+    transform: 'translateY(0)',
   },
 }));
 

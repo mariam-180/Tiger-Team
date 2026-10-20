@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const ResponsiveVideo = ({ videoSrc, ismuted, iscontrolled, isslider }) => {
+  const isImage = /\.(avif|gif|jpe?g|png|webp)$/i.test(videoSrc);
   return (
     <Box
       sx={{
@@ -11,24 +12,39 @@ const ResponsiveVideo = ({ videoSrc, ismuted, iscontrolled, isslider }) => {
         position: 'relative',
       }}
     >
-      <video
-        id="ResponsiveVideo"
-        src={videoSrc}
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          border: 'none',
-          background: '#000000',
-        }}
-        muted={ismuted}
-        autoPlay={isslider ? true : ismuted}
-        loop
-        playsInline
-        controls={iscontrolled ? true : false}
-      />
+      {isImage ? (
+        <img
+          src={videoSrc}
+          alt="Tigers Team racing"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      ) : (
+        <video
+          id="ResponsiveVideo"
+          src={videoSrc}
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            border: 'none',
+            background: '#000000',
+          }}
+          muted={ismuted}
+          autoPlay={isslider ? true : ismuted}
+          loop
+          playsInline
+          controls={iscontrolled ? true : false}
+        />
+      )}
     </Box>
   );
 };

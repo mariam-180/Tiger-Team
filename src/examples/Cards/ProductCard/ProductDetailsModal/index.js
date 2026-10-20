@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Modal,
@@ -11,27 +11,8 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 
 import ShoppingCartOutlined from '@mui/icons-material/AddShoppingCartTwoTone';
-import {
-  disableBodyScroll,
-  enableBodyScroll,
-  clearAllBodyScrollLocks,
-} from 'body-scroll-lock';
 
 const ProductDetailsModal = ({ open, onClose, product, onAddToCart }) => {
-  useEffect(() => {
-    const modalElement = document.querySelector('#modal-element');
-
-    if (open) {
-      disableBodyScroll(modalElement);
-    } else {
-      enableBodyScroll(modalElement);
-    }
-
-    return () => {
-      clearAllBodyScrollLocks();
-    };
-  }, [open]);
-
   if (!open) return null;
 
   return (

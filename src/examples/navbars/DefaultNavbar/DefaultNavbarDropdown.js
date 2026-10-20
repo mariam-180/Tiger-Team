@@ -2,61 +2,62 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import Collapse from '@mui/material/Collapse';
-import Icon from '@mui/material/Icon';
+import KeyboardArrowDownRounded from '@mui/icons-material/KeyboardArrowDownRounded';
 import ThisBox from 'components/ThisBox';
 import ThisTypography from 'components/ThisTypography';
 import { styled } from '@mui/material/styles';
 
-const GradientIcon = styled(Icon)`
-  position: relative;
-  top: 5px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #ffffff 30%, #ff0000 50%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  &:hover {
-    background: linear-gradient(45deg, #ff0000 30%, #ffffff 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
+const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
 
-  &:active {
-    background: linear-gradient(45deg, #ff0000 30%, #ffffff 50%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-`;
+const ArrowIcon = styled(KeyboardArrowDownRounded, {
+  shouldForwardProp: (prop) => prop !== 'isopen',
+})(({ isopen }) => ({
+  color: 'rgba(255, 255, 255, 0.7)',
+  transform: isopen ? 'rotate(180deg)' : 'rotate(0deg)',
+  transition: `transform 0.4s ${EASING}, color 0.3s ease`,
+}));
 
 const ActiveTypography = styled(ThisTypography, {
   shouldForwardProp: (prop) => prop !== 'isactive',
-})(({ theme }) => ({
+})({
+  position: 'relative',
   textAlign: 'center',
   color: '#ffffff',
-  transition: 'all 0.3s ease-in-out',
-  transform: 'none',
-  [theme.breakpoints.down('lg')]: {
-    borderRadius: '20px 0 0 20px',
+  letterSpacing: '0.06em',
+  transition: 'color 0.3s ease',
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    right: 0,
+    bottom: '-6px',
+    left: 0,
+    height: '2px',
+    backgroundColor: '#ff0000',
+    transformOrigin: 'left',
+    transform: 'scaleX(0)',
+    transition: `transform 0.4s ${EASING}`,
   },
-}));
+});
 
 const ActiveBox = styled(ThisBox, {
   shouldForwardProp: (prop) => prop !== 'isactive',
-})(({ theme }) => ({
-  mx: theme.spacing(1),
-  p: theme.spacing(1),
+})(({ isactive }) => ({
   alignItems: 'center',
   cursor: 'pointer',
   color: 'inherit',
   backgroundColor: 'transparent',
   boxShadow: 'none',
-  borderRadius: '20px 20px 0 0',
   transition: 'all 0.3s',
-  '&:hover': {
-    // backgroundColor: theme.palette.darkGold.main,
-    backgroundColor: theme.palette.darkRed.main,
+  '& .MuiTypography-root:first-of-type::after': {
+    transform: isactive ? 'scaleX(1)' : 'scaleX(0)',
   },
-  [theme.breakpoints.down('lg')]: {
-    borderRadius: '20px 0 0 20px',
+  '&:hover': {
+    '& .MuiTypography-root:first-of-type::after': {
+      transform: 'scaleX(1)',
+    },
+    '& svg': {
+      color: '#ffffff',
+    },
   },
 }));
 
@@ -113,7 +114,7 @@ function DefaultNavbarDropdown({
           fontWeight="regular"
           textTransform="capitalize"
           color={light ? 'white' : 'dark'}
-          sx={{ fontWeight: '100%', ml: { md: 1, lg: 3 }, mr: 0.25 }}
+          sx={{ ml: { md: 1, lg: 3 }, mr: 0.25 }}
           isactive={isactive ? 1 : 0}
         >
           {name}
@@ -123,15 +124,10 @@ function DefaultNavbarDropdown({
           color={light ? 'white' : 'dark'}
           ml="auto"
         >
-          <GradientIcon
-            sx={{
-              fontWeight: 'normal',
-              verticalAlign: 'middle',
-              color: '#d4af37',
-            }}
-          >
-            {collapse && 'keyboard_arrow_down'}
-          </GradientIcon>
+          <ArrowIcon
+            isopen={collapseStatus ? 1 : 0}
+            sx={{ verticalAlign: 'middle' }}
+          />
         </ThisTypography>
       </ActiveBox>
       {children && (

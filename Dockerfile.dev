@@ -1,0 +1,17 @@
+FROM node:20-slim
+
+WORKDIR /app
+
+# Install deps first (layer caching)
+COPY package.json package-lock.json* ./
+RUN npm ci --legacy-peer-deps || npm install --legacy-peer-deps
+
+
+# Copy the rest of the repo (scripts, src, etc.)
+COPY . .
+
+EXPOSE 3000
+
+# Generate Non-Prod .env inside the container, then start CRA
+CMD ["sh", "-c", "./scripts/server_scripts/handle_env.sh Non-Prod && npm start"]
+

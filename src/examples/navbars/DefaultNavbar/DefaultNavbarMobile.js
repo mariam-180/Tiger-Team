@@ -8,6 +8,40 @@ import ThisTypography from 'components/ThisTypography';
 // eslint-disable-next-line max-len
 import DefaultNavbarDropdown from 'examples/navbars/DefaultNavbar/DefaultNavbarDropdown';
 
+const PANEL_STYLE = {
+  mt: 1,
+  mb: 2,
+  px: { xs: 1.5, sm: 3 },
+  py: 1,
+  maxHeight: 'calc(100dvh - 120px)',
+  overflowY: 'auto',
+  backgroundColor: 'rgba(6, 7, 8, 0.92)',
+  border: '1px solid rgba(255, 255, 255, 0.1)',
+  borderRadius: '16px',
+  backdropFilter: 'blur(16px)',
+  WebkitBackdropFilter: 'blur(16px)',
+  '& > a': {
+    minHeight: '48px',
+    borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+  },
+  '& > a:last-of-type': {
+    borderBottom: 'none',
+  },
+};
+
+const SUB_ITEM_HOVER = {
+  borderRadius: '8px',
+  cursor: 'pointer',
+  transition: 'all 300ms linear',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    color: '#ffffff',
+    '& *': {
+      color: '#ffffff',
+    },
+  },
+};
+
 function DefaultNavbarMobile({ routes, open }) {
   const [collapse, setCollapse] = useState('');
 
@@ -48,6 +82,7 @@ function DefaultNavbarMobile({ routes, open }) {
                       variant="button"
                       fontWeight="bold"
                       textTransform="capitalize"
+                      color="white"
                       py={1}
                       px={0.5}
                     >
@@ -60,27 +95,15 @@ function DefaultNavbarMobile({ routes, open }) {
                         to={el.route || ''}
                         href={el.href || ''}
                         target={el.href ? '_blank' : ''}
-                        rel={el.href ? 'noreferrer' : 'noreferrer'}
-                        minWidth="11.25rem"
+                        rel="noreferrer"
                         display="block"
                         variant="button"
-                        color="text"
+                        color="white"
                         textTransform="capitalize"
                         fontWeight="regular"
                         py={0.625}
                         px={2}
-                        sx={({
-                          palette: { grey, dark },
-                          borders: { borderRadius },
-                        }) => ({
-                          borderRadius: borderRadius.md,
-                          cursor: 'pointer',
-                          transition: 'all 300ms linear',
-                          '&:hover': {
-                            backgroundColor: grey[200],
-                            color: dark.main,
-                          },
-                        })}
+                        sx={SUB_ITEM_HOVER}
                       >
                         {el.name}
                       </ThisTypography>
@@ -94,42 +117,26 @@ function DefaultNavbarMobile({ routes, open }) {
                     to={item.route || ''}
                     href={item.href || ''}
                     target={item.href ? '_blank' : ''}
-                    rel={item.href ? 'noreferrer' : 'noreferrer'}
-                    sx={({
-                      palette: { grey, dark },
-                      borders: { borderRadius },
-                    }) => ({
-                      borderRadius: borderRadius.md,
-                      cursor: 'pointer',
-                      transition: 'all 300ms linear',
-                      py: 1,
-                      px: 1.625,
-                      '&:hover': {
-                        backgroundColor: grey[200],
-                        color: dark.main,
-                        '& *': {
-                          color: dark.main,
-                        },
-                      },
-                    })}
+                    rel="noreferrer"
+                    sx={{ ...SUB_ITEM_HOVER, py: 1, px: 1.625 }}
                   >
                     <ThisTypography
                       display="block"
                       variant="button"
                       fontWeight="bold"
                       textTransform="capitalize"
-                      sx={{
-                        color: '#808080',
-                      }}
+                      color="white"
                     >
                       {item.name}
                     </ThisTypography>
                     <ThisTypography
                       display="block"
                       variant="button"
-                      color="text"
                       fontWeight="regular"
-                      sx={{ transition: 'all 300ms linear' }}
+                      sx={{
+                        color: 'rgba(255, 255, 255, 0.7)',
+                        transition: 'all 300ms linear',
+                      }}
                     >
                       {item.description}
                     </ThisTypography>
@@ -144,9 +151,7 @@ function DefaultNavbarMobile({ routes, open }) {
 
   return (
     <Collapse in={Boolean(open)} timeout="auto" unmountOnExit>
-      <ThisBox width="calc(100% + 1.625rem)" my={2} ml={-2}>
-        {renderNavbarItems}
-      </ThisBox>
+      <ThisBox sx={PANEL_STYLE}>{renderNavbarItems}</ThisBox>
     </Collapse>
   );
 }

@@ -43,23 +43,39 @@ const VideoBackgroundContainer = ({
   videoURL,
   registration = false,
 }) => {
+  const isImage = /\.(avif|gif|jpe?g|png|webp)$/i.test(videoURL);
   return (
     <StyledContainer>
-      <video
-        autoPlay={true}
-        playsInline
-        muted
-        loop
-        style={
-          registration
-            ? { objectFit: 'cover', width: '100%' }
-            : { objectFit: 'cover', width: '100%', height: '140%' }
-        }
-        controls={false}
-      >
-        <source src={videoURL} type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
+      {isImage ? (
+        <Box
+          component="img"
+          src={videoURL}
+          alt="Tigers Team background"
+          sx={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      ) : (
+        <video
+          autoPlay={true}
+          playsInline
+          muted
+          loop
+          style={
+            registration
+              ? { objectFit: 'cover', width: '100%' }
+              : { objectFit: 'cover', width: '100%', height: '140%' }
+          }
+          controls={false}
+        >
+          <source src={videoURL} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
       <Box position="absolute" zIndex="1" color="black" p={4}>
         {children}
       </Box>

@@ -9,6 +9,8 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import axios from 'axios';
 import { useSnackbar } from 'context/SnackbarContext';
+import cartFallbackImage from 'assets/images/BUNDLES/1/R3-Racing-Wheel-and-Pedals-2.webp';
+import { getProductImageUrl } from 'utils/productImage';
 
 function getPrice(price) {
   if (typeof price === 'string') {
@@ -73,7 +75,7 @@ function CartModal({
         onClose();
       }
     } catch (error) {
-      if (error.response.status === 507) {
+      if (error.response?.status === 507) {
         showSnackbar('Insufficient stock available!', 'error');
         onClose();
       } else {
@@ -158,8 +160,12 @@ function CartModal({
               <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                 <Box
                   component="img"
-                  src={item.img_url}
+                  src={getProductImageUrl(item.img_url, cartFallbackImage)}
                   alt={item.name}
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src = cartFallbackImage;
+                  }}
                   sx={{ width: 50, height: 50, borderRadius: '8px', mr: 2 }}
                 />
                 <Box sx={{ flexGrow: 1 }}>

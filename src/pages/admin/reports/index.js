@@ -1,25 +1,34 @@
-import { useEffect } from 'react';
+import React from 'react';
+import { Box, Button, Typography } from '@mui/material';
 
 const AdminPage = () => {
-  useEffect(() => {
-    const openNewTab = () => {
-      const endpointUrl = process.env.REACT_APP_ADMIN_REPORTS_URL;
-      const username = process.env.REACT_APP_ADMIN_USERNAME;
-      const password = process.env.REACT_APP_ADMIN_PASSWORD;
+  const endpointUrl = process.env.REACT_APP_ADMIN_REPORTS_URL;
 
-      const headers = new Headers();
-      headers.set('Authorization', 'Basic ' + btoa(username + ':' + password));
-
-      const newTab = window.open(endpointUrl, '_blank');
-      newTab.focus();
-
-      window.location.href = '/';
-    };
-
-    openNewTab();
-  }, []);
-
-  return null;
+  return (
+    <Box sx={{ p: 4, minHeight: '60vh', color: 'white' }}>
+      <Typography variant="h1" sx={{ fontSize: '2rem', mb: 2 }}>
+        Reports
+      </Typography>
+      <Typography sx={{ mb: 3 }}>
+        Review operational reports and traffic analytics for Tigers Team.
+      </Typography>
+      {endpointUrl ? (
+        <Button
+          component="a"
+          href={endpointUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          variant="contained"
+        >
+          Open reports
+        </Button>
+      ) : (
+        <Typography color="text.secondary">
+          The external reporting service is not configured in this environment.
+        </Typography>
+      )}
+    </Box>
+  );
 };
 
 export default AdminPage;
