@@ -132,6 +132,15 @@ const Content = styled(Box)(({ theme }) => ({
   },
 }));
 
+const TitleSlot = styled(Box)({
+  display: 'flex',
+  alignItems: 'flex-end',
+  justifyContent: 'center',
+  boxSizing: 'border-box',
+  width: '100%',
+  minHeight: 'calc(2 * 1.05 * clamp(2rem, 7.5vw, 5.5rem))',
+});
+
 const ScoreBoard = styled(Box)(({ theme }) => ({
   position: 'relative',
   display: 'flex',
@@ -158,8 +167,9 @@ const ScoreBoard = styled(Box)(({ theme }) => ({
       'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.9), transparent)',
     animation: `${slideLine} 3.5s linear infinite`,
   },
-  [theme.breakpoints.down('sm')]: {
-    flexWrap: 'wrap',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    maxWidth: '420px',
   },
   [REDUCED_MOTION_QUERY]: {
     '&::after': {
@@ -179,9 +189,15 @@ const BoardCell = styled(Box)(({ theme }) => ({
   '&:not(:last-of-type)': {
     borderRight: '1px solid rgba(255, 255, 255, 0.15)',
   },
-  [theme.breakpoints.down('sm')]: {
-    flex: '1 1 33%',
-    padding: theme.spacing(1.5, 1),
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: '0 0 auto',
+    padding: theme.spacing(1.25, 2.5),
+    '&:not(:last-of-type)': {
+      borderRight: 'none',
+      borderBottom: '1px solid rgba(255, 255, 255, 0.15)',
+    },
   },
 }));
 
@@ -193,15 +209,18 @@ const CellLabel = styled(Typography)({
   color: 'rgba(255, 255, 255, 0.55)',
 });
 
-const CellValue = styled(Typography)({
-  fontSize: 'clamp(1.4rem, 4vw, 2.4rem)',
+const CellValue = styled(Typography)(({ theme }) => ({
+  fontSize: 'clamp(1.2rem, 3.2vw, 2.2rem)',
   fontWeight: 800,
   lineHeight: 1.15,
   letterSpacing: '0.06em',
   textTransform: 'uppercase',
   fontVariantNumeric: 'tabular-nums',
   whiteSpace: 'nowrap',
-});
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.2rem',
+  },
+}));
 
 const LiveDot = styled('span')({
   display: 'inline-block',
@@ -320,21 +339,23 @@ const ChampionshipPreview = () => {
       {eventClosed && <ComingSoon />}
       {!eventClosed && (
         <Content>
-          <AnimatedTypingText
-            sx={{
-              fontSize: 'clamp(2rem, 7.5vw, 5.5rem)',
-              fontWeight: 900,
-              lineHeight: 1.05,
-              letterSpacing: '-0.01em',
-              textTransform: 'uppercase',
-              color: '#ffffff',
-              zIndex: 1,
-            }}
-            strings={['Get Ready for the Big Race!']}
-            backSpeed={25}
-            smartBackspace={true}
-            styled={true}
-          />
+          <TitleSlot>
+            <AnimatedTypingText
+              sx={{
+                fontSize: 'clamp(2rem, 7.5vw, 5.5rem)',
+                fontWeight: 900,
+                lineHeight: 1.05,
+                letterSpacing: '-0.01em',
+                textTransform: 'uppercase',
+                color: '#ffffff',
+                zIndex: 1,
+              }}
+              strings={['Get Ready for the Big Race!']}
+              backSpeed={25}
+              smartBackspace={true}
+              styled={true}
+            />
+          </TitleSlot>
           <Typography
             sx={{
               maxWidth: '640px',
