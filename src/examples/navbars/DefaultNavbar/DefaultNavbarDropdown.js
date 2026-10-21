@@ -119,16 +119,18 @@ function DefaultNavbarDropdown({
         >
           {name}
         </ActiveTypography>
-        <ThisTypography
-          variant="body2"
-          color={light ? 'white' : 'dark'}
-          ml="auto"
-        >
-          <ArrowIcon
-            isopen={collapseStatus ? 1 : 0}
-            sx={{ verticalAlign: 'middle' }}
-          />
-        </ThisTypography>
+        {collapse && (
+          <ThisTypography
+            variant="body2"
+            color={light ? 'white' : 'dark'}
+            ml="auto"
+          >
+            <ArrowIcon
+              isopen={collapseStatus ? 1 : 0}
+              sx={{ verticalAlign: 'middle' }}
+            />
+          </ThisTypography>
+        )}
       </ActiveBox>
       {children && (
         <Collapse in={Boolean(collapseStatus)} timeout={400} unmountOnExit>
