@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled, keyframes } from '@mui/material/styles';
 // import RegistrationFormDialog from 'examples/formSubmit';
 import ViaLogin from 'examples/formSubmit/viaLogin';
 
@@ -10,100 +10,104 @@ import {
   performActionsBasedOnControllers,
 } from 'utils/controllers';
 
-const FlexContainer = styled(Box)({
+const EASING = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const HOVER_QUERY = '@media (hover: hover)';
+const REDUCED_MOTION_QUERY = '@media (prefers-reduced-motion: reduce)';
+
+const growLine = keyframes`
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+`;
+
+const FlexContainer = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
+  alignItems: 'flex-start',
+  gap: theme.spacing(3),
+  color: '#ffffff',
+  [theme.breakpoints.down('sm')]: {
+    gap: theme.spacing(2),
+  },
+}));
+
+const Eyebrow = styled(Box)(({ theme }) => ({
+  display: 'flex',
   alignItems: 'center',
-  justifyContent: 'center',
-  margin: '0px -24px',
+  gap: theme.spacing(2),
+  '&::before': {
+    content: '""',
+    width: '40px',
+    height: '1px',
+    backgroundColor: '#ffffff',
+    transformOrigin: 'left',
+    animation: `${growLine} 1s ${EASING} 0.1s both`,
+  },
+  [REDUCED_MOTION_QUERY]: {
+    '&::before': {
+      animation: 'none',
+    },
+  },
+}));
+
+const Title = styled(Typography)({
+  fontSize: 'clamp(2rem, min(4.6vw, 8.5vh), 4.6rem)',
+  fontWeight: 900,
+  lineHeight: 1.02,
+  letterSpacing: '-0.02em',
+  textTransform: 'uppercase',
+  color: '#ffffff',
+  textShadow: '0 4px 24px rgba(0, 0, 0, 0.7)',
 });
 
-const Title = styled(Typography)(({ theme }) => ({
-  color: '#FFFFFF',
-  fontSize: '48px',
-  margin: '90px 0px 24px',
-  [theme.breakpoints.down('md')]: {
-    fontSize: '40px',
+const TitleLine = styled(Box)({
+  width: '72px',
+  height: '4px',
+  borderRadius: '2px',
+  backgroundColor: '#d40000',
+  transformOrigin: 'left',
+  animation: `${growLine} 1s ${EASING} 0.4s both`,
+  [REDUCED_MOTION_QUERY]: {
+    animation: 'none',
   },
-  [theme.breakpoints.down('sm')]: {
-    margin: '0px 0px 0px',
-    padding: '30px',
-  },
-}));
+});
 
-const Subtitle = styled(Typography)(({ theme }) => ({
-  color: '#FFFFFF',
-  fontSize: '32px',
-  margin: '0px 0px 24px',
-  [theme.breakpoints.down('md')]: {
-    fontSize: '26px',
-  },
-  [theme.breakpoints.down('sm')]: {
-    margin: '-25px 0px 0px',
-    padding: '15px',
-  },
-}));
-
-const BodyText = styled(Typography)(({ theme }) => ({
-  color: '#A5A5A5',
-  fontFamily: '"Nunito", sans-serif',
-  fontSize: '16px',
-  margin: '0px 0px 24px',
-  [theme.breakpoints.down('sm')]: {
-    margin: '-25px 0px 20px',
-    padding: '20px',
-  },
-}));
 const StyledRegisterButton = styled(Button)(({ theme }) => ({
-  background: 'linear-gradient(45deg, #000000 30%, #FF0000 90%)',
+  padding: theme.spacing(1.3, 5),
   color: '#ffffff',
-  padding: theme.spacing(1.5, 4),
   fontSize: '1rem',
   fontWeight: 600,
   textTransform: 'none',
-  boxShadow: '0 3px 5px 2px rgba(255, 105, 135, .3)',
-  borderRadius: '25px',
-  transition: 'background 0.5s ease, box-shadow 0.5s ease',
-  '&:hover': {
-    background: 'linear-gradient(45deg, #333333 30%, #666666 90%)',
-    boxShadow: '0 5px 7px 2px rgba(255, 105, 135, .4)',
+  backgroundColor: '#d40000',
+  borderRadius: '999px',
+  boxShadow: '0 8px 24px rgba(212, 0, 0, 0.35)',
+  transition: `background-color 0.3s ease, box-shadow 0.3s ease,
+    transform 0.3s ${EASING}`,
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1.1, 3.5),
+    fontSize: '0.92rem',
+  },
+  [HOVER_QUERY]: {
+    '&:hover': {
+      backgroundColor: '#ff1a1a',
+      boxShadow: '0 12px 30px rgba(255, 26, 26, 0.45)',
+      transform: 'translateY(-2px)',
+    },
   },
 }));
 
 const ClosedRegistrationMessage = styled(Typography)(({ theme }) => ({
-  color: '#A50000',
-  width: '80%',
+  padding: theme.spacing(1.5, 2.5),
   fontFamily: '"Nunito", sans-serif',
-  fontSize: '20px',
-  fontWeight: 'bold',
-  margin: '20px auto',
-  textAlign: 'center',
-  padding: theme.spacing(2),
-  background: 'rgba(200, 200, 200, 0.5)',
-  borderRadius: '15px',
-  boxShadow: '0 3px 5px rgba(0,0,0,0.2)',
-  backdropFilter: 'blur(10px)',
-  WebkitBackdropFilter: 'blur(10px)',
-  border: '1px solid rgba(255, 255, 255, 0.18)',
+  fontSize: 'clamp(0.88rem, 1.2vw, 1rem)',
+  fontWeight: 700,
+  lineHeight: 1.5,
+  color: '#ffffff',
+  background: 'rgba(255, 255, 255, 0.06)',
+  border: '1px solid rgba(255, 255, 255, 0.2)',
+  borderLeft: '4px solid #d40000',
+  borderRadius: '12px',
   [theme.breakpoints.down('sm')]: {
-    fontSize: '16px',
-    padding: theme.spacing(1.5),
-    margin: '15px 0px',
-  },
-  [theme.breakpoints.down('xs')]: {
-    fontSize: '14px',
-    padding: theme.spacing(1),
-    margin: '10px 0px',
-  },
-  [theme.breakpoints.up('md')]: {
-    fontSize: '18px',
-    padding: theme.spacing(2.5),
-    margin: '25px 0px',
-  },
-  [theme.breakpoints.up('lg')]: {
-    fontSize: '20px',
-    padding: theme.spacing(3),
-    margin: '30px 0px',
+    padding: theme.spacing(1.25, 2),
   },
 }));
 
@@ -142,32 +146,16 @@ const WelcomingEventPage = ({
 
   return (
     <FlexContainer>
-      <Title
-        variant="h1"
-        gutterBottom
-        textAlign="center"
-        maxWidth="550px"
-        textTransform="uppercase"
-      >
-        Tigers Team Champion League
-      </Title>
-      <Subtitle
-        variant="h2"
-        gutterBottom
-        textAlign="center"
-        maxWidth="450px"
-        textTransform="uppercase"
-      >
-        Gear Up for the Tigers Team Racing League
-      </Subtitle>
-      <BodyText
-        variant="body1"
-        gutterBottom
-        textAlign="center"
-        maxWidth="440px"
-      >
-        Experience racing like never before. Start your engines, join now!
-      </BodyText>
+      <Eyebrow>
+        <Typography
+          variant="overline"
+          sx={{ letterSpacing: '0.35em', color: 'rgba(255, 255, 255, 0.85)' }}
+        >
+          Championship
+        </Typography>
+      </Eyebrow>
+      <Title variant="h1">Tigers Team Champion League</Title>
+      <TitleLine />
       {isRegistrationOpen ? (
         <StyledRegisterButton
           variant="contained"

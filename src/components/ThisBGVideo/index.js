@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 
 const StyledContainer = styled(Box)({
   position: 'relative',
-  width: '100vw',
+  width: '100%',
   height: '100vh',
+  '@supports (height: 100dvh)': {
+    height: '100dvh',
+  },
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
@@ -27,14 +30,6 @@ const StyledContainer = styled(Box)({
     height: '100%',
     transform: 'translate(-50%, -50%)',
     filter: 'brightness(100%)',
-  },
-  '& video:after': {
-    content: '""',
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    top: 0,
-    left: 0,
   },
 });
 
@@ -76,7 +71,15 @@ const VideoBackgroundContainer = ({
           Your browser does not support the video tag.
         </video>
       )}
-      <Box position="absolute" zIndex="1" color="black" p={4}>
+      <Box
+        position="absolute"
+        zIndex="1"
+        color="black"
+        p={{ xs: 2, md: 4 }}
+        width="100%"
+        height="100%"
+        boxSizing="border-box"
+      >
         {children}
       </Box>
     </StyledContainer>

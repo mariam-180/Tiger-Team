@@ -1,77 +1,80 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { styled, keyframes } from '@mui/material/styles';
 import PropTypes from 'prop-types';
 
-const CountdownClock = ({ targetDate }) => {
-  const theme = useTheme();
-  const styles = {
-    clockContainer: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      position: 'absolute',
-      left: theme.spacing(5),
-      [theme.breakpoints.down('sm')]: {
-        width: '230px',
-        '& .MuiTypography-h1': {
-          fontSize: '2.0rem',
-        },
-      },
-      [theme.breakpoints.up('md')]: {
-        width: '280px',
-        '& .MuiTypography-h1': {
-          fontSize: '3.0rem',
-        },
-      },
-      [theme.breakpoints.up('lg')]: {
-        width: '380px',
-        '& .MuiTypography-h1': {
-          fontSize: '3.9rem',
-        },
-      },
-    },
-    clock: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'center',
-      alignItems: 'center',
-      background: 'linear-gradient(270deg, #4a0305, #1b1b1b)',
-      color: '#e4e4e4',
-      textShadow: '1px 1px 7px #0a0a0a',
-      borderRadius: '15px',
-      border: '2px solid #3a3a3a',
-      boxShadow: '0 0 10px 0px rgba(0, 0, 0, 0.5)',
-      animation: 'fadeIn 1s ease-out',
-    },
-    section: {
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: {
-        xs: theme.spacing(1),
-        sm: theme.spacing(1),
-        md: theme.spacing(1),
-        lg: theme.spacing(1),
-      },
-    },
-    number: {
-      fontSize: '4rem',
-      color: '#d53c3c',
-      lineHeight: 1,
-    },
-    label: {
-      fontSize: {
-        xs: '0.5rem',
-        sm: '0.5rem',
-        md: '0.6rem',
-        lg: '0.6rem',
-      },
-      textTransform: 'uppercase',
-      color: '#878787',
-      textShadow: 'none',
-    },
-  };
+const REDUCED_MOTION_QUERY = '@media (prefers-reduced-motion: reduce)';
 
+const pulse = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+`;
+
+const Board = styled(Box)({
+  width: '100%',
+  color: '#ffffff',
+});
+
+const Header = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: theme.spacing(1.5),
+  marginBottom: theme.spacing(1.5),
+  '&::before': {
+    content: '""',
+    width: '9px',
+    height: '9px',
+    borderRadius: '50%',
+    backgroundColor: '#ff0000',
+    animation: `${pulse} 1.6s ease-out infinite`,
+  },
+  [REDUCED_MOTION_QUERY]: {
+    '&::before': {
+      animation: 'none',
+    },
+  },
+}));
+
+const Cells = styled(Box)({
+  display: 'flex',
+  borderTop: '1px solid rgba(255, 255, 255, 0.3)',
+  borderBottom: '1px solid rgba(255, 255, 255, 0.3)',
+});
+
+const Cell = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flex: '1 1 0',
+  flexDirection: 'column',
+  alignItems: 'center',
+  minWidth: 0,
+  padding: theme.spacing(1.5, 0),
+  '&:not(:last-of-type)': {
+    borderRight: '1px solid rgba(255, 255, 255, 0.15)',
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: theme.spacing(1, 0),
+  },
+}));
+
+const Digits = styled(Typography)({
+  fontSize: 'clamp(1.9rem, min(3.4vw, 7vh), 3.4rem)',
+  fontWeight: 900,
+  lineHeight: 1,
+  color: 'transparent',
+  WebkitTextStroke: '2px rgba(255, 255, 255, 0.95)',
+  fontVariantNumeric: 'tabular-nums',
+});
+
+const Label = styled(Typography)({
+  fontSize: '0.65rem',
+  fontWeight: 700,
+  letterSpacing: '0.3em',
+  textTransform: 'uppercase',
+  color: 'rgba(255, 255, 255, 0.65)',
+});
+
+const CountdownClock = ({ targetDate }) => {
   const calculateTimeLeft = () => {
     const parts = targetDate.split('-');
     const year = parts[0];
@@ -119,20 +122,21 @@ const CountdownClock = ({ targetDate }) => {
   });
 
   return (
-    <Box sx={styles.clockContainer}>
-      <Box sx={styles.clock}>
+    <Board>
+      <Header>
+        <Label>Race starts in</Label>
+      </Header>
+      <Cells>
         {Object.keys(timeLeft).map((interval) => (
-          <Box key={interval} sx={styles.section}>
-            <Typography variant="h1" component="p" sx={styles.number}>
-              {timeLeft[interval]}
-            </Typography>
-            <Typography variant="caption" sx={styles.label}>
-              {interval}
-            </Typography>
-          </Box>
+          <Cell key={interval}>
+            <Digits component="p">
+              {String(timeLeft[interval]).padStart(2, '0')}
+            </Digits>
+            <Label>{interval}</Label>
+          </Cell>
         ))}
-      </Box>
-    </Box>
+      </Cells>
+    </Board>
   );
 };
 
