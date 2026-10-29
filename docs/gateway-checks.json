@@ -1,0 +1,31 @@
+{
+  "checks": [
+    "React homepage",
+    "API and database health",
+    "Anonymous access is rejected",
+    "Login through Nginx",
+    "Current user and role",
+    "Reports API",
+    "API documentation uses public prefix",
+    "Raw SRS management API is hidden",
+    "Seeded catalog",
+    "Product image",
+    "Checkout ignores browser price",
+    "Order deletion",
+    "Stock restored once",
+    "Reservation charges server price",
+    "Conflicting reservation rejected",
+    "Reservation cancellation",
+    "Future cancellation refunds balance",
+    "Image upload",
+    "Uploaded image served",
+    "Temporary product removed",
+    "Signup writes a development verification email",
+    "Unverified login is rejected",
+    "Email verification redirect",
+    "Verified customer login",
+    "Signup did not grant admin role or balance",
+    "Temporary customer removed"
+  ],
+  "passed": 26
+}

@@ -43,11 +43,16 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD:-change_me_mysql_pw}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-tigers_team}
       BACKEND_APIs: ${BACKEND_APIs:-/static}
-      SECRET_KEY: ${SECRET_KEY:-local-development-only-change-me}
+      ENV: ${ENV:-Production}
+      API_ROOT_PATH: /api
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost/api}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+      EMAIL_DELIVERY: ${EMAIL_DELIVERY:-smtp}
+      MAIL_OUTBOX: /app/logs/outbox
+      SECRET_KEY: ${SECRET_KEY:?Set a unique SECRET_KEY in the root .env}
       SRS_INGEST_URL: ${SRS_INGEST_URL:-rtmp://localhost/live}
       SRS_STREAM_KEY: ${SRS_STREAM_KEY:-OBS_Stream}
-      SRS_HLS_URL: ${SRS_HLS_URL:-/hls/live/OBS_Stream.m3u8}
-      SRS_WEBRTC_URL: ${SRS_WEBRTC_URL:-/rtc/v1/whep/?app=live&stream=OBS_Stream}
+      SRS_PUBLISH_TOKEN: ${SRS_PUBLISH_TOKEN:-}
     volumes:
       - api_logs:/app/logs
       - uploads:/app/uploads
@@ -77,8 +82,8 @@ services:
     volumes:
       - ./ops/srs/tigers.conf:/usr/local/srs/conf/tigers.conf:ro
     ports:
-      - "1935:1935"
-      - "8000:8000/udp"
+      - "${BIND_ADDRESS:-0.0.0.0}:${RTMP_PORT:-1935}:1935"
+      - "${BIND_ADDRESS:-0.0.0.0}:${WEBRTC_PORT:-8000}:8000/udp"
     expose: ["8080", "1985"]
     healthcheck:
       test: ["CMD-SHELL", "test -s /usr/local/srs/objs/srs.pid"]
@@ -95,10 +100,10 @@ services:
     profiles: ["ssl"]
 
   nginx:
-    image: nginx:1.27-alpine
+    image: nginx:stable-alpine
     ports:
-      - "${HTTP_PORT:-80}:80"
-      - "${HTTPS_PORT:-443}:443"
+      - "${BIND_ADDRESS:-0.0.0.0}:${HTTP_PORT:-80}:80"
+      - "${BIND_ADDRESS:-0.0.0.0}:${HTTPS_PORT:-443}:443"
     volumes:
       - ./ops/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
       - certbot_etc:/etc/letsencrypt:ro
