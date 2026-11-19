@@ -1,0 +1,5 @@
+If ever got :
+PermissionError: [Errno 13] Permission denied:
+
+1- make sure you have passed the user inside the container
+2- remove the old ./logs folder if exists.

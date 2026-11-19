@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  tigers-team-alembic:
+    extends: tigers-team-base
+    container_name: tigers-team-alembic
+    command: alembic upgrade head
+    depends_on:
+      tigers-team-db:
+        condition: service_healthy
+    networks:
+      - tigers_team_default
+
+  tigers-team-alembic-down:
+    extends: tigers-team-base
+    container_name: tigers-team-alembic-down
+    command: alembic downgrade base
+    depends_on:
+      tigers-team-db:
+        condition: service_healthy
+    networks:
+      - tigers_team_default
+
+  tigers-team-base:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    environment:
+      ENV: ${ENV}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      EMAIL_API_TOKEN: ${EMAIL_API_TOKEN}
+      FROM_EMAIL: ${FROM_EMAIL}
+      BACKEND_APIs: ${BACKEND_APIs}
+      MYSQL_HOST: tigers-team-db
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8081}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+      MYSQL_PORT: ${MYSQL_PORT}
+      LOG_DIRECTORY: ${LOG_DIRECTORY}
+      LOG_HOST_DIRECTORY: ${LOG_HOST_DIRECTORY}
+      UPLOADING_DIRECTORY: ${UPLOADING_DIRECTORY}
+      UPLOADING_HOST_DIRECTORY: ${UPLOADING_HOST_DIRECTORY}
+    env_file:
+      - .env
+    networks:
+      - tigers_team_default
+    command: echo "I'm just here to be extended."
+
+  tigers-team:
+    container_name: tigers-team
+    extends: tigers-team-base
+    user: "1000:1000"
+    volumes:
+      - ${LOG_HOST_DIRECTORY}:${LOG_DIRECTORY}
+      - ${UPLOADING_HOST_DIRECTORY}:${UPLOADING_DIRECTORY}
+      - ./src:/app/src
+    ports:
+      - 8081:80
+    depends_on:
+      - tigers-team-alembic
+    restart: on-failure:5
+    command: uvicorn src.app:app --host 0.0.0.0 --port 80 --reload
+
+  tigers-team-db:
+    image: mysql:8.4
+    container_name: tigers-team-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - tigers-team-db-data:/var/lib/mysql
+    networks:
+      - tigers_team_default
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  tigers-team-script:
+    extends: tigers-team-base
+    container_name: tigers-team-script
+    command: python3 scripts/hashing_password.py
+    networks:
+      - tigers_team_default
+
+networks:
+  tigers_team_default:
+    name: "tigers_team_default"
+
+volumes:
+  tigers-team-db-data:
