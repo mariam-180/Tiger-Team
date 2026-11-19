@@ -16,4 +16,4 @@ RUN adduser --disabled-password --gecos "" --no-create-home --uid 10001 appuser 
 COPY --chown=appuser:appuser . .
 USER appuser
 EXPOSE 80
-CMD ["gunicorn", "src.app:app", "--bind=0.0.0.0:80", "--workers=1", "--worker-class=uvicorn.workers.UvicornWorker"]
+CMD ["gunicorn", "src.app:app", "--bind=0.0.0.0:80", "--workers=1", "--worker-class=uvicorn.workers.UvicornWorker", "--no-control-socket"]
