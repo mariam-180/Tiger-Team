@@ -17,6 +17,7 @@ const DeleteConfirmationDialog = ({
   onConfirm,
   controllerName = '',
   pending = false,
+  description = '',
 }) => {
   const [confirmationName, setConfirmationName] = useState('');
 
@@ -40,6 +41,7 @@ const DeleteConfirmationDialog = ({
     >
       <DialogTitle>Confirm Deletion</DialogTitle>
       <DialogContent>
+        {description && <Typography marginBottom={2}>{description}</Typography>}
         <Typography marginBottom={2}>
           Type the setting name &quot;{controllerName}&quot; to confirm
           deletion. This is a confirmation step, not your account password. This
@@ -80,6 +82,7 @@ DeleteConfirmationDialog.propTypes = {
   onConfirm: PropTypes.func.isRequired,
   controllerName: PropTypes.string,
   pending: PropTypes.bool,
+  description: PropTypes.string,
 };
 
 export default DeleteConfirmationDialog;

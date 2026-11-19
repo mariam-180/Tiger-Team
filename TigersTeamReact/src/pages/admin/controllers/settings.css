@@ -1,0 +1,234 @@
+.site-settings {
+  width: 100%;
+  min-width: 0;
+  color: #f4f4f8;
+}
+.site-settings *,
+.site-settings *::before,
+.site-settings *::after {
+  box-sizing: border-box;
+}
+.settings-guide {
+  border-left: 3px solid #ff4d68;
+  padding: 20px 24px;
+  background: #191b25;
+  border-radius: 0 14px 14px 0;
+  margin-bottom: 32px;
+}
+.site-settings h2,
+.site-settings h3 {
+  color: #fff;
+  line-height: 1.35;
+  margin: 8px 0 12px;
+  overflow-wrap: anywhere;
+}
+.site-settings h2 {
+  font-size: clamp(18px, 2vw, 24px);
+}
+.site-settings h3 {
+  font-size: 21px;
+}
+.site-settings p {
+  color: #b8bdce;
+  font-size: 14px;
+  line-height: 1.75;
+  margin: 0 0 16px;
+  overflow-wrap: anywhere;
+}
+.settings-eyebrow {
+  display: block;
+  color: #ff8397;
+  font-size: 11px;
+  line-height: 1.6;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.settings-section-heading,
+.setting-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.settings-section-heading {
+  margin-bottom: 16px;
+}
+.settings-section-heading > span {
+  font-size: 13px;
+  color: #b8bdce;
+}
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 20px;
+}
+.setting-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(18px, 2.5vw, 28px);
+  border: 1px solid #363846;
+  border-radius: 16px;
+  background: #1b1d28;
+}
+.setting-badge {
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px 9px;
+  border-radius: 6px;
+  background: #292d3d;
+  color: #dce0ee;
+  font-size: 11px;
+  overflow-wrap: anywhere;
+}
+.setting-current {
+  padding: 16px;
+  border: 1px solid #373b4e;
+  border-radius: 10px;
+  margin: auto 0 16px;
+  background: #151721;
+}
+.setting-current > span {
+  display: block;
+  color: #a3aabd;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 6px;
+}
+.setting-current strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #fff;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+.site-settings .setting-note {
+  font-size: 12px;
+  color: #aab1c4;
+  margin-top: 8px;
+}
+.setting-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+.setting-actions button,
+.setting-duplicate {
+  border: 1px solid #50566e;
+  background: transparent;
+  color: #f4f4f8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  min-height: 44px;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+.setting-actions .setting-primary {
+  background: #b7223f;
+  border-color: #e33e5e;
+  font-weight: 700;
+}
+.setting-actions button:hover:not(:disabled),
+.setting-duplicate:hover {
+  background: #713044;
+}
+.setting-actions button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.site-settings button:focus-visible,
+.site-settings input:focus-visible,
+.site-settings textarea:focus-visible,
+.site-settings summary:focus-visible {
+  outline: 2px solid #ff8397;
+  outline-offset: 3px;
+}
+.settings-custom {
+  margin-top: 32px;
+  border-top: 1px solid #363846;
+  padding-top: 20px;
+}
+.settings-custom summary {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 0;
+  color: #fff;
+}
+.settings-custom > p {
+  margin-top: 12px;
+}
+.setting-field {
+  display: grid;
+  gap: 9px;
+  color: #eef0f8;
+  font-size: 14px;
+  margin: 16px 0;
+  min-width: 0;
+}
+.setting-field input,
+.setting-field textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  background: #10131c;
+  border: 1px solid #596179;
+  color: #fff;
+  border-radius: 8px;
+  padding: 12px;
+  min-height: 44px;
+  font: inherit;
+  color-scheme: dark;
+}
+.setting-field textarea {
+  resize: vertical;
+}
+.setting-fields {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.setting-toggle {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 0;
+  min-height: 48px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.setting-toggle input {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  accent-color: #df3555;
+}
+.setting-raw {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  font-size: 14px;
+  color: #fff;
+  margin: 0 0 16px;
+}
+.setting-duplicate {
+  margin-top: 12px;
+  text-align: left;
+}
+@media (max-width: 480px) {
+  .settings-guide {
+    padding: 16px;
+  }
+  .setting-actions > button {
+    flex: 1 1 auto;
+  }
+}

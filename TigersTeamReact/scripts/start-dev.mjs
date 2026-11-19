@@ -75,6 +75,11 @@ try {
   }
 
   if (!stopping) {
+    console.log(
+      'Development admin credentials: open ' +
+        path.join(root, '.local', 'admin-access.txt') +
+        ". Each computer generates its own password; another developer's password will not work.",
+    );
     // The local launcher always pairs Vite with the local API, even if a shell
     // retains an old Docker proxy override. start:frontend supports custom APIs.
     process.env.BACKEND_PROXY_TARGET = api;

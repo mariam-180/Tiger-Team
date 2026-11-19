@@ -65,7 +65,7 @@ export const adminSections = [
     shortTitle: 'Settings',
     icon: '07',
     description:
-      'Edit existing site switches and configured dates. Setting names are used by the site, so check their purpose before changing them.',
+      'Control product price visibility, the championship countdown and home-page sponsor messages. Each setting explains exactly where it is used.',
     purpose: 'Configure how existing site features behave.',
     role: 'SUPER_USER',
   },

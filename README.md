@@ -29,6 +29,18 @@ node ops/start-local.cjs
 
 This starts http://localhost:3000 with an isolated SQLite development database. It uses the project-local Python runtime when available, otherwise `python` on PATH. Set `PYTHON` to choose another executable. Credentials are in `.local/admin-access.txt`.
 
+### Admin login on a new computer
+
+Every computer generates its own development admin password. A password shared by another developer will not work with your new local database. Sign in with `admin@example.com` and the password in **your own copy** of `.local/admin-access.txt`.
+
+From the repository root in PowerShell or Command Prompt, read the file locally:
+
+```powershell
+type .local\admin-access.txt
+```
+
+Do not commit or share this file. A `401` from `/api/users/token` means the submitted credentials were rejected; check this computer's generated password. Docker on port 3001 uses its separate credentials in `.local/docker-admin-access.txt`.
+
 For daily development and after restarting the laptop, use one terminal:
 
 ```powershell
